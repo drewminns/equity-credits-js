@@ -42,12 +42,6 @@ module.exports = {
               sourceMap: !isProd
             }
           },
-          {
-            loader: "sass-resources-loader",
-            options: {
-              resources: ["./src/styles/_variables.scss",  "./src/styles/_queries.scss"]
-            }
-          }
         ]
       },
       {
@@ -60,7 +54,7 @@ module.exports = {
     port: 3000
   },
   resolve: {
-    extensions: [".ts", ".js", "scss"]
+    extensions: [".ts", ".js", ".scss"]
   },
   plugins: [
     // new BundleAnalyzerPlugin(),

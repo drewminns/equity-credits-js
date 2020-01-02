@@ -1,0 +1,27 @@
+@import "./styles/variables";
+@import "./styles/fonts";
+@import "./styles/queries";
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 10px;
+  font-size: 62.5%;
+}
+
+body {
+  font-family: $font-family;
+  font-weight: 400;
+  background: $black;
+  color: $white;
+  font-size: 1.6rem;
+  overflow-x: hidden;
+  padding-top: 110px;
+}
+
+.container {
+  max-width: 1456px;
+  margin: 0 auto;
+}

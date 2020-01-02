@@ -1,0 +1,11 @@
+@mixin d-up {
+  @media (min-width: 757px) {
+    @content;
+  }
+}
+
+@mixin portrait {
+  @media (orientation: portrait) and (max-width: 750px) {
+    @content;
+  }
+}

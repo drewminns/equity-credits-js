@@ -1,0 +1,24 @@
+@font-face {
+  font-family: "Shopify Sans";
+  font-style: normal;
+  font-weight: 500;
+  src: local("Shopify Sans"), local("Shopify-Sans-Regular"),
+    url(https://cdn.shopify.com/shopify-marketing_assets/static/ShopifySans--medium.woff2)
+      format("woff2");
+}
+
+@font-face {
+  font-family: "Shopify Sans";
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://cdn.shopify.com/shopify-marketing_assets/static/ShopifySans--regular.woff2)
+    format("woff2");
+}
+
+@font-face {
+  font-family: "Shopify Sans";
+  font-style: normal;
+  font-weight: 700;
+  src: url(https://cdn.shopify.com/shopify-marketing_assets/static/ShopifySans--bold.woff2)
+    format("woff2");
+}
