@@ -40,21 +40,28 @@ interface Section {
 interface GroupData {
   title: string;
   group_name: string;
-  sections: Section;
+  sections: Section[];
 }
 
-const buildSections = (section: Section) => {
+const buildSections = (section: Section[], title: string) => {
   console.log(section);
-  return section.data.map((sec: SectionData) => {
-    return `<div>${sec.merchant}</div>`;
-  })
+  return section.map((sec: Section, idx: number) => {
+    return `
+      <div class="${sec.layout}">
+        ${idx === 0 ? title: ''}
+        <ul>
+          ${ sec.data.map((item: SectionData) => `<li><a href="${item.store_url}">${item.merchant}</a></li>`).join('') }
+        </ul>
+      </div>
+      `;
+  }).join('')
 }
 
 const buildDom = (data: []) => {
   let MARKUP = '<ul>';
   MARKUP += data.map((group: GroupData) => {
-    const sections = buildSections(group.sections);
-    return `<li id="${group.group_name}">${group.title}${buildSections}</li>`;
+    const sections = buildSections(group.sections, group.title);
+    return `<li id="${group.group_name}">${sections}</li>`;
   }).join('');
   MOUNT_POINT.insertAdjacentHTML('afterbegin', MARKUP);
 }
