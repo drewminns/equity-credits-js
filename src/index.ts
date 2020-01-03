@@ -15,6 +15,3 @@ fetchData.fetch()
   .then((data) => {
     domBuilder.init(data, MOUNT_POINT);
   })
-  .then(() => {
-    autoScroll.init();
-  })
