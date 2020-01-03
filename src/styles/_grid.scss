@@ -28,7 +28,6 @@ $columns: 12;
 }
 
 .row {
-  box-sizing: border-box;
   display: flex;
   flex: 0 1 auto;
   flex-direction: row;
@@ -37,26 +36,13 @@ $columns: 12;
   margin-left: $gutter-compensation;
 }
 
-.row.reverse {
-  flex-direction: row-reverse;
-}
-
-.col.reverse {
-  flex-direction: column-reverse;
-}
-
-[class^="col_"] {
-  box-sizing: border-box;
-  flex: 0 0 auto;
-  padding-right: $half-gutter-width;
-  padding-left: $half-gutter-width;
-}
-
 @mixin generateColumnWidths($className) {
   @for $i from 1 through $columns {
     .col_#{$className}_#{$i} {
       flex-basis: $i / $columns * 100%;
       max-width: $i / $columns * 100%;
+      padding-right: $half-gutter-width;
+      padding-left: $half-gutter-width;
     }
   }
 }
@@ -66,57 +52,6 @@ $columns: 12;
     .col_#{$className}_offset_#{$i} {
       margin-left: $i / $columns * 100%;
     }
-  }
-}
-
-@mixin helperClasses($className) {
-  .col_#{$className} {
-    flex-grow: 1;
-    flex-basis: 0;
-    max-width: 100%;
-  }
-
-  .start_#{$className} {
-    justify-content: flex-start;
-    text-align: start;
-  }
-
-  .center_#{$className} {
-    justify-content: flex-start;
-    text-align: start;
-  }
-
-  .end_#{$className} {
-    justify-content: flex-end;
-    text-align: end;
-  }
-
-  .top_#{$className} {
-    align-items: flex-start;
-  }
-
-  .middle_#{$className} {
-    align-items: center;
-  }
-
-  .bottom_#{$className} {
-    align-items: flex-end;
-  }
-
-  .around_#{$className} {
-    justify-content: space-around;
-  }
-
-  .between_#{$className} {
-    justify-content: space-between;
-  }
-
-  .first_#{$className} {
-    order: -1;
-  }
-
-  .last_#{$className} {
-    order: 1;
   }
 }
 
@@ -131,12 +66,10 @@ $columns: 12;
 
         @include generateColumnWidths($classname);
         @include generateOffset($classname);
-        @include helperClasses($classname);
       }
     } @else {
       @include generateColumnWidths($classname);
       @include generateOffset($classname);
-      @include helperClasses($classname);
     }
   }
 }
