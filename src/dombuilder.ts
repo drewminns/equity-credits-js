@@ -111,7 +111,11 @@ export class DomBuilder {
               ${sec.data.map((item: SectionData) => {
 
                 if (item.hasOwnProperty('media')) {
-                  const media = item.media.map((img, i) => ` <div class="pin-container"><img id="image-${item.shop_id}" class="${s.image}" src="${img.url}" alt="${img.alt}"></div>`).join('');
+                  const alignClass=`pinned_container--${sec.layout}`;
+                  const media = item.media.map((img, i) => `
+                    <div class="${cx(s.pinned_container, s[alignClass])}">
+                      <img id="image-${item.shop_id}" class="${s.image}" src="${img.url}" alt="${img.alt}">
+                    </div>`).join('');
 
                   return `
                   <li class="${cx(s.item)}" data-layout="${sec.layout}">

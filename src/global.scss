@@ -28,4 +28,8 @@ ul {
 
 section {
   width: 100%;
+
+  &[data-layout] {
+    position: relative;
+  }
 }
