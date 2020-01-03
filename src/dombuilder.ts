@@ -97,17 +97,17 @@ export class DomBuilder {
     return sections.map((sec: Section, idx: Number) => {
       return `
         <div class="${g.row}">
-        <section id="section-${name}-${sec.section_id}" class="${
-          cx( g.col_md_4,
-            s.section_list,
-            {
-              [g.col_md_offset_4]: sec.layout === 'center',
-              [g.col_md_offset_8]: sec.layout === 'right',
-            }
-          )
-        }" data-layout="${sec.layout}">
+        <section id="section-${name}-${sec.section_id}" class="" data-layout="${sec.layout}">
           ${ idx === 0 ? `<h2 class="${s.title}">${title}</h2>` : '' }
-            <ul class="${s.section_list_group}">
+            <ul class="${s.section_list_group} ${
+              cx(g.col_md_4,
+                s.section_list,
+                {
+                  [g.col_md_offset_4]: sec.layout === 'center',
+                  [g.col_md_offset_8]: sec.layout === 'right',
+                }
+              )
+              }">
               ${sec.data.map((item: SectionData) => {
 
                 if (item.hasOwnProperty('media')) {
