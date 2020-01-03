@@ -48,7 +48,35 @@
 }
 
 .item_has_image {
-  background-color: palevioletred;
+  position: relative;
+
+  &:before {
+    background-color: $green;
+    content: "";
+    display: block;
+    width: 100vw;
+    position: absolute;
+    height: calc(100% - 20px);
+    top: 20px;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+
+    @include d-up {
+      height: 83%;
+      top: 6px;
+    }
+  }
+
+  @include d-up {
+    &[data-layout="left"]:before {
+      left: 150%;
+    }
+    &[data-layout="right"]:before {
+      left: -50%;
+    }
+  }
 }
 
 .image {

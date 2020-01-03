@@ -28,10 +28,9 @@ export class DomBuilder {
     this.MARKUP += `
       ${this.buildNav()}
       <div class="${g.container_fluid}">
-
-          <ul>
-            ${this.buildGroup()}
-          </ul>
+        <ul>
+          ${this.buildGroup()}
+        </ul>
       </div>
     `;
     this.MOUNT_POINT.insertAdjacentHTML('afterbegin', this.MARKUP);
@@ -49,17 +48,17 @@ export class DomBuilder {
   private buildSection(sections: Section[], title: string) {
     return sections.map((sec: Section, idx: Number) => {
       return `
-        <section id="section-${sec.section_id}" class="${s[sec.layout]}">
-          <div class="${
-            cx( g.col_md_4,
-                s.section_list,
-                {
-                  [g.col_md_offset_4]: sec.layout === 'center',
-                  [g.col_md_offset_8]: sec.layout === 'right',
-                }
-              )
-          }">
-            <h2 class="${s.title}">${idx === 0 ? title: ''}</h2>
+        <div class="${g.row}">
+        <section id="section-${sec.section_id}" class="${
+          cx( g.col_md_4,
+            s.section_list,
+            {
+              [g.col_md_offset_4]: sec.layout === 'center',
+              [g.col_md_offset_8]: sec.layout === 'right',
+            }
+          )
+        }" data-layout="${sec.layout}">
+          ${ idx === 0 ? `<h2 class="${s.title}">${title}</h2>` : '' }
             <ul class="${s.section_list_group}">
               ${sec.data.map((item: SectionData) => {
 
@@ -67,7 +66,7 @@ export class DomBuilder {
                   const media = item.media.map((img, i) => `<img id="image-${item.shop_id}" class="${s.image}" src="${img.url}" alt="${img.alt}">`).join('');
 
                   return `
-                  <li class="${s.item} has-image ${s.item_has_image}" >
+                  <li class="${cx(s.item, s.item_has_image)}" data-layout="${sec.layout}">
                     <p class="${s.item_content}">
                       <span class="${s.item_text}">
                         ${item.product_desc}
@@ -92,9 +91,8 @@ export class DomBuilder {
                 `;
               }).join('')}
             </ul>
-          </div>
         </section>
-
+      </div>
       `;
     }).join('');
   }
