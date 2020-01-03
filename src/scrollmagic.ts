@@ -7,23 +7,24 @@ export class MagicTime {
 
   init = (section: any) => {
 
+    this.controller = new ScrollMagic.Controller();
+
     console.log(section);
 
     // Check if section has images
-    // const image = section.querySelector('img');
+    const pin = section.querySelector('.pin-me');
 
-    // console.log(image);
+    console.log(pin);
 
-    // if (image) {
-    //   this.controller = new ScrollMagic.Controller();
-    //   this.scene = new ScrollMagic.Scene({
-    //     triggerElement: section,
-    //     duration: (section.offsetHeight - 282),
-    //     triggerHook: 0.4,
-    //   })
-    //   .setPin(image)
-    //   .addTo(this.controller);
-    // }
+    if (pin) {
+      this.scene = new ScrollMagic.Scene({
+        triggerElement: section,
+        duration: (section.offsetHeight - 282),
+        triggerHook: 0.4,
+      })
+      .setPin(pin)
+      .addTo(this.controller);
+    }
 
   }
 }

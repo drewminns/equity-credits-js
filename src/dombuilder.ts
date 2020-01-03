@@ -113,7 +113,7 @@ export class DomBuilder {
                 if (item.hasOwnProperty('media')) {
                   const alignClass=`pinned_container--${sec.layout}`;
                   const media = item.media.map((img, i) => `
-                    <div class="${cx(s.pinned_container, s[alignClass])}">
+                    <div class="${cx(s.pinned_container, s[alignClass])}${ sec.layout !== 'center' ? ' pin-me' : '' }">
                       <img id="image-${item.shop_id}" class="${s.image}" src="${img.url}" alt="${img.alt}">
                     </div>`).join('');
 
