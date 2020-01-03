@@ -26,7 +26,7 @@ export class MagicTime {
         triggerHook: 0.4,
         reverse: false,
       })
-      .setPin(pin)
+      .setPin(pin, {pushFollowers: false})
       .addTo(this.controller);
     }
 
