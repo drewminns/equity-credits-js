@@ -42,6 +42,12 @@ module.exports = {
               sourceMap: !isProd
             }
           },
+          {
+            loader: "sass-resources-loader",
+            options: {
+              resources: ["./src/styles/_variables.scss",  "./src/styles/_queries.scss", "./src/styles/_grid.scss"]
+            }
+          }
         ]
       },
       {

@@ -25,5 +25,5 @@ fetchData.fetch()
     })
     console.log(sections);
     // sectionScene.init();
-    autoScroll.init();
+    // autoScroll.init();
   })

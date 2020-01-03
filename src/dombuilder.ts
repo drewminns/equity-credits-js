@@ -1,5 +1,10 @@
+import cx from 'classnames';
+
 import { SectionData, Section, GroupData } from './shared/interface';
 import s from './styles/components/_item.scss';
+import g from './styles/_grid.scss';
+
+import arrow from './assets/arrow.svg';
 
 // console.log(s);
 export class DomBuilder {
@@ -22,9 +27,12 @@ export class DomBuilder {
   private _createMarkup = () => {
     this.MARKUP += `
       ${this.buildNav()}
-      <ul>
-        ${this.buildGroup()}
-      </ul>
+      <div class="${g.container_fluid}">
+
+          <ul>
+            ${this.buildGroup()}
+          </ul>
+      </div>
     `;
     this.MOUNT_POINT.insertAdjacentHTML('afterbegin', this.MARKUP);
   }
@@ -40,31 +48,53 @@ export class DomBuilder {
 
   private buildSection(sections: Section[], title: string) {
     return sections.map((sec: Section, idx: Number) => {
-      // console.log(sec);
       return `
         <section id="section-${sec.section_id}" class="${s[sec.layout]}">
-          <p>${idx === 0 ? title: ''}</p>
-          <ul>
-            ${sec.data.map((item: SectionData) => {
+          <div class="${
+            cx( g.col_md_4,
+                s.section_list,
+                {
+                  [g.col_md_offset_4]: sec.layout === 'center',
+                  [g.col_md_offset_8]: sec.layout === 'right',
+                }
+              )
+          }">
+            <h2 class="${s.title}">${idx === 0 ? title: ''}</h2>
+            <ul class="${s.section_list_group}">
+              ${sec.data.map((item: SectionData) => {
 
-              if (item.hasOwnProperty('media')) {
-                const media = item.media.map((img, i) => `<img id="image-${item.shop_id}" class="${s.image}" src="${img.url}" alt="${img.alt}">`).join('');
+                if (item.hasOwnProperty('media')) {
+                  const media = item.media.map((img, i) => `<img id="image-${item.shop_id}" class="${s.image}" src="${img.url}" alt="${img.alt}">`).join('');
+
+                  return `
+                  <li class="${s.item} has-image ${s.item_has_image}" >
+                    <p class="${s.item_content}">
+                      <span class="${s.item_text}">
+                        ${item.product_desc}
+                      </span>
+                      <a class="${s.merchant_link}" href="${item.store_url}">${item.merchant}</a>
+                      ${arrow}
+                    </p>
+                    ${ media }
+                  </li>`;
+                }
 
                 return `
-                <li class="${s.listItem} has-image ${s.liImage}" >
-                  <a class="${s.item}" href = "${item.store_url}" > ${ item.merchant } </a>
-                  ${ media }
-                </li>`;
-              }
-
-              return `
-                <li class="${s.listItem}">
-                  <a class="${s.item}" href="${item.store_url}">${item.merchant}</a>
-                </li>
-              `;
-            }).join('')}
-          </ul>
+                  <li class="${s.item}">
+                  <p class="${s.item_content}">
+                  <span class="${s.item_text}">
+                    ${item.product_desc}
+                  </span>
+                  <a class="${s.merchant_link}" href="${item.store_url}">${item.merchant}</a>
+                  ${arrow}
+                </p>
+                  </li>
+                `;
+              }).join('')}
+            </ul>
+          </div>
         </section>
+
       `;
     }).join('');
   }
