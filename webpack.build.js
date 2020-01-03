@@ -1,17 +1,15 @@
 const path = require("path");
 const webpack = require("webpack");
-const HTMLWebpackPlugin = require("html-webpack-plugin");
 
-const dist = path.join(__dirname, "demo");
-const isProd = process.env.NODE_ENV === "production";
+const dist = path.join(__dirname, "dist");
 
 module.exports = {
   entry: ["./src/index.ts"],
   output: {
-    filename: "[name].[hash].js",
+    filename: "index.js",
     path: dist
   },
-  devtool: isProd ? "eval" : "inline-source-map",
+  devtool: "none",
   module: {
     rules: [
       {
@@ -36,16 +34,15 @@ module.exports = {
             }
           },
           "postcss-loader",
-          {
-            loader: "sass-loader",
-            options: {
-              sourceMap: !isProd
-            }
-          },
+          "sass-loader",
           {
             loader: "sass-resources-loader",
             options: {
-              resources: ["./src/styles/_variables.scss",  "./src/styles/_queries.scss", "./src/styles/_grid.scss"]
+              resources: [
+                "./src/styles/_variables.scss",
+                "./src/styles/_queries.scss",
+                "./src/styles/_grid.scss"
+              ]
             }
           }
         ]
@@ -60,18 +57,16 @@ module.exports = {
     port: 3000
   },
   resolve: {
-    extensions: [".ts", ".js", ".scss"]
+    extensions: [".ts", ".js", "scss"]
   },
   plugins: [
-    // new BundleAnalyzerPlugin(),
     new webpack.DefinePlugin({
       "process.env": {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        ENDPOINT: JSON.stringify(process.env.ENDPOINT)
+        NODE_ENV: JSON.stringify("production"),
+        ENDPOINT: JSON.stringify(
+          "https://upcoming9.shopify.com/independents.json"
+        )
       }
-    }),
-    new HTMLWebpackPlugin({
-      template: "./config/index.html"
     })
   ]
 };

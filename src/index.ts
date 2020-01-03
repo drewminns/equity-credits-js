@@ -1,3 +1,6 @@
+import 'core-js/stable';
+
+import 'normalize.css';
 import './global.scss';
 
 import { FetchData } from './fetch';

@@ -1,17 +1,14 @@
-import cx from 'classnames';
+import clsx from 'clsx';
 
 import { SectionData, Section, GroupData } from './shared/interface';
 import utils from './styles/_utils.scss';
 import g from './styles/_grid.scss';
 import s from './styles/components/_item.scss';
-import n from './styles/components/_nav.scss';
-import i from './styles/components/_intro.scss';
+
+import { nav } from './components/nav';
+import { intro } from './components/intro';
 
 import arrow from './assets/arrow.svg';
-import shoppingBag from './assets/shopping-bag.svg';
-import fastForward from './assets/fast-forward.svg';
-import rewind from './assets/rewind.svg';
-import pause from './assets/pause.svg';
 
 export class DomBuilder {
   sections!: GroupData[];
@@ -32,9 +29,9 @@ export class DomBuilder {
 
   private _createMarkup = () => {
     this.MARKUP += `
-      ${this.buildNav()}
+      ${nav}
       <div class="${g.container_fluid}">
-        ${this.buildIntro()}
+        ${intro}
         <ul>
           ${this.buildGroup()}
         </ul>
@@ -43,59 +40,12 @@ export class DomBuilder {
     this.MOUNT_POINT.insertAdjacentHTML('afterbegin', this.MARKUP);
   }
 
-  private buildIntro() {
-    return `
-      <section class="${i.intro}">
-        <div class="${cx(g.row, i.intro_row)}">
-          <div class="${cx(g.col_md_8, g.col_md_offset_2)}">
-            <p>Every product on our billboards, shout out on the radio, and set piece in our commercial is the result of someone pursuing independence.</p>
-            <p>Helping people turn their ideas into a business is what we do at Shopify. Our thanks to those who let us share their story.</p>
-          </div>
-        </div>
-      </section>
-    `
-  }
-
-  private buildNav = () => {
-    return `
-      <nav class="${cx(n.nav)}">
-        <div class="${g.container_fluid}">
-          <div class="${cx(g.row, n.nav_row)}">
-            <div class="${cx(g.col_md_3, n.logo)}">
-              <h1>
-                <span class="${n.logo}">${shoppingBag}</span>
-                <span class="${utils.hidden}">Shopify</span>
-              </h1>
-            </div>
-            <div class="${cx(g.col_md_6, n.nav_headline)}">
-              <p>Supporting Independents</p>
-            </div>
-            <div class="${cx(g.col_md_3, n.nav_controls)}">
-              <button aria-label="Back" id="back" class="${n.button}">
-                <span class="${utils.hidden}">Back</span>
-                <span class="${n.icon}">${rewind}</span>
-              </button>
-              <button aria-label="Play" id="play" class="${n.button}">
-                <span class="${utils.hidden}">Pause</span>
-                <span class="${n.icon}">${pause}</span>
-              </button>
-              <button aria-label="Forward" id="forward" class="${n.button}">
-                <span class="${utils.hidden}">Shopify</span>
-                <span class="${n.icon}">${fastForward}</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
-    `
-  }
-
   private buildSection(sections: Section[], title: string) {
     return sections.map((sec: Section, idx: Number) => {
       return `
         <div class="${g.row}">
         <section id="section-${sec.section_id}" class="${
-          cx( g.col_md_4,
+          clsx( g.col_md_4,
             s.section_list,
             {
               [g.col_md_offset_4]: sec.layout === 'center',
@@ -111,7 +61,7 @@ export class DomBuilder {
                   const media = item.media.map((img, i) => `<img id="image-${item.shop_id}" class="${s.image}" src="${img.url}" alt="${img.alt}">`).join('');
 
                   return `
-                  <li class="${cx(s.item, s.item_has_image)}" data-layout="${sec.layout}">
+                  <li class="${clsx(s.item, s.item_has_image)}" data-layout="${sec.layout}">
                     <p class="${s.item_content}">
                       <span class="${s.item_text}">
                         ${item.product_desc}
@@ -150,6 +100,5 @@ export class DomBuilder {
       const sections = this.buildSection(group.sections, group.title);
       return `<li id="${group.group_name}">${sections}</li>`
     }).join('');
-
   }
 }
