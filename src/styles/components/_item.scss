@@ -1,3 +1,31 @@
 .item {
   color: red;
 }
+
+.listItem {
+  margin-bottom: 10px;
+}
+
+.liImage {
+  background-color: palevioletred;
+}
+
+.image {
+  width: 500px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: -1;
+}
+
+.section-styles {
+  position: relative;
+}
+
+.left,
+.right,
+.center,
+.third,
+.quarter {
+  @extend .section-styles;
+}

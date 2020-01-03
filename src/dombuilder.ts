@@ -1,6 +1,7 @@
 import { SectionData, Section, GroupData } from './shared/interface';
 import s from './styles/components/_item.scss';
 
+// console.log(s);
 export class DomBuilder {
   sections!: GroupData[];
   MARKUP: string;
@@ -39,19 +40,33 @@ export class DomBuilder {
 
   private buildSection(sections: Section[], title: string) {
     return sections.map((sec: Section, idx: Number) => {
+      // console.log(sec);
       return `
-        <div class="${sec.layout}">
+        <section id="section-${sec.section_id}" class="${s[sec.layout]}">
           <p>${idx === 0 ? title: ''}</p>
           <ul>
-            ${sec.data.map((item: SectionData) => `
-              <li>
-                <a class="${s.item}" href="${item.store_url}">${item.merchant}</a>
-              </li>
-            `)}
+            ${sec.data.map((item: SectionData) => {
+
+              if (item.hasOwnProperty('media')) {
+                const media = item.media.map((img, i) => `<img id="image-${item.shop_id}" class="${s.image}" src="${img.url}" alt="${img.alt}">`).join('');
+
+                return `
+                <li class="${s.listItem} has-image ${s.liImage}" >
+                  <a class="${s.item}" href = "${item.store_url}" > ${ item.merchant } </a>
+                  ${ media }
+                </li>`;
+              }
+
+              return `
+                <li class="${s.listItem}">
+                  <a class="${s.item}" href="${item.store_url}">${item.merchant}</a>
+                </li>
+              `;
+            }).join('')}
           </ul>
-        </div>
+        </section>
       `;
-    })
+    }).join('');
   }
 
   private buildGroup = () => {
