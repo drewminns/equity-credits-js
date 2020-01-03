@@ -9,17 +9,22 @@ export class MagicTime {
 
     this.controller = new ScrollMagic.Controller();
 
-    console.log(section);
-
+    const top = section.getBoundingClientRect().top;
     // Check if section has images
     const pin = section.querySelector('.pin-me');
 
-    console.log(pin);
-
     if (pin) {
+
+      const stopper = section.querySelector('li[data-layout]');
+      const stopTop = stopper.getBoundingClientRect().top;
+
+      const distance = stopTop - top - 262;
+
+      console.log(distance);
+
       this.scene = new ScrollMagic.Scene({
         triggerElement: section,
-        duration: (section.offsetHeight - 282),
+        duration: distance,
         triggerHook: 0.4,
       })
       .setPin(pin)
