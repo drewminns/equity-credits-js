@@ -61,11 +61,11 @@
     background-color: $green;
     content: "";
     display: block;
-    width: 100vw;
+    width: 200vw;
     position: absolute;
     height: calc(100% - 20px);
     top: 20px;
-    left: 50%;
+    left: -50%;
     right: 50%;
     margin-left: -50vw;
     margin-right: -50vw;
@@ -88,8 +88,8 @@
 
 .image {
   width: 500px;
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: -1;
+  // position: absolute;
+  // top: 0;
+  // right: 0;
+  // z-index: -1;
 }

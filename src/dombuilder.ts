@@ -98,7 +98,6 @@ export class DomBuilder {
       return `
         <div class="${g.row}">
         <section id="section-${name}-${sec.section_id}" class="" data-layout="${sec.layout}">
-          ${ idx === 0 ? `<h2 class="${s.title}">${title}</h2>` : '' }
             <ul class="${s.section_list_group} ${
               cx(g.col_md_4,
                 s.section_list,
@@ -108,23 +107,23 @@ export class DomBuilder {
                 }
               )
               }">
+              <li>${ idx === 0 ? `<h2 class="${s.title}">${title}</h2>` : '' }</li>
               ${sec.data.map((item: SectionData) => {
 
                 if (item.hasOwnProperty('media')) {
-                  const media = item.media.map((img, i) => `<img id="image-${item.shop_id}" class="${s.image}" src="${img.url}" alt="${img.alt}">`).join('');
+                  const media = item.media.map((img, i) => ` <div class="pin-container"><img id="image-${item.shop_id}" class="${s.image}" src="${img.url}" alt="${img.alt}"></div>`).join('');
 
                   return `
-                  <li class="${cx(s.item, s.item_has_image)}" data-layout="${sec.layout}">
-                    <p class="${s.item_content}">
+                  <li class="${cx(s.item)}" data-layout="${sec.layout}">
+                    <p class="${cx(s.item_content, s.item_has_image)}">
                       <span class="${s.item_text}">
                         ${item.product_desc}
                       </span>
                       <span class="${s.merchant_link}">
                         <a href="${item.store_url}">${item.merchant} <span class="${s.arrow}">${arrow}</span></a>
-
                       </span>
                     </p>
-                    ${ media }
+                   ${ media }
                   </li>`;
                 }
 
