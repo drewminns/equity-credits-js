@@ -26,6 +26,7 @@ export class MagicTime {
         triggerElement: section,
         duration: distance,
         triggerHook: 0.4,
+        reverse: false,
       })
       .setPin(pin)
       .addTo(this.controller);
