@@ -24,7 +24,6 @@ fetchData.fetch()
     sections.forEach((section, index) => {
       scrollMagic.init(section);
     })
-    console.log(sections);
     // sectionScene.init();
     // autoScroll.init();
   })

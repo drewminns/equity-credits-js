@@ -20,8 +20,6 @@ export class MagicTime {
 
       const distance = stopTop - top - 262;
 
-      console.log(distance);
-
       this.scene = new ScrollMagic.Scene({
         triggerElement: section,
         duration: distance,
