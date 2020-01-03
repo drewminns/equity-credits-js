@@ -90,11 +90,14 @@ export class DomBuilder {
     `
   }
 
-  private buildSection(sections: Section[], title: string) {
+  private buildSection(group: GroupData) {
+
+    const { sections, title, group_name: name } = group;
+
     return sections.map((sec: Section, idx: Number) => {
       return `
         <div class="${g.row}">
-        <section id="section-${sec.section_id}" class="${
+        <section id="section-${name}-${sec.section_id}" class="${
           cx( g.col_md_4,
             s.section_list,
             {
@@ -147,7 +150,7 @@ export class DomBuilder {
 
   private buildGroup = () => {
     return this.sections.map((group: GroupData) => {
-      const sections = this.buildSection(group.sections, group.title);
+      const sections = this.buildSection(group);
       return `<li id="${group.group_name}">${sections}</li>`
     }).join('');
 
