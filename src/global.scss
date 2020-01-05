@@ -25,3 +25,11 @@ ul {
   margin: 0;
   padding: 0;
 }
+
+section {
+  width: 100%;
+
+  &[data-layout] {
+    position: relative;
+  }
+}

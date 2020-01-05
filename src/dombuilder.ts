@@ -40,51 +40,57 @@ export class DomBuilder {
     this.MOUNT_POINT.insertAdjacentHTML('afterbegin', this.MARKUP);
   }
 
-  private buildSection(sections: Section[], title: string) {
+  private buildSection(group: GroupData) {
+
+    const { sections, title, group_name: name } = group;
+
     return sections.map((sec: Section, idx: Number) => {
       return `
         <div class="${g.row}">
-        <section id="section-${sec.section_id}" class="${
-          clsx( g.col_md_4,
-            s.section_list,
-            {
-              [g.col_md_offset_4]: sec.layout === 'center',
-              [g.col_md_offset_8]: sec.layout === 'right',
-            }
-          )
-        }" data-layout="${sec.layout}">
-          ${ idx === 0 ? `<h2 class="${s.title}">${title}</h2>` : '' }
-            <ul class="${s.section_list_group}">
+          <section id="section-${name}-${sec.section_id}" class="" data-layout="${sec.layout}">
+          <ul class="${s.section_list_group} ${
+            clsx(g.col_md_4,
+              s.section_list,
+              {
+                [g.col_md_offset_4]: sec.layout === 'center',
+                [g.col_md_offset_8]: sec.layout === 'right',
+              }
+            )
+            }">
+              <li>${ idx === 0 ? `<h2 class="${s.title}">${title}</h2>` : '' }</li>
               ${sec.data.map((item: SectionData) => {
 
                 if (item.hasOwnProperty('media')) {
-                  const media = item.media.map((img, i) => `<img id="image-${item.shop_id}" class="${s.image}" src="${img.url}" alt="${img.alt}">`).join('');
+                  const alignClass=`pinned_container--${sec.layout}`;
+                  const media = item.media.map((img, i) => `
+                    <div class="${clsx(s.pinned_container, s[alignClass])}${ sec.layout !== 'center' ? ' pin-me' : '' }">
+                      <img id="image-${item.shop_id}" class="${s.image}" src="${img.url}" alt="${img.alt}">
+                    </div>`).join('');
 
                   return `
-                  <li class="${clsx(s.item, s.item_has_image)}" data-layout="${sec.layout}">
+                  <li class="${clsx(s.item)}" data-layout="${sec.layout}">
+                    <p class="${clsx(s.item_content, s.item_has_image)}">
+                      <span class="${s.item_text}">
+                        ${item.product_desc}
+                      </span>
+                      <span class="${s.merchant_link}">
+                        <a href="${item.store_url}">${item.merchant} <span class="${s.arrow}">${arrow}</span></a>
+                      </span>
+                    </p>
+                   ${ media }
+                  </li>`;
+                }
+
+                return `
+                  <li class="${s.item}">
                     <p class="${s.item_content}">
                       <span class="${s.item_text}">
                         ${item.product_desc}
                       </span>
                       <span class="${s.merchant_link}">
                         <a href="${item.store_url}">${item.merchant} <span class="${s.arrow}">${arrow}</span></a>
-
                       </span>
                     </p>
-                    ${ media }
-                  </li>`;
-                }
-
-                return `
-                  <li class="${s.item}">
-                  <p class="${s.item_content}">
-                  <span class="${s.item_text}">
-                    ${item.product_desc}
-                  </span>
-                  <span class="${s.merchant_link}">
-                    <a href="${item.store_url}">${item.merchant} <span class="${s.arrow}">${arrow}</span></a>
-                  </span>
-                </p>
                   </li>
                 `;
               }).join('')}
@@ -97,7 +103,7 @@ export class DomBuilder {
 
   private buildGroup = () => {
     return this.sections.map((group: GroupData) => {
-      const sections = this.buildSection(group.sections, group.title);
+      const sections = this.buildSection(group);
       return `<li id="${group.group_name}">${sections}</li>`
     }).join('');
   }
