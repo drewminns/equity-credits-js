@@ -1,0 +1,34 @@
+.intro {
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  background-color: $green;
+
+  p {
+    font-size: 1.6rem;
+    letter-spacing: -0.02em;
+
+    @include d-up {
+      font-size: 2.8rem;
+    }
+  }
+
+  &_row {
+    height: 90vh;
+    align-items: center;
+
+    @include d-up {
+      height: 90vh;
+    }
+  }
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

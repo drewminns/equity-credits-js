@@ -33,14 +33,21 @@
 .merchant_link {
   display: inline-block;
   flex: 1 0 50%;
-  text-align: left;
-  text-transform: uppercase;
-  font-size: 16px;
-  font-weight: 700;
-  text-decoration: none;
-  color: $white;
   position: relative;
   margin-right: 10px;
+  text-align: left;
+
+  a {
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    color: $white;
+  }
+
+  .arrow svg {
+    height: 16px;
+  }
 }
 
 .item {
@@ -54,11 +61,11 @@
     background-color: $green;
     content: "";
     display: block;
-    width: 100vw;
+    width: 200vw;
     position: absolute;
     height: calc(100% - 20px);
     top: 20px;
-    left: 50%;
+    left: -50%;
     right: 50%;
     margin-left: -50vw;
     margin-right: -50vw;
@@ -81,8 +88,30 @@
 
 .image {
   width: 500px;
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: -1;
+  // position: absolute;
+  // top: 0;
+  // right: 0;
+  // z-index: -1;
+}
+
+.pinned_container {
+  background-color: orange;
+
+  &--left {
+    background-color: hotpink;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  &--right {
+    background-color: mediumslateblue;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  &--center {
+    background-color: limegreen;
+  }
 }

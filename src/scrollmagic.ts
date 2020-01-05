@@ -7,21 +7,26 @@ export class MagicTime {
 
   init = (section: any) => {
 
-    console.log(section);
+    this.controller = new ScrollMagic.Controller();
 
+    const top = section.getBoundingClientRect().top;
     // Check if section has images
-    const image = section.querySelector('img');
+    const pin = section.querySelector('.pin-me');
 
-    console.log(image);
+    if (pin) {
 
-    if (image) {
-      this.controller = new ScrollMagic.Controller();
+      const stopper = section.querySelector('li[data-layout]');
+      const stopTop = stopper.getBoundingClientRect().top;
+
+      const distance = stopTop - top - 262;
+
       this.scene = new ScrollMagic.Scene({
         triggerElement: section,
-        duration: (section.offsetHeight - 282),
+        duration: distance,
         triggerHook: 0.4,
+        reverse: false,
       })
-      .setPin(image)
+      .setPin(pin, {pushFollowers: false})
       .addTo(this.controller);
     }
 

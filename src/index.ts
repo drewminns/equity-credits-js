@@ -1,8 +1,9 @@
+import './global.scss';
+
 import { FetchData } from './fetch';
 import { DomBuilder } from './dombuilder';
 import { AutoScroll } from './autoscroll';
 import { MagicTime } from './scrollmagic';
-import './global.scss';
 
 const endpoint = process.env.ENDPOINT || 'https://upcoming9.shopify.com/independents.json';
 const MOUNT_POINT: HTMLElement = document.getElementById('app')!;
@@ -23,7 +24,6 @@ fetchData.fetch()
     sections.forEach((section, index) => {
       scrollMagic.init(section);
     })
-    console.log(sections);
     // sectionScene.init();
     // autoScroll.init();
   })

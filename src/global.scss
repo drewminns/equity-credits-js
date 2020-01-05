@@ -18,16 +18,18 @@ body {
   color: $white;
   font-size: 1.6rem;
   overflow-x: hidden;
-  padding-top: 110px;
-}
-
-.container {
-  max-width: 1456px;
-  margin: 0 auto;
 }
 
 ul {
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+section {
+  width: 100%;
+
+  &[data-layout] {
+    position: relative;
+  }
 }
