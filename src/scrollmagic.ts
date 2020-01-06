@@ -20,15 +20,16 @@ export class MagicTime {
 
       const distance = stopTop - top - 262;
 
-      this.scene = new ScrollMagic.Scene({
-        triggerElement: section,
-        duration: distance,
-        triggerHook: 0.4,
-        reverse: false,
-      })
-      .setPin(pin, {pushFollowers: false})
-      .addTo(this.controller);
+      if (distance >= 0) {
+        this.scene = new ScrollMagic.Scene({
+          triggerElement: section,
+          duration: distance,
+          triggerHook: 0.4,
+          reverse: false,
+        })
+          .setPin(pin, { pushFollowers: false })
+          .addTo(this.controller);
+      }
     }
-
   }
 }
