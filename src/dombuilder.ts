@@ -66,6 +66,7 @@ export class DomBuilder {
 
                   return `
                   <li class="${clsx(s.item)}" data-layout="${sec.layout}">
+                    ${ media }
                     <p class="${clsx(s.item_content, s.item_has_image)}">
                       <span class="${s.item_text}">
                         ${item.product_desc}
@@ -74,7 +75,6 @@ export class DomBuilder {
                         <a href="${item.store_url}">${item.merchant} <span class="${s.arrow}">${arrow}</span></a>
                       </span>
                     </p>
-                   ${ media }
                   </li>`;
                 }
 

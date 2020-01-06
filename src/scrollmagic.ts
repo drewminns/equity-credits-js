@@ -18,7 +18,7 @@ export class MagicTime {
       const stopper = section.querySelector('li[data-layout]');
       const stopTop = stopper.getBoundingClientRect().top;
 
-      const distance = stopTop - top - 262;
+      const distance = stopTop - top - 340;
 
       if (distance >= 0) {
         this.scene = new ScrollMagic.Scene({
