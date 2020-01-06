@@ -12,14 +12,9 @@ import arrow from './assets/arrow.svg';
 
 export class DomBuilder {
   sections!: GroupData[];
-  MARKUP: string;
-  NAV_MARKUP: string;
   MOUNT_POINT!: HTMLElement;
 
-  constructor() {
-    this.MARKUP = '';
-    this.NAV_MARKUP = '';
-  }
+  constructor() {}
 
   init(sections: GroupData[], MOUNT_POINT: HTMLElement) {
     this.sections = sections;
@@ -28,16 +23,17 @@ export class DomBuilder {
   }
 
   private _createMarkup = () => {
-    this.MARKUP += `
-      ${nav}
-      <div class="${g.container_fluid}">
-        ${intro}
+    this.MOUNT_POINT.insertAdjacentHTML('afterbegin', `
+    ${nav}
+    <div class="${g.container_fluid}">
+      ${intro}
+      <main id="main_content" class="${s.main_content}">
         <ul>
           ${this.buildGroup()}
         </ul>
-      </div>
-    `;
-    this.MOUNT_POINT.insertAdjacentHTML('afterbegin', this.MARKUP);
+      </main
+    </div>
+  `);
   }
 
   private buildSection(group: GroupData) {

@@ -5,16 +5,18 @@ import './global.scss';
 
 import { FetchData } from './fetch';
 import { DomBuilder } from './dombuilder';
-import { AutoScroll } from './autoscroll';
 import { MagicTime } from './scrollmagic';
+import { Animations } from './animations';
 
 const endpoint = process.env.ENDPOINT || 'https://upcoming9.shopify.com/independents.json';
 const MOUNT_POINT: HTMLElement = document.getElementById('app')!;
 
+const SCROLL_TOP = document.documentElement.scrollTop;
+
 const fetchData = new FetchData(endpoint);
 const domBuilder = new DomBuilder();
-const autoScroll = new AutoScroll();
 const scrollMagic = new MagicTime();
+const animations = new Animations();
 
 // console.log(FetchData);
 fetchData.fetch()
@@ -23,10 +25,10 @@ fetchData.fetch()
   })
   .then(() => {
     const sections = Array.from(document.querySelectorAll('section[id]'));
-
     sections.forEach((section, index) => {
       scrollMagic.init(section);
     })
-    // sectionScene.init();
-    // autoScroll.init();
+  })
+  .then(() => {
+    animations.init(document.documentElement.scrollTop);
   })
