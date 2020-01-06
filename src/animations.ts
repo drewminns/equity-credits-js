@@ -72,6 +72,8 @@ export class Animations {
 
     this.TIME_LINE.finished.then(() => {
       this.runScrolling();
+      this.scrollFadeIn();
+      this.pageScroll();
     });
   }
 
@@ -102,11 +104,6 @@ export class Animations {
       this.pageScroll();
       this.PAGE_SCROLLING_PAUSED = false;
     }
-  }
-
-  private jumpControls = () => {
-    const jumpForward = document.getElementById('forward');
-    const jumpBack = document.getElementById('back');
   }
 
   private navigationAnimation = () => {
