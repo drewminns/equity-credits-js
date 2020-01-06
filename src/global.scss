@@ -33,3 +33,11 @@ section {
     position: relative;
   }
 }
+
+[data-main] {
+  margin-top: 200px;
+
+  &:first-child {
+    margin-top: 0px;
+  }
+}

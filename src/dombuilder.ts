@@ -44,16 +44,17 @@ export class DomBuilder {
       return `
         <div class="${g.row}">
           <section id="section-${name}-${sec.section_id}" class="" data-layout="${sec.layout}">
-          <ul class="${s.section_list_group} ${
-            clsx(g.col_md_4,
-              s.section_list,
-              {
-                [g.col_md_offset_4]: sec.layout === 'center',
-                [g.col_md_offset_8]: sec.layout === 'right',
-              }
-            )
-            }">
-              <li>${ idx === 0 ? `<h2 class="${s.title}">${title}</h2>` : '' }</li>
+            ${ idx === 0 ? `<h2 class="${s.title}">${title}</h2>` : '' }
+            <div class="${s.section_wrapper}">
+              <ul class="${s.section_list_group} ${
+                clsx(g.col_md_4,
+                  s.section_list,
+                  {
+                    [g.col_md_offset_4]: sec.layout === 'center',
+                    [g.col_md_offset_8]: sec.layout === 'right',
+                  }
+                )
+                }">
               ${sec.data.map((item: SectionData) => {
 
                 if (item.hasOwnProperty('media')) {
@@ -91,6 +92,7 @@ export class DomBuilder {
                 `;
               }).join('')}
             </ul>
+          </div>
         </section>
       </div>
       `;
@@ -100,7 +102,7 @@ export class DomBuilder {
   private buildGroup = () => {
     return this.sections.map((group: GroupData) => {
       const sections = this.buildSection(group);
-      return `<li id="${group.group_name}">${sections}</li>`
+      return `<li data-main id="${group.group_name}">${sections}</li>`
     }).join('');
   }
 }
