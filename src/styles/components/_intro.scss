@@ -3,10 +3,12 @@
   justify-content: center;
   align-items: center;
   background-color: $green;
+  opacity: 0;
 
   p {
     font-size: 1.6rem;
     letter-spacing: -0.02em;
+    opacity: 0;
 
     @include d-up {
       font-size: 2.8rem;

@@ -1,3 +1,7 @@
+.main_content {
+  opacity: 0;
+}
+
 .title {
   color: $turquiose;
   font-weight: 700;
@@ -51,6 +55,10 @@
 }
 
 .item {
+  &[data-layout="center"] {
+    display: flex;
+    flex-direction: column-reverse;
+  }
   margin-bottom: 10px;
 }
 
