@@ -92,9 +92,18 @@ export class Animations {
       this.SCROLL_ANIMATION.pause();
       this.PAGE_SCROLLING_PAUSED = true;
     } else {
-      this.SCROLL_ANIMATION.play();
+      this.SCROLL_ANIMATION = anime({
+        targets: this.SCROLL_ELEMENT,
+        scrollTop: this.PAGE_HEIGHT + 500,
+        duration: this.PAGE_HEIGHT / .009
+      });
       this.PAGE_SCROLLING_PAUSED = false;
     }
+  }
+
+  private jumpControls = () => {
+    const jumpForward = document.getElementById('forward');
+    const jumpBack = document.getElementById('back');
   }
 
   private navigationAnimation = () => {
