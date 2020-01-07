@@ -36,6 +36,7 @@ export class DomBuilder {
   `);
   }
 
+
   private buildSection(group: GroupData) {
 
     const { sections, title, group_name: name } = group;
@@ -57,39 +58,8 @@ export class DomBuilder {
             }">
               ${sec.data.map((item: SectionData) => {
 
-                if (item.hasOwnProperty('media')) {
-                  const alignClass=`pinned_container--${sec.layout}`;
-                  const media = item.media.map((img, i) => `
-                    <div class="${clsx(s.pinned_container, s[alignClass])}${ sec.layout !== 'center' ? ' pin-me' : '' }">
-                      <img id="image-${item.shop_id}" class="${s.image}" src="${img.url}" alt="${img.alt}">
-                    </div>`).join('');
+                return this.buildListItem(item, sec.layout);
 
-                  return `
-                  <li class="${clsx(s.item)}" data-layout="${sec.layout}">
-                    ${ media }
-                    <p class="${clsx(s.item_content, s.item_has_image)}">
-                      <span class="${s.item_text}">
-                        ${item.product_desc}
-                      </span>
-                      <span class="${s.merchant_link}">
-                        <a href="${item.store_url}">${item.merchant} <span class="${s.arrow}">${arrow}</span></a>
-                      </span>
-                    </p>
-                  </li>`;
-                }
-
-                return `
-                  <li class="${s.item}">
-                    <p class="${s.item_content}">
-                      <span class="${s.item_text}">
-                        ${item.product_desc}
-                      </span>
-                      <span class="${s.merchant_link}">
-                        <a href="${item.store_url}">${item.merchant} <span class="${s.arrow}">${arrow}</span></a>
-                      </span>
-                    </p>
-                  </li>
-                `;
               }).join('')}
             </ul>
           </div>
@@ -99,10 +69,67 @@ export class DomBuilder {
     }).join('');
   }
 
+  private buildListItem(item: SectionData, layout: string) {
+    if (item.hasOwnProperty('media')) {
+      const alignClass=`pinned_container--${layout}`;
+      const media = `
+        <div class="${clsx(s.pinned_container, s[alignClass])}${ layout !== 'center' ? ' pin-me' : '' }">
+          <img id="image-${item.shop_id}" class="${s.image}" src="${item.media.url}" alt="${item.media.alt}">
+        </div>`;
+
+      return `
+      <li class="${clsx(s.item)}" data-layout="${layout}">
+        <p class="${clsx(s.item_content, s.item_has_image)}">
+          <span class="${s.item_text}">
+            ${item.label}
+          </span>
+          <span class="${s.merchant_link}">
+            ${
+              item.items.map((listItem) => {
+                if (listItem.url !== '') {
+                  return `
+                    <a href="${listItem.url}">${listItem.name} <span class="${s.arrow}">${arrow}</span></a>
+                  `
+                }
+
+                return `<span>${listItem.name}</span>`
+
+              }).join('')
+            }
+
+          </span>
+        </p>
+        ${ media }
+      </li>`;
+    }
+
+    return `
+      <li class="${s.item}">
+        <p class="${s.item_content}">
+          <span class="${s.item_text}">
+            ${item.label}
+          </span>
+          <span class="${s.merchant_link}">
+            ${
+              item.items.map((listItem) => {
+                if (listItem.url !== '') {
+                  return `
+                    <a href="${listItem.url}">${listItem.name} <span class="${s.arrow}">${arrow}</span></a>
+                  `
+                }
+                return `<span>${listItem.name}</span>`
+              }).join('')
+            }
+          </span>
+        </p>
+      </li>
+    `;
+  }
+
   private buildGroup = () => {
     return this.sections.map((group: GroupData) => {
       const sections = this.buildSection(group);
-      return `<li data-section-main id="${group.group_name}">${sections}</li>`
+      return `<li data-section-main id="${group.group_name}" class="${s.top_section_item}">${sections}</li>`
     }).join('');
   }
 }
