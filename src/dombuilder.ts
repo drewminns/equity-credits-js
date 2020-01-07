@@ -41,18 +41,17 @@ export class DomBuilder {
 
     const { sections, title, group_name: name } = group;
     return sections.map((sec: Section, idx: Number) => {
-      console.log(sec)
       return `
         <div class="${clsx(g.row, s.section_minor)}">
           <section id="section-${name}-${sec.section_id}" class="" data-layout="${sec.layout}">
           ${ idx === 0 ? `<h2 class="${s.title}">${title}</h2>` : '' }
           <div class="${s.section_wrapper}" data-section-wrap>
             <ul class="${s.section_list_group} ${
-              clsx(g.col_md_4,
+              clsx(g.col_md_6,
                 s.section_list,
                 {
-                  [g.col_md_offset_4]: sec.layout === 'center',
-                  [g.col_md_offset_8]: sec.layout === 'right',
+                  [g.col_md_offset_3]: sec.layout === 'center',
+                  [g.col_md_offset_6]: sec.layout === 'right',
                 }
               )
             }">
