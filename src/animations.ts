@@ -8,6 +8,11 @@ export class Animations {
   PAGE_SCROLLING_PAUSED: boolean;
   SCROLL_ANIMATION: AnimeInstance | null;
   SCROLL_POSITION: number;
+  PAGE_SECTIONS: Array<Element>;
+  CURRENT_SECTION: number;
+  DISTANCE_MAP: Array<number>;
+  SCROLL_OFFSET: number;
+
 
   constructor() {
     this.SCROLL_ANIMATION = null;
@@ -20,12 +25,23 @@ export class Animations {
       easing: 'easeOutExpo',
       endDelay: 2000
     });
+    this.PAGE_SECTIONS = [];
+    this.DISTANCE_MAP = [];
+    this.CURRENT_SECTION = 0;
+    this.SCROLL_OFFSET = 120;
   }
 
   init = (SCROLL_TOP: number) : void => {
     this.SCROLL_TOP = SCROLL_TOP;
     this.PAGE_HEIGHT = document.body.scrollHeight;
 
+    const intro = document.getElementById('intro')!;
+    const sections = Array.from(document.querySelectorAll('[data-section-main]'));
+
+    this.PAGE_SECTIONS = [ intro, ...sections];
+    this.DISTANCE_MAP = this.PAGE_SECTIONS.map(item => {
+      return item.getBoundingClientRect().top;
+    });
 
     if (this.SCROLL_TOP === 0) {
       this.introAnimation();
@@ -33,8 +49,102 @@ export class Animations {
       this.runScrolling()
     }
 
-    const button = document.getElementById('play')!
+    const button = document.getElementById('play')!;
     button.onclick = () => this.scrollControls();
+
+    const backButton = document.getElementById('back')!;
+    const forwardButton = document.getElementById('forward')!;
+
+    backButton.addEventListener('click', (e) => {
+      this.rewind(e, forwardButton, backButton);
+    })
+
+    forwardButton.addEventListener('click', (e) => {
+      this.fastForward(e, forwardButton, backButton);
+    });
+
+    window.addEventListener('scroll', () => {
+      this.CURRENT_SECTION = this.getCurrentSectionIndex();
+      this.manageActiveButtons(forwardButton, backButton);
+    });
+  }
+
+  private manageActiveButtons = (f: Element, b: Element) => {
+
+    if (this.CURRENT_SECTION <= 0) {
+      b.setAttribute('disabled', 'true');
+    } else {
+      b.removeAttribute('disabled');
+    }
+
+    if ( this.CURRENT_SECTION >= this.PAGE_SECTIONS.length - 1) {
+      f.setAttribute('disabled', 'true');
+    } else {
+      f.removeAttribute('disabled');
+    }
+
+  }
+
+  private getCurrentSectionIndex = () => {
+    const currentScroll = (window.pageYOffset || this.SCROLL_ELEMENT.scrollTop) - (this.SCROLL_ELEMENT.clientTop || 0) + this.SCROLL_OFFSET;
+
+    const index = this.DISTANCE_MAP.findIndex(item => {
+      return currentScroll < item;
+    });
+
+    return index === -1 ? this.PAGE_SECTIONS.length - 1 : (index === 0 ? 0 : index - 1);
+  }
+
+  private rewind = (e: any, forward: Element, back: Element) => {
+    const newSectionIndex = this.CURRENT_SECTION - 1;
+
+    if (newSectionIndex < 0) {
+      return;
+    }
+
+    this.scrollToSection(newSectionIndex);
+  }
+
+  private fastForward = (e: any, forward: Element, back: Element) => {
+    const newSectionIndex = this.CURRENT_SECTION + 1;
+
+    if (newSectionIndex > this.PAGE_SECTIONS.length) {
+      return;
+    }
+
+    this.scrollToSection(newSectionIndex);
+  }
+
+  private scrollToSection = (newIndex: number) => {
+    const nextSection = this.PAGE_SECTIONS[newIndex];
+    const scrollTop = window.pageYOffset + nextSection.getBoundingClientRect().top - this.SCROLL_OFFSET;
+    let resumeScroll = false;
+
+    if (!this.PAGE_SCROLLING_PAUSED) {
+      this.SCROLL_ANIMATION?.pause();
+      this.PAGE_SCROLLING_PAUSED = true;
+      resumeScroll = true;
+    }
+
+    this.SCROLL_ANIMATION = anime({
+      targets: this.SCROLL_ELEMENT,
+      scrollTop: scrollTop,
+      easing: 'linear',
+      duration: 1000,
+      complete: () => {
+        if (resumeScroll) {
+          this.pageScroll();
+          this.PAGE_SCROLLING_PAUSED = false;
+        }
+      }
+    });
+
+    nextSection.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+
+    this.CURRENT_SECTION = newIndex;
   }
 
   private runScrolling = () => {
@@ -82,12 +192,13 @@ export class Animations {
   }
 
   private pageScroll = () => {
+    const currentScroll = this.SCROLL_ELEMENT.scrollTop;
+
     this.SCROLL_ANIMATION = anime({
       targets: this.SCROLL_ELEMENT,
       scrollTop: this.PAGE_HEIGHT + 500,
-      duration: this.PAGE_HEIGHT / .009
+      duration: (this.PAGE_HEIGHT - currentScroll) / .009
     });
-
   }
 
   private scrollControls = () => {

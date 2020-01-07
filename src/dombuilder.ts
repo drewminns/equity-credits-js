@@ -88,7 +88,7 @@ export class DomBuilder {
 
           </span>
           <span class="${s.item_text}">
-            <a href="${item.shop_url}">${item.shop_name} <span class="${s.arrow}">${arrow}</span></a>
+            <a target="_blank" rel="noopener noreferrer" href="${item.shop_url}">${item.shop_name} <span class="${s.arrow}">${arrow}</span></a>
           </span>
         </p>
         ${ media }
@@ -116,7 +116,7 @@ export class DomBuilder {
   private buildGroup = () => {
     return this.sections.map((group: GroupData) => {
       const sections = this.buildSection(group);
-      return `<li id="${group.group_name}" class="${s.top_section_item}">${sections}</li>`
+      return `<li data-section-main id="${group.group_name}" class="${s.top_section_item}">${sections}</li>`
     }).join('');
   }
 }

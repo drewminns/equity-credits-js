@@ -34,3 +34,7 @@ section {
     position: relative;
   }
 }
+
+button[disabled] {
+  opacity: 0.3;
+}
