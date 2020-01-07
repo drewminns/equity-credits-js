@@ -11,7 +11,7 @@ import pause from '../assets/pause.svg';
 
 export const nav = (() => `
       <nav class="${clsx(s.nav)}" id="nav">
-        <div class="${g.container_fluid}">
+        <div class="${g.container}">
           <div class="${clsx(g.row, s.nav_row)}">
             <div class="${clsx(g.col_md_3, s.logo)}">
               <h1>

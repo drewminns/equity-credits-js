@@ -25,7 +25,7 @@ export class DomBuilder {
   private _createMarkup = () => {
     this.MOUNT_POINT.insertAdjacentHTML('afterbegin', `
     ${nav}
-    <div class="${g.container_fluid}">
+    <div class="${g.container}">
       ${intro}
       <main id="main_content" class="${s.main_content}">
         <ul>
