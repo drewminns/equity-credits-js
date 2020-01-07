@@ -10,6 +10,8 @@ export class Animations {
   SCROLL_POSITION: number;
   PAGE_SECTIONS: Array<Element>;
   CURRENT_SECTION: number;
+  DISTANCE_MAP: Array<number>;
+  SCROLL_OFFSET: number;
 
 
   constructor() {
@@ -24,7 +26,9 @@ export class Animations {
       endDelay: 2000
     });
     this.PAGE_SECTIONS = [];
+    this.DISTANCE_MAP = [];
     this.CURRENT_SECTION = 0;
+    this.SCROLL_OFFSET = 120;
   }
 
   init = (SCROLL_TOP: number) : void => {
@@ -35,7 +39,9 @@ export class Animations {
     const sections = Array.from(document.querySelectorAll('[data-section-main]'));
 
     this.PAGE_SECTIONS = [ intro, ...sections];
-
+    this.DISTANCE_MAP = this.PAGE_SECTIONS.map(item => {
+      return item.getBoundingClientRect().top;
+    });
 
     if (this.SCROLL_TOP === 0) {
       this.introAnimation();
@@ -56,6 +62,37 @@ export class Animations {
     forwardButton.addEventListener('click', (e) => {
       this.fastForward(e, forwardButton, backButton);
     });
+
+    window.addEventListener('scroll', () => {
+      this.CURRENT_SECTION = this.getCurrentSectionIndex();
+      this.manageActiveButtons(forwardButton, backButton);
+    });
+  }
+
+  private manageActiveButtons = (f: Element, b: Element) => {
+
+    if (this.CURRENT_SECTION <= 0) {
+      b.setAttribute('disabled', 'true');
+    } else {
+      b.removeAttribute('disabled');
+    }
+
+    if ( this.CURRENT_SECTION >= this.PAGE_SECTIONS.length - 1) {
+      f.setAttribute('disabled', 'true');
+    } else {
+      f.removeAttribute('disabled');
+    }
+
+  }
+
+  private getCurrentSectionIndex = () => {
+    const currentScroll = (window.pageYOffset || this.SCROLL_ELEMENT.scrollTop) - (this.SCROLL_ELEMENT.clientTop || 0) + this.SCROLL_OFFSET;
+
+    const index = this.DISTANCE_MAP.findIndex(item => {
+      return currentScroll < item;
+    });
+
+    return index === -1 ? this.PAGE_SECTIONS.length - 1 : (index === 0 ? 0 : index - 1);
   }
 
   private rewind = (e: any, forward: Element, back: Element) => {
@@ -63,12 +100,6 @@ export class Animations {
 
     if (newSectionIndex < 0) {
       return;
-    } else if (newSectionIndex === 0) {
-      back.setAttribute('disabled', 'true');
-    }
-
-    if (newSectionIndex < this.PAGE_SECTIONS.length) {
-      forward.removeAttribute('disabled');
     }
 
     this.scrollToSection(newSectionIndex);
@@ -79,12 +110,6 @@ export class Animations {
 
     if (newSectionIndex > this.PAGE_SECTIONS.length) {
       return;
-    } else if (newSectionIndex === this.PAGE_SECTIONS.length - 1) {
-      forward.setAttribute('disabled', 'true');
-    }
-
-    if (newSectionIndex > 0) {
-      back.removeAttribute('disabled');
     }
 
     this.scrollToSection(newSectionIndex);
@@ -92,7 +117,7 @@ export class Animations {
 
   private scrollToSection = (newIndex: number) => {
     const nextSection = this.PAGE_SECTIONS[newIndex];
-    const scrollTop = window.pageYOffset + nextSection.getBoundingClientRect().top - 120;
+    const scrollTop = window.pageYOffset + nextSection.getBoundingClientRect().top - this.SCROLL_OFFSET;
     let resumeScroll = false;
 
     if (!this.PAGE_SCROLLING_PAUSED) {
