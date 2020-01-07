@@ -44,20 +44,44 @@
 
 .item_text {
   display: inline-block;
-  margin-right: 32px;
+  margin-right: 10px;
+  text-align: left;
   flex: 1 0 50%;
-  text-align: right;
   z-index: 1;
+  position: relative;
+  text-transform: uppercase;
+  font-weight: 700;
+
+  a {
+    position: relative;
+    display: inline-block;
+
+    span {
+      position: absolute;
+    }
+  }
+
+  span {
+    display: inline-block;
+  }
+
+  a,
+  span {
+    text-decoration: none;
+    color: $white;
+  }
+
+  .arrow svg {
+    height: 16px;
+  }
 }
 
-.merchant_link {
+.merchant_products {
   display: inline-block;
   flex: 1 0 50%;
   position: relative;
-  margin-right: 10px;
-  text-align: left;
-  text-transform: uppercase;
-  font-weight: 700;
+  margin-right: 32px;
+  text-align: right;
 
   a {
     position: relative;
@@ -65,8 +89,7 @@
   }
 
   span {
-    display: inline-block;
-    position: absolute;
+    display: block;
   }
 
   a,

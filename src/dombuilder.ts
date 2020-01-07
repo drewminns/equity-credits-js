@@ -76,27 +76,19 @@ export class DomBuilder {
         <div class="${clsx(s.pinned_container, s[alignClass])}${ layout !== 'center' ? ' pin-me' : '' }">
           <img id="image-${item.shop_id}" class="${s.image}" src="${item.image.url}" alt="${item.image.alt}">
         </div>`;
-
       return `
       <li class="${clsx(s.item)}" data-layout="${layout}">
         <p class="${clsx(s.item_content, s.item_has_image)}">
-          <span class="${s.item_text}">
-            ${item.shop_name}
-          </span>
-          <span class="${s.merchant_link}">
+          <span class="${s.merchant_products}">
             ${
               item.products.map((listItem) => {
-                if (listItem.url !== '') {
-                  return `
-                    <a href="${listItem.url}">${listItem.name} <span class="${s.arrow}">${arrow}</span></a>
-                  `
-                }
-
-                return `<span>${listItem.name}</span>`
-
+                return `<span>${listItem}</span>`
               }).join('')
             }
 
+          </span>
+          <span class="${s.item_text}">
+            <a href="${item.shop_url}">${item.shop_name} <span class="${s.arrow}">${arrow}</span></a>
           </span>
         </p>
         ${ media }
@@ -106,20 +98,15 @@ export class DomBuilder {
     return `
       <li class="${s.item}">
         <p class="${s.item_content}">
-          <span class="${s.item_text}">
-            ${item.shop_name}
-          </span>
-          <span class="${s.merchant_link}">
+          <span class="${s.merchant_products}">
             ${
               item.products.map((listItem) => {
-                if (listItem.url !== '') {
-                  return `
-                    <a href="${listItem.url}">${listItem.name} <span class="${s.arrow}">${arrow}</span></a>
-                  `
-                }
-                return `<span>${listItem.name}</span>`
+                return `<span>${listItem}</span>`
               }).join('')
             }
+          </span>
+          <span class="${s.item_text}">
+            <a href="${item.shop_url}">${item.shop_name} <span class="${s.arrow}">${arrow}</span></a>
           </span>
         </p>
       </li>
