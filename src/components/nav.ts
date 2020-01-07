@@ -23,7 +23,7 @@ export const nav = (() => `
               <p>Supporting Independents</p>
             </div>
             <div class="${clsx(g.col_md_3, s.nav_controls)}">
-              <button aria-label="Back" id="back" class="${s.button}">
+              <button disabled aria-label="Back" id="back" class="${s.button}">
                 <span class="${utils.hidden}">Back</span>
                 <span class="${s.icon}">${rewind}</span>
               </button>

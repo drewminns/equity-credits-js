@@ -8,6 +8,9 @@ export class Animations {
   PAGE_SCROLLING_PAUSED: boolean;
   SCROLL_ANIMATION: AnimeInstance | null;
   SCROLL_POSITION: number;
+  PAGE_SECTIONS: Array<Element>;
+  CURRENT_SECTION: number;
+
 
   constructor() {
     this.SCROLL_ANIMATION = null;
@@ -20,11 +23,18 @@ export class Animations {
       easing: 'easeOutExpo',
       endDelay: 2000
     });
+    this.PAGE_SECTIONS = [];
+    this.CURRENT_SECTION = 0;
   }
 
   init = (SCROLL_TOP: number) : void => {
     this.SCROLL_TOP = SCROLL_TOP;
     this.PAGE_HEIGHT = document.body.scrollHeight;
+
+    const intro = document.getElementById('intro')!;
+    const sections = Array.from(document.querySelectorAll('[data-section-main]'));
+
+    this.PAGE_SECTIONS = [ intro, ...sections];
 
 
     if (this.SCROLL_TOP === 0) {
@@ -33,8 +43,54 @@ export class Animations {
       this.runScrolling()
     }
 
-    const button = document.getElementById('play')!
+    const button = document.getElementById('play')!;
     button.onclick = () => this.scrollControls();
+
+    const backButton = document.getElementById('back')!;
+    const forwardButton = document.getElementById('forward')!;
+    backButton.onclick = () => this.rewind();
+    forwardButton.onclick = () => this.fastForward();
+  }
+
+  private rewind = () => {
+    console.log('back');
+  }
+
+  private fastForward = () => {
+    console.log('forward');
+    const newSectionIndex = this.CURRENT_SECTION + 1;
+    const nextSection = this.PAGE_SECTIONS[newSectionIndex];
+    const scrollTop = nextSection.getBoundingClientRect().top;
+    let resumeScroll = false;
+
+    if (!this.PAGE_SCROLLING_PAUSED) {
+      this.SCROLL_ANIMATION?.pause();
+      this.PAGE_SCROLLING_PAUSED = true;
+      resumeScroll = true;
+    }
+
+    this.SCROLL_ANIMATION = anime({
+      targets: this.SCROLL_ELEMENT,
+      scrollTop: scrollTop,
+      easing: 'linear',
+      duration: 1000,
+      complete: () => {
+        if (resumeScroll) {
+          this.pageScroll();
+          this.PAGE_SCROLLING_PAUSED = false;
+        }
+      }
+    });
+
+    nextSection.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+
+    this.CURRENT_SECTION = newSectionIndex;
+
+    console.log(nextSection);
+
   }
 
   private runScrolling = () => {
