@@ -55,19 +55,17 @@ export class Animations {
       .add({
         targets: '#intro',
         opacity: 1,
-        duration: 1500,
-        delay: 500
+        duration: 500
       })
       .add({
         targets: '#intro-text1',
         opacity: 1,
-        duration: 1500
+        duration: 1000
       })
       .add({
         targets: '#intro-text2',
         opacity: 1,
-        duration: 1500,
-        delay: 1000
+        duration: 1000
       })
 
     this.TIME_LINE.finished.then(() => {

@@ -1,6 +1,14 @@
 {
-  "name": "equity-credits",
-  "version": "1.0.0",
+  "name": "@playgroundinc/shopify-equity-react",
+  "version": "1.0.7",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/playgroundinc/equity-credits-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/playgroundinc/equity-credits-js/issues"
+  },
+  "homepage": "https://github.com/playgroundinc/equity-credits-js#readme",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,7 +18,7 @@
     "build": "NODE_ENV=production ENDPOINT=https://upcoming9.shopify.com/independents.json webpack -p --mode=production --config=webpack.build.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Playground Inc",
   "license": "ISC",
   "browserslist": [
     ">0.2%",

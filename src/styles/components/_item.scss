@@ -103,23 +103,19 @@
 }
 
 .pinned_container {
-  background-color: orange;
-
   &--left {
-    background-color: hotpink;
     position: absolute;
     top: 0;
     right: 0;
   }
 
   &--right {
-    background-color: mediumslateblue;
     position: absolute;
     top: 0;
     left: 0;
   }
 
   &--center {
-    background-color: limegreen;
+    // background-color: limegreen;
   }
 }
