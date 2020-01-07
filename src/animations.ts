@@ -48,30 +48,51 @@ export class Animations {
 
     const backButton = document.getElementById('back')!;
     const forwardButton = document.getElementById('forward')!;
-    // backButton.addEventListener('click', (e) => {
-    //   console.log(2)
-    // })
+
+    backButton.addEventListener('click', (e) => {
+      this.rewind(e, forwardButton, backButton);
+    })
 
     forwardButton.addEventListener('click', (e) => {
-      this.fastForward(e, forwardButton);
+      this.fastForward(e, forwardButton, backButton);
     });
   }
 
-  private rewind = () => {
-    console.log('back');
+  private rewind = (e: any, forward: Element, back: Element) => {
+    const newSectionIndex = this.CURRENT_SECTION - 1;
+
+    if (newSectionIndex < 0) {
+      return;
+    } else if (newSectionIndex === 0) {
+      back.setAttribute('disabled', 'true');
+    }
+
+    if (newSectionIndex < this.PAGE_SECTIONS.length) {
+      forward.removeAttribute('disabled');
+    }
+
+    this.scrollToSection(newSectionIndex);
   }
 
-  private fastForward = (e: any, btn: Element) => {
+  private fastForward = (e: any, forward: Element, back: Element) => {
     const newSectionIndex = this.CURRENT_SECTION + 1;
 
     if (newSectionIndex > this.PAGE_SECTIONS.length) {
       return;
-    } else if (newSectionIndex >= this.PAGE_SECTIONS.length - 1) {
-      btn.setAttribute('disabled', 'true');
+    } else if (newSectionIndex === this.PAGE_SECTIONS.length - 1) {
+      forward.setAttribute('disabled', 'true');
     }
 
-    const nextSection = this.PAGE_SECTIONS[newSectionIndex];
-    const scrollTop = window.pageYOffset + nextSection.getBoundingClientRect().top - 100;
+    if (newSectionIndex > 0) {
+      back.removeAttribute('disabled');
+    }
+
+    this.scrollToSection(newSectionIndex);
+  }
+
+  private scrollToSection = (newIndex: number) => {
+    const nextSection = this.PAGE_SECTIONS[newIndex];
+    const scrollTop = window.pageYOffset + nextSection.getBoundingClientRect().top - 120;
     let resumeScroll = false;
 
     if (!this.PAGE_SCROLLING_PAUSED) {
@@ -98,7 +119,7 @@ export class Animations {
       block: 'start',
     });
 
-    this.CURRENT_SECTION = newSectionIndex;
+    this.CURRENT_SECTION = newIndex;
   }
 
   private runScrolling = () => {
