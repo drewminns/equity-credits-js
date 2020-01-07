@@ -1,6 +1,6 @@
 {
   "name": "@playgroundinc/shopify-equity-react",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/playgroundinc/equity-credits-js.git"
@@ -10,7 +10,7 @@
   },
   "homepage": "https://github.com/playgroundinc/equity-credits-js#readme",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_ENV=development ENDPOINT=http://localhost:8000/ npx webpack-dev-server --mode=development --devtool=inline-source-map --hot --open",
