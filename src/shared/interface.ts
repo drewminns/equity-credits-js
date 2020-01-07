@@ -1,14 +1,14 @@
 export interface SectionData {
   shop_id: number;
-  label: string;
-  items: [{ name: string; url: string }];
-  media: { type: string; url: string; alt: string }
+  shop_name: string;
+  products: [{ name: string; url: string }];
+  image: { type: string; url: string; alt: string };
 }
 
 export interface Section {
   section_id: number;
   layout: string;
-  data: SectionData[];
+  merchants: SectionData[];
 }
 
 export interface GroupData {
