@@ -48,17 +48,29 @@ export class Animations {
 
     const backButton = document.getElementById('back')!;
     const forwardButton = document.getElementById('forward')!;
-    backButton.onclick = () => this.rewind();
-    forwardButton.onclick = () => this.fastForward();
+    // backButton.addEventListener('click', (e) => {
+    //   console.log(2)
+    // })
+
+    forwardButton.onclick = (e) => this.fastForward(e, forwardButton);
+    forwardButton.addEventListener('click', (e) => {
+      this.fastForward(e, forwardButton);
+    });
   }
 
   private rewind = () => {
     console.log('back');
   }
 
-  private fastForward = () => {
-    console.log('forward');
+  private fastForward = (e: any, btn: Element) => {
     const newSectionIndex = this.CURRENT_SECTION + 1;
+
+    if (newSectionIndex > this.PAGE_SECTIONS.length) {
+      return;
+    } else if (newSectionIndex === this.PAGE_SECTIONS.length) {
+      btn.setAttribute('disabled', 'true');
+    }
+
     const nextSection = this.PAGE_SECTIONS[newSectionIndex];
     const scrollTop = window.pageYOffset + nextSection.getBoundingClientRect().top - 100;
     let resumeScroll = false;
