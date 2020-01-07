@@ -52,7 +52,6 @@ export class Animations {
     //   console.log(2)
     // })
 
-    forwardButton.onclick = (e) => this.fastForward(e, forwardButton);
     forwardButton.addEventListener('click', (e) => {
       this.fastForward(e, forwardButton);
     });
@@ -150,12 +149,13 @@ export class Animations {
   }
 
   private pageScroll = () => {
+    const currentScroll = this.SCROLL_ELEMENT.scrollTop;
+
     this.SCROLL_ANIMATION = anime({
       targets: this.SCROLL_ELEMENT,
       scrollTop: this.PAGE_HEIGHT + 500,
-      duration: this.PAGE_HEIGHT / .009
+      duration: (this.PAGE_HEIGHT - currentScroll) / .009
     });
-
   }
 
   private scrollControls = () => {
