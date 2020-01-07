@@ -42,18 +42,19 @@ export class DomBuilder {
 
     return sections.map((sec: Section, idx: Number) => {
       return `
-        <div class="${g.row}">
+        <div class="${clsx(g.row, s.section_minor)}">
           <section id="section-${name}-${sec.section_id}" class="" data-layout="${sec.layout}">
-          <ul class="${s.section_list_group} ${
-            clsx(g.col_md_4,
-              s.section_list,
-              {
-                [g.col_md_offset_4]: sec.layout === 'center',
-                [g.col_md_offset_8]: sec.layout === 'right',
-              }
-            )
+          ${ idx === 0 ? `<h2 class="${s.title}">${title}</h2>` : '' }
+          <div class="${s.section_wrapper}" data-section-wrap>
+            <ul class="${s.section_list_group} ${
+              clsx(g.col_md_4,
+                s.section_list,
+                {
+                  [g.col_md_offset_4]: sec.layout === 'center',
+                  [g.col_md_offset_8]: sec.layout === 'right',
+                }
+              )
             }">
-              <li>${ idx === 0 ? `<h2 class="${s.title}">${title}</h2>` : '' }</li>
               ${sec.data.map((item: SectionData) => {
 
                 if (item.hasOwnProperty('media')) {
@@ -65,6 +66,7 @@ export class DomBuilder {
 
                   return `
                   <li class="${clsx(s.item)}" data-layout="${sec.layout}">
+                    ${ media }
                     <p class="${clsx(s.item_content, s.item_has_image)}">
                       <span class="${s.item_text}">
                         ${item.product_desc}
@@ -73,7 +75,6 @@ export class DomBuilder {
                         <a href="${item.store_url}">${item.merchant} <span class="${s.arrow}">${arrow}</span></a>
                       </span>
                     </p>
-                   ${ media }
                   </li>`;
                 }
 
@@ -91,6 +92,7 @@ export class DomBuilder {
                 `;
               }).join('')}
             </ul>
+          </div>
         </section>
       </div>
       `;

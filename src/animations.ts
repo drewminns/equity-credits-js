@@ -8,6 +8,7 @@ export class Animations {
   PAGE_SCROLLING_PAUSED: boolean;
   SCROLL_ANIMATION: AnimeInstance | null;
   SCROLL_POSITION: number;
+  ANIMATION_DURATION: number;
 
   constructor() {
     this.SCROLL_ANIMATION = null;
@@ -15,6 +16,7 @@ export class Animations {
     this.SCROLL_POSITION = 0;
     this.PAGE_HEIGHT = 0;
     this.PAGE_SCROLLING_PAUSED = false;
+    this.ANIMATION_DURATION = 1500;
     this.SCROLL_ELEMENT = window.document.scrollingElement || window.document.body || window.document.documentElement;
     this.TIME_LINE = anime.timeline({
       easing: 'easeOutExpo',
@@ -55,18 +57,18 @@ export class Animations {
       .add({
         targets: '#intro',
         opacity: 1,
-        duration: 1500,
+        duration: this.ANIMATION_DURATION,
         delay: 500
       })
       .add({
         targets: '#intro-text1',
         opacity: 1,
-        duration: 1500
+        duration: this.ANIMATION_DURATION
       })
       .add({
         targets: '#intro-text2',
         opacity: 1,
-        duration: 1500,
+        duration: this.ANIMATION_DURATION,
         delay: 1000
       })
 
@@ -79,7 +81,7 @@ export class Animations {
     anime({
       targets: '#main_content',
       opacity: 1,
-      duration: 3000,
+      duration: this.ANIMATION_DURATION * 2,
     });
   }
 

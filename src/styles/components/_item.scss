@@ -8,6 +8,8 @@
   font-size: 16px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
+  text-align: center;
+  margin: 40px 0 60px;
 }
 
 .section_list {
@@ -16,6 +18,14 @@
 
 .section_list_group {
   list-style: none;
+}
+
+.section_minor {
+  margin-bottom: 134px;
+}
+
+.section_wrapper {
+  position: relative;
 }
 
 .item_content {
