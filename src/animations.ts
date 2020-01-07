@@ -60,7 +60,7 @@ export class Animations {
     console.log('forward');
     const newSectionIndex = this.CURRENT_SECTION + 1;
     const nextSection = this.PAGE_SECTIONS[newSectionIndex];
-    const scrollTop = nextSection.getBoundingClientRect().top;
+    const scrollTop = window.pageYOffset + nextSection.getBoundingClientRect().top - 100;
     let resumeScroll = false;
 
     if (!this.PAGE_SCROLLING_PAUSED) {
