@@ -1,8 +1,7 @@
 export interface SectionData {
   shop_id: number;
-  merchant: string;
-  store_url: string;
-  product_desc: string;
+  label: string;
+  items: [{ name: string; url: string }];
   media: { type: string; url: string; alt: string }[]
 }
 

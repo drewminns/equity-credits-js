@@ -15,8 +15,10 @@ export const nav = (() => `
           <div class="${clsx(g.row, s.nav_row)}">
             <div class="${clsx(g.col_md_3, s.logo)}">
               <h1>
+                <a href="https://shopify.com">
                 <span class="${s.logo}">${shoppingBag}</span>
                 <span class="${utils.hidden}">Shopify</span>
+                </a>
               </h1>
             </div>
             <div class="${clsx(g.col_md_6, s.nav_headline)}">

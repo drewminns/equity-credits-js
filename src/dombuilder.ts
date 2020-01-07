@@ -36,13 +36,14 @@ export class DomBuilder {
   `);
   }
 
+
   private buildSection(group: GroupData) {
 
     const { sections, title, group_name: name } = group;
 
     return sections.map((sec: Section, idx: Number) => {
       return `
-        <div class="${g.row}">
+        <div class="${clsx(g.row, s.section_container)}">
           <section id="section-${name}-${sec.section_id}" class="" data-layout="${sec.layout}">
           <ul class="${s.section_list_group} ${
             clsx(g.col_md_4,
@@ -56,39 +57,8 @@ export class DomBuilder {
               <li>${ idx === 0 ? `<h2 class="${s.title}">${title}</h2>` : '' }</li>
               ${sec.data.map((item: SectionData) => {
 
-                if (item.hasOwnProperty('media')) {
-                  const alignClass=`pinned_container--${sec.layout}`;
-                  const media = item.media.map((img, i) => `
-                    <div class="${clsx(s.pinned_container, s[alignClass])}${ sec.layout !== 'center' ? ' pin-me' : '' }">
-                      <img id="image-${item.shop_id}" class="${s.image}" src="${img.url}" alt="${img.alt}">
-                    </div>`).join('');
+                return this.buildListItem(item, sec.layout);
 
-                  return `
-                  <li class="${clsx(s.item)}" data-layout="${sec.layout}">
-                    <p class="${clsx(s.item_content, s.item_has_image)}">
-                      <span class="${s.item_text}">
-                        ${item.product_desc}
-                      </span>
-                      <span class="${s.merchant_link}">
-                        <a href="${item.store_url}">${item.merchant} <span class="${s.arrow}">${arrow}</span></a>
-                      </span>
-                    </p>
-                   ${ media }
-                  </li>`;
-                }
-
-                return `
-                  <li class="${s.item}">
-                    <p class="${s.item_content}">
-                      <span class="${s.item_text}">
-                        ${item.product_desc}
-                      </span>
-                      <span class="${s.merchant_link}">
-                        <a href="${item.store_url}">${item.merchant} <span class="${s.arrow}">${arrow}</span></a>
-                      </span>
-                    </p>
-                  </li>
-                `;
               }).join('')}
             </ul>
         </section>
@@ -97,10 +67,67 @@ export class DomBuilder {
     }).join('');
   }
 
+  private buildListItem(item: SectionData, layout: string) {
+    if (item.hasOwnProperty('media')) {
+      const alignClass=`pinned_container--${layout}`;
+      const media = item.media.map((img, i) => `
+        <div class="${clsx(s.pinned_container, s[alignClass])}${ layout !== 'center' ? ' pin-me' : '' }">
+          <img id="image-${item.label.split(' ').join('')}" class="${s.image}" src="${img.url}" alt="${img.alt}">
+        </div>`).join('');
+
+      return `
+      <li class="${clsx(s.item)}" data-layout="${layout}">
+        <p class="${clsx(s.item_content, s.item_has_image)}">
+          <span class="${s.item_text}">
+            ${item.label}
+          </span>
+          <span class="${s.merchant_link}">
+            ${
+              item.items.map((listItem) => {
+                if (listItem.url !== '') {
+                  return `
+                    <a href="${listItem.url}">${listItem.name} <span class="${s.arrow}">${arrow}</span></a>
+                  `
+                }
+
+                return `<span>${listItem.name}</span>`
+
+              }).join('')
+            }
+
+          </span>
+        </p>
+        ${ media }
+      </li>`;
+    }
+
+    return `
+      <li class="${s.item}">
+        <p class="${s.item_content}">
+          <span class="${s.item_text}">
+            ${item.label}
+          </span>
+          <span class="${s.merchant_link}">
+            ${
+              item.items.map((listItem) => {
+                if (listItem.url !== '') {
+                  return `
+                    <a href="${listItem.url}">${listItem.name} <span class="${s.arrow}">${arrow}</span></a>
+                  `
+                }
+                return `<span>${listItem.name}</span>`
+              }).join('')
+            }
+          </span>
+        </p>
+      </li>
+    `;
+  }
+
   private buildGroup = () => {
     return this.sections.map((group: GroupData) => {
       const sections = this.buildSection(group);
-      return `<li id="${group.group_name}">${sections}</li>`
+      return `<li id="${group.group_name}" class="${s.top_section_item}">${sections}</li>`
     }).join('');
   }
 }
