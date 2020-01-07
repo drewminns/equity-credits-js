@@ -66,7 +66,7 @@ export class Animations {
 
     if (newSectionIndex > this.PAGE_SECTIONS.length) {
       return;
-    } else if (newSectionIndex === this.PAGE_SECTIONS.length) {
+    } else if (newSectionIndex >= this.PAGE_SECTIONS.length - 1) {
       btn.setAttribute('disabled', 'true');
     }
 
@@ -99,9 +99,6 @@ export class Animations {
     });
 
     this.CURRENT_SECTION = newSectionIndex;
-
-    console.log(nextSection);
-
   }
 
   private runScrolling = () => {
