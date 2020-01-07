@@ -40,8 +40,8 @@ export class DomBuilder {
   private buildSection(group: GroupData) {
 
     const { sections, title, group_name: name } = group;
-
     return sections.map((sec: Section, idx: Number) => {
+      console.log(sec)
       return `
         <div class="${clsx(g.row, s.section_minor)}">
           <section id="section-${name}-${sec.section_id}" class="" data-layout="${sec.layout}">
@@ -56,7 +56,7 @@ export class DomBuilder {
                 }
               )
             }">
-              ${sec.data.map((item: SectionData) => {
+              ${sec.merchants.map((item: SectionData) => {
 
                 return this.buildListItem(item, sec.layout);
 
@@ -70,22 +70,22 @@ export class DomBuilder {
   }
 
   private buildListItem(item: SectionData, layout: string) {
-    if (item.hasOwnProperty('media')) {
+    if (item.hasOwnProperty('image')) {
       const alignClass=`pinned_container--${layout}`;
       const media = `
         <div class="${clsx(s.pinned_container, s[alignClass])}${ layout !== 'center' ? ' pin-me' : '' }">
-          <img id="image-${item.shop_id}" class="${s.image}" src="${item.media.url}" alt="${item.media.alt}">
+          <img id="image-${item.shop_id}" class="${s.image}" src="${item.image.url}" alt="${item.image.alt}">
         </div>`;
 
       return `
       <li class="${clsx(s.item)}" data-layout="${layout}">
         <p class="${clsx(s.item_content, s.item_has_image)}">
           <span class="${s.item_text}">
-            ${item.label}
+            ${item.shop_name}
           </span>
           <span class="${s.merchant_link}">
             ${
-              item.items.map((listItem) => {
+              item.products.map((listItem) => {
                 if (listItem.url !== '') {
                   return `
                     <a href="${listItem.url}">${listItem.name} <span class="${s.arrow}">${arrow}</span></a>
@@ -107,11 +107,11 @@ export class DomBuilder {
       <li class="${s.item}">
         <p class="${s.item_content}">
           <span class="${s.item_text}">
-            ${item.label}
+            ${item.shop_name}
           </span>
           <span class="${s.merchant_link}">
             ${
-              item.items.map((listItem) => {
+              item.products.map((listItem) => {
                 if (listItem.url !== '') {
                   return `
                     <a href="${listItem.url}">${listItem.name} <span class="${s.arrow}">${arrow}</span></a>
