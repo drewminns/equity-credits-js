@@ -2,7 +2,7 @@ export interface SectionData {
   shop_id: number;
   label: string;
   items: [{ name: string; url: string }];
-  media: { type: string; url: string; alt: string }[]
+  media: { type: string; url: string; alt: string }
 }
 
 export interface Section {

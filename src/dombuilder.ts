@@ -43,24 +43,26 @@ export class DomBuilder {
 
     return sections.map((sec: Section, idx: Number) => {
       return `
-        <div class="${clsx(g.row, s.section_container)}">
+        <div class="${clsx(g.row, s.section_minor)}">
           <section id="section-${name}-${sec.section_id}" class="" data-layout="${sec.layout}">
-          <ul class="${s.section_list_group} ${
-            clsx(g.col_md_4,
-              s.section_list,
-              {
-                [g.col_md_offset_4]: sec.layout === 'center',
-                [g.col_md_offset_8]: sec.layout === 'right',
-              }
-            )
+          ${ idx === 0 ? `<h2 class="${s.title}">${title}</h2>` : '' }
+          <div class="${s.section_wrapper}" data-section-wrap>
+            <ul class="${s.section_list_group} ${
+              clsx(g.col_md_4,
+                s.section_list,
+                {
+                  [g.col_md_offset_4]: sec.layout === 'center',
+                  [g.col_md_offset_8]: sec.layout === 'right',
+                }
+              )
             }">
-              <li>${ idx === 0 ? `<h2 class="${s.title}">${title}</h2>` : '' }</li>
               ${sec.data.map((item: SectionData) => {
 
                 return this.buildListItem(item, sec.layout);
 
               }).join('')}
             </ul>
+          </div>
         </section>
       </div>
       `;
@@ -70,10 +72,10 @@ export class DomBuilder {
   private buildListItem(item: SectionData, layout: string) {
     if (item.hasOwnProperty('media')) {
       const alignClass=`pinned_container--${layout}`;
-      const media = item.media.map((img, i) => `
+      const media = `
         <div class="${clsx(s.pinned_container, s[alignClass])}${ layout !== 'center' ? ' pin-me' : '' }">
-          <img id="image-${item.label.split(' ').join('')}" class="${s.image}" src="${img.url}" alt="${img.alt}">
-        </div>`).join('');
+          <img id="image-${item.shop_id}" class="${s.image}" src="${item.media.url}" alt="${item.media.alt}">
+        </div>`;
 
       return `
       <li class="${clsx(s.item)}" data-layout="${layout}">

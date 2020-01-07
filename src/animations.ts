@@ -77,7 +77,7 @@ export class Animations {
     anime({
       targets: '#main_content',
       opacity: 1,
-      duration: 3000,
+      duration: 1500,
     });
   }
 

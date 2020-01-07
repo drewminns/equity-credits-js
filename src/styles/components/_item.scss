@@ -8,6 +8,8 @@
   font-size: 16px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
+  text-align: center;
+  margin: 40px 0 60px;
 }
 
 .section_list {
@@ -18,12 +20,16 @@
   margin-bottom: 200px;
 }
 
-.section_container:not(:first-child) {
-  margin-top: 187px;
-}
-
 .section_list_group {
   list-style: none;
+}
+
+.section_minor {
+  margin-bottom: 134px;
+}
+
+.section_wrapper {
+  position: relative;
 }
 
 .item_content {
@@ -33,6 +39,7 @@
   padding: 10px 0;
   font-size: 16px;
   line-height: 24px;
+  margin: 0;
 }
 
 .item_text {
@@ -52,11 +59,19 @@
   text-transform: uppercase;
   font-weight: 700;
 
+  a {
+    position: relative;
+  }
+
+  span {
+    display: inline-block;
+    position: absolute;
+  }
+
   a,
   span {
     text-decoration: none;
     color: $white;
-    display: inline-block;
   }
 
   .arrow svg {
@@ -80,18 +95,13 @@
     content: "";
     display: block;
     position: absolute;
-    height: calc(100% - 20px);
-    top: 20px;
+    height: 100%;
+    top: 0;
     width: 200vw;
     left: -50%;
     right: 50%;
     margin-left: -50vw;
     margin-right: -50vw;
-
-    @include d-up {
-      height: 90%;
-      top: 6px;
-    }
   }
 
   @include d-up {
