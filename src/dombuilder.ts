@@ -14,7 +14,8 @@ export class DomBuilder {
   sections!: GroupData[];
   MOUNT_POINT!: HTMLElement;
 
-  constructor() {}
+  constructor() {
+  }
 
   init(sections: GroupData[], MOUNT_POINT: HTMLElement) {
     this.sections = sections;

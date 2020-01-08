@@ -1,8 +1,10 @@
 import anime, { AnimeInstance, AnimeTimelineInstance } from 'animejs';
+import { Window } from './window';
+
 import pause from './assets/pause.svg';
 import play from './assets/play.svg';
 
-export class Animations {
+export class Animations extends Window {
   TIME_LINE: AnimeTimelineInstance;
   PAGE_HEIGHT: number;
   SCROLL_ELEMENT: Element;
@@ -17,6 +19,7 @@ export class Animations {
   HAS_VIEWED: boolean;
 
   constructor() {
+    super();
     this.SCROLL_ANIMATION = null;
     this.SCROLL_TOP = 0;
     this.SCROLL_POSITION = 0;
@@ -54,6 +57,7 @@ export class Animations {
     } else {
       this.runScrolling();
     }
+
 
     const button = document.getElementById('play')!;
     const buttonText = document.getElementById('play--text')!;
