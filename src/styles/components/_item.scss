@@ -47,7 +47,7 @@
   display: inline-block;
   margin-right: 10px;
   text-align: left;
-  flex: 1 0 50%;
+  width: calc(50% - 10px);
   z-index: 1;
   position: relative;
   text-transform: uppercase;
@@ -57,8 +57,10 @@
     position: relative;
     display: inline-block;
 
-    span {
-      position: absolute;
+    @include d-up {
+      span {
+        position: absolute;
+      }
     }
   }
 
@@ -70,6 +72,7 @@
   span {
     text-decoration: none;
     color: $white;
+    overflow-wrap: break-word;
   }
 
   .arrow svg {
@@ -79,7 +82,7 @@
 
 .merchant_products {
   display: inline-block;
-  flex: 1 0 50%;
+  width: calc(50% - 32px);
   position: relative;
   margin-right: 32px;
   text-align: right;
@@ -150,14 +153,14 @@
   @include d-up {
     width: 500px;
   }
-  // position: absolute;
-  // top: 0;
-  // right: 0;
-  // z-index: -1;
 }
 
 .pinned_container {
-  width: 500px;
+  width: 100%;
+
+  @include d-up {
+    width: 500px;
+  }
 
   &--left {
     position: absolute;
