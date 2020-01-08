@@ -266,13 +266,13 @@ export class Animations extends Window {
     if (!this.PAGE_SCROLLING_PAUSED) {
       this.SCROLL_ANIMATION.pause();
       this.PAGE_SCROLLING_PAUSED = true;
-      text.innerHTML = 'Pause';
-      icon.innerHTML = pause;
+      text.innerHTML = 'Play';
+      icon.innerHTML = play;
     } else {
       this.pageScroll();
       this.PAGE_SCROLLING_PAUSED = false;
-      text.innerHTML = 'Play';
-      icon.innerHTML = play;
+      text.innerHTML = 'Pause';
+      icon.innerHTML = pause;
     }
   }
 
