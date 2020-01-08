@@ -12,6 +12,7 @@ export class Animations {
   CURRENT_SECTION: number;
   DISTANCE_MAP: Array<number>;
   SCROLL_OFFSET: number;
+  HAS_VIEWED: boolean;
 
   constructor() {
     this.SCROLL_ANIMATION = null;
@@ -28,11 +29,13 @@ export class Animations {
     this.DISTANCE_MAP = [];
     this.CURRENT_SECTION = 0;
     this.SCROLL_OFFSET = 120;
+    this.HAS_VIEWED = false;
   }
 
   init = (SCROLL_TOP: number) : void => {
     this.SCROLL_TOP = SCROLL_TOP;
     this.PAGE_HEIGHT = document.body.scrollHeight;
+    this.HAS_VIEWED = JSON.parse(window.localStorage.getItem('equity-viewed') as string);
 
     const intro = document.getElementById('intro')!;
     const sections = Array.from(document.querySelectorAll('[data-section-main]'));
@@ -42,7 +45,8 @@ export class Animations {
       return item.getBoundingClientRect().top;
     });
 
-    if (this.SCROLL_TOP === 0) {
+
+    if (this.SCROLL_TOP === 0 && !this.HAS_VIEWED) {
       window.document.body.setAttribute('data-no-scroll', 'true');
       this.introAnimation();
     } else {
@@ -218,6 +222,7 @@ export class Animations {
     this.TIME_LINE.finished.then(() => {
       this.runScrolling();
       window.document.body.removeAttribute('data-no-scroll');
+      window.localStorage.setItem('equity-viewed', 'true');
     });
   }
 
