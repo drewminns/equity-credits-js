@@ -1,4 +1,6 @@
 import anime, { AnimeInstance, AnimeTimelineInstance } from 'animejs';
+import pause from './assets/pause.svg';
+import play from './assets/play.svg';
 
 export class Animations {
   TIME_LINE: AnimeTimelineInstance;
@@ -54,7 +56,12 @@ export class Animations {
     }
 
     const button = document.getElementById('play')!;
-    button.onclick = () => this.scrollControls();
+    const buttonText = document.getElementById('play--text')!;
+    const buttonIcon = document.getElementById('play--icon')!;
+    // button.onclick = () =>
+    button.addEventListener('click', () => {
+      this.scrollControls(buttonText, buttonIcon);
+    });
 
     const backButton = document.getElementById('back')!;
     const forwardButton = document.getElementById('forward')!;
@@ -244,15 +251,19 @@ export class Animations {
     });
   }
 
-  private scrollControls = () => {
+  private scrollControls = (text: Element, icon: Element) => {
     if (!this.SCROLL_ANIMATION) return;
 
     if (!this.PAGE_SCROLLING_PAUSED) {
       this.SCROLL_ANIMATION.pause();
       this.PAGE_SCROLLING_PAUSED = true;
+      text.innerHTML = 'Pause';
+      icon.innerHTML = pause;
     } else {
       this.pageScroll();
       this.PAGE_SCROLLING_PAUSED = false;
+      text.innerHTML = 'Play';
+      icon.innerHTML = play;
     }
   }
 
