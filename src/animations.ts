@@ -12,8 +12,6 @@ export class Animations {
   CURRENT_SECTION: number;
   DISTANCE_MAP: Array<number>;
   SCROLL_OFFSET: number;
-  IS_USER_SCROLL: boolean;
-
 
   constructor() {
     this.SCROLL_ANIMATION = null;
@@ -30,11 +28,9 @@ export class Animations {
     this.DISTANCE_MAP = [];
     this.CURRENT_SECTION = 0;
     this.SCROLL_OFFSET = 120;
-    this.IS_USER_SCROLL = false;
   }
 
   init = (SCROLL_TOP: number) : void => {
-    window.document.body.setAttribute('data-no-scroll', 'true');
     this.SCROLL_TOP = SCROLL_TOP;
     this.PAGE_HEIGHT = document.body.scrollHeight;
 
@@ -47,9 +43,10 @@ export class Animations {
     });
 
     if (this.SCROLL_TOP === 0) {
+      window.document.body.setAttribute('data-no-scroll', 'true');
       this.introAnimation();
     } else {
-      this.runScrolling()
+      this.runScrolling();
     }
 
     const button = document.getElementById('play')!;
