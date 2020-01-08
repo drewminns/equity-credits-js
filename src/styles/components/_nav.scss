@@ -15,6 +15,11 @@
 
   &_headline {
     text-align: center;
+    display: none;
+
+    @include d-up {
+      display: block;
+    }
   }
 
   &_controls {
@@ -30,7 +35,7 @@
   background: none;
   border: none;
   padding: 0;
-  margin-right: 40px;
+  margin-right: 20px;
 
   &:last-child {
     margin-right: 0;

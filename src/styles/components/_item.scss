@@ -1,5 +1,6 @@
 .main_content {
   opacity: 0;
+  background: $black; // Used to overwrite Shopify application styles
 }
 
 .title {
@@ -144,7 +145,11 @@
 }
 
 .image {
-  width: 500px;
+  max-width: 100%;
+
+  @include d-up {
+    width: 500px;
+  }
   // position: absolute;
   // top: 0;
   // right: 0;

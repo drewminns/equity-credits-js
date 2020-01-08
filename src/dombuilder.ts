@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 
 import { SectionData, Section, GroupData } from './shared/interface';
-import utils from './styles/_utils.scss';
 import g from './styles/_grid.scss';
 import s from './styles/components/_item.scss';
 
@@ -25,7 +24,7 @@ export class DomBuilder {
   private _createMarkup = () => {
     this.MOUNT_POINT.insertAdjacentHTML('afterbegin', `
     ${nav}
-    <div class="${g.container}">
+    <div class="${clsx(g.container_fluid, g.wrap)}">
       ${intro}
       <main id="main_content" class="${s.main_content}">
         <ul>

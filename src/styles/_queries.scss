@@ -1,5 +1,5 @@
 @mixin d-up {
-  @media (min-width: 757px) {
+  @media (min-width: $md) {
     @content;
   }
 }

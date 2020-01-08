@@ -10,8 +10,11 @@
     font-size: 1.6rem;
     letter-spacing: -0.02em;
     opacity: 0;
+    line-height: 1.55;
 
     @include d-up {
+      margin-bottom: 50px;
+      line-height: 1.715;
       font-size: 2.8rem;
     }
   }
