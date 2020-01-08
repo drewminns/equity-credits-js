@@ -8,6 +8,7 @@ import shoppingBag from '../assets/shopping-bag.svg';
 import fastForward from '../assets/fast-forward.svg';
 import rewind from '../assets/rewind.svg';
 import pause from '../assets/pause.svg';
+import play from '../assets/play.svg';
 
 export const nav = (() => `
       <nav class="${clsx(s.nav)}" id="nav">
@@ -30,8 +31,8 @@ export const nav = (() => `
                 <span class="${s.icon}">${rewind}</span>
               </button>
               <button aria-label="Play" id="play" class="${s.button}">
-                <span class="${utils.hidden}">Pause</span>
-                <span class="${s.icon}">${pause}</span>
+                <span id="play--text" class="${utils.hidden}">Play</span>
+                <span id="play--icon" class="${s.icon}">${play}</span>
               </button>
               <button aria-label="Forward" id="forward" class="${s.button}">
                 <span class="${utils.hidden}">Shopify</span>
