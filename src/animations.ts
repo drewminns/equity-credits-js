@@ -12,6 +12,7 @@ export class Animations {
   CURRENT_SECTION: number;
   DISTANCE_MAP: Array<number>;
   SCROLL_OFFSET: number;
+  IS_USER_SCROLL: boolean;
 
 
   constructor() {
@@ -29,9 +30,11 @@ export class Animations {
     this.DISTANCE_MAP = [];
     this.CURRENT_SECTION = 0;
     this.SCROLL_OFFSET = 120;
+    this.IS_USER_SCROLL = false;
   }
 
   init = (SCROLL_TOP: number) : void => {
+    window.document.body.setAttribute('data-no-scroll', 'true');
     this.SCROLL_TOP = SCROLL_TOP;
     this.PAGE_HEIGHT = document.body.scrollHeight;
 
@@ -66,6 +69,31 @@ export class Animations {
     window.addEventListener('scroll', () => {
       this.CURRENT_SECTION = this.getCurrentSectionIndex();
       this.manageActiveButtons(forwardButton, backButton);
+    });
+  }
+
+  private manageUserScroll = () => {
+    let isScrolling: any;
+    window.addEventListener('wheel', (e) => {
+      let resumeScroll = false;
+
+      // If the page is not paused, pause it and let default scroll take over
+      if (!this.PAGE_SCROLLING_PAUSED) {
+        this.SCROLL_ANIMATION?.pause();
+        this.PAGE_SCROLLING_PAUSED = true;
+        resumeScroll = true;
+      }
+
+      if (resumeScroll) {
+        if (isScrolling) {
+          window.clearTimeout(isScrolling);
+        }
+
+        isScrolling = setTimeout(() => {
+          this.pageScroll();
+          this.PAGE_SCROLLING_PAUSED = false;
+        }, 100);
+      }
     });
   }
 
@@ -158,6 +186,7 @@ export class Animations {
     this.scrollFadeIn();
     this.pageScroll();
     this.navigationAnimation();
+    this.manageUserScroll();
   }
 
   private introAnimation = () => {
@@ -180,6 +209,7 @@ export class Animations {
 
     this.TIME_LINE.finished.then(() => {
       this.runScrolling();
+      window.document.body.removeAttribute('data-no-scroll');
     });
   }
 

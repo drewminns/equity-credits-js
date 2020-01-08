@@ -21,6 +21,11 @@ body {
   overflow-x: hidden;
 }
 
+[data-no-scroll] {
+  height: 100vh;
+  overflow-y: hidden;
+}
+
 ul {
   list-style: none;
   margin: 0;
