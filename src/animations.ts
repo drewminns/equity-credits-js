@@ -67,31 +67,42 @@ export class Animations {
       this.CURRENT_SECTION = this.getCurrentSectionIndex();
       this.manageActiveButtons(forwardButton, backButton);
     });
+
   }
 
-  private manageUserScroll = () => {
+  private listenUserScroll = () => {
+
     let isScrolling: any;
+
     window.addEventListener('wheel', (e) => {
-      let resumeScroll = false;
-
-      // If the page is not paused, pause it and let default scroll take over
-      if (!this.PAGE_SCROLLING_PAUSED) {
-        this.SCROLL_ANIMATION?.pause();
-        this.PAGE_SCROLLING_PAUSED = true;
-        resumeScroll = true;
-      }
-
-      if (resumeScroll) {
-        if (isScrolling) {
-          window.clearTimeout(isScrolling);
-        }
-
-        isScrolling = setTimeout(() => {
-          this.pageScroll();
-          this.PAGE_SCROLLING_PAUSED = false;
-        }, 100);
-      }
+      this.handleUserScroll(isScrolling);
     });
+
+    window.addEventListener('touchmove', (e) => {
+      this.handleUserScroll(isScrolling);
+    });
+  }
+
+  private handleUserScroll = (isScrolling: any) => {
+    let resumeScroll = false;
+
+    // If the page is not paused, pause it and let default scroll take over
+    if (!this.PAGE_SCROLLING_PAUSED) {
+      this.SCROLL_ANIMATION?.pause();
+      this.PAGE_SCROLLING_PAUSED = true;
+      resumeScroll = true;
+    }
+
+    if (resumeScroll) {
+      if (isScrolling) {
+        window.clearTimeout(isScrolling);
+      }
+
+      isScrolling = setTimeout(() => {
+        this.pageScroll();
+        this.PAGE_SCROLLING_PAUSED = false;
+      }, 100);
+    }
   }
 
   private manageActiveButtons = (f: Element, b: Element) => {
@@ -183,7 +194,7 @@ export class Animations {
     this.scrollFadeIn();
     this.pageScroll();
     this.navigationAnimation();
-    this.manageUserScroll();
+    this.listenUserScroll();
   }
 
   private introAnimation = () => {
