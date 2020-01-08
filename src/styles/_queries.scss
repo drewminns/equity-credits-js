@@ -5,7 +5,7 @@
 }
 
 @mixin portrait {
-  @media (orientation: portrait) and (max-width: 750px) {
+  @media (orientation: portrait) and (max-width: $md) and (-webkit-min-device-pixel-ratio: 2) and (hover: none) {
     @content;
   }
 }

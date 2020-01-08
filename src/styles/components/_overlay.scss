@@ -1,0 +1,61 @@
+.overlay {
+  display: none;
+  position: fixed;
+  z-index: 900;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+
+  &_wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background-image: linear-gradient(90deg, transparent, $green);
+    backdrop-filter: blur(2px);
+    position: relative;
+  }
+
+  &_container {
+    width: 100%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    display: flex;
+    position: relative;
+  }
+
+  &_image {
+    margin: auto;
+
+    & > svg {
+      height: 97px;
+    }
+  }
+
+  &_text {
+    position: absolute;
+    bottom: 0;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+
+    &_1 {
+      position: absolute;
+      display: inline-block;
+      transform: rotate(90deg);
+      top: -41px;
+      left: -22px;
+    }
+
+    &_2 {
+      position: relative;
+    }
+  }
+
+  @include portrait {
+    display: flex;
+    padding: 2rem;
+  }
+}
