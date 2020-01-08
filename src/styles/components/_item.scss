@@ -150,28 +150,23 @@
   @include d-up {
     width: 500px;
   }
-  // position: absolute;
-  // top: 0;
-  // right: 0;
-  // z-index: -1;
 }
 
 .pinned_container {
   width: 500px;
+  margin: 0 auto;
 
-  &--left {
+  @include d-up() {
+    &--left {
     position: absolute;
     top: 0;
     right: 0;
   }
 
-  &--right {
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-
-  &--center {
-    // background-color: limegreen;
+    &--right {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
   }
 }
