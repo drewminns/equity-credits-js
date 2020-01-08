@@ -137,17 +137,22 @@ export class Animations extends Window {
   }
 
   private getCurrentSectionIndex = () => {
-    const currentScroll = (window.pageYOffset || this.SCROLL_ELEMENT.scrollTop) - (this.SCROLL_ELEMENT.clientTop || 0) + this.SCROLL_OFFSET;
+    this.SCROLL_POSITION = (window.pageYOffset || this.SCROLL_ELEMENT.scrollTop) - (this.SCROLL_ELEMENT.clientTop || 0) + this.SCROLL_OFFSET;
 
     const index = this.DISTANCE_MAP.findIndex(item => {
-      return currentScroll < item;
+      return this.SCROLL_POSITION < item;
     });
 
     return index === -1 ? this.PAGE_SECTIONS.length - 1 : (index === 0 ? 0 : index - 1);
   }
 
   private rewind = (e: any, forward: Element, back: Element) => {
-    const newSectionIndex = this.CURRENT_SECTION - 1;
+    // we need to calculate how far into the current section one is
+    // If we are just starting in the section, go to the previous one
+    // if we are far into the curent section, go to the top
+    const sectionScrolled = this.SCROLL_POSITION - this.DISTANCE_MAP[this.CURRENT_SECTION] - this.SCROLL_OFFSET;
+
+    let newSectionIndex = sectionScrolled > 20 ? this.CURRENT_SECTION : this.CURRENT_SECTION - 1;
 
     if (newSectionIndex < 0) {
       return;
