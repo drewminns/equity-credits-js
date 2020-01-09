@@ -9,7 +9,7 @@ import { MagicTime } from './scrollmagic';
 import { Animations } from './animations';
 
 const endpoint = process.env.ENDPOINT || 'https://upcoming9.shopify.com/independents.json';
-const MOUNT_POINT: HTMLElement = document.getElementById('app')!;
+const MOUNT_POINT: HTMLElement = document.getElementById('App')!;
 
 const SCROLL_TOP = document.documentElement.scrollTop;
 

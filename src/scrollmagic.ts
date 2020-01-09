@@ -58,8 +58,6 @@ export class MagicTime extends Window {
     if (this.SECTION) {
       const pinSpacer = this.SECTION.querySelector('[data-scrollmagic-pin-spacer]');
 
-      console.log(pinSpacer);
-
       if (pinSpacer) this.unwrapEl(pinSpacer);
     }
   }
