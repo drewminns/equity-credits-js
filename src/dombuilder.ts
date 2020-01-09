@@ -7,6 +7,7 @@ import s from './styles/components/_item.scss';
 import { nav } from './components/nav';
 import { intro } from './components/intro';
 import { overlay } from './components/overlay';
+import { logo } from './components/logo';
 
 import arrow from './assets/arrow.svg';
 
@@ -32,6 +33,7 @@ export class DomBuilder {
       <main id="main_content" class="${s.main_content}">
         <ul>
           ${this.buildGroup()}
+          <li class="${s.logo_row}">${logo}</li>
         </ul>
       </main
     </div>

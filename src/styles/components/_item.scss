@@ -1,6 +1,11 @@
 .main_content {
   opacity: 0;
+  padding-bottom: 40vh;
   background: $black; // Used to overwrite Shopify application styles
+}
+
+.logo_row {
+  margin-top: 40vh;
 }
 
 .title {
@@ -182,6 +187,5 @@
       top: 0;
       left: 0;
     }
-
   }
 }
