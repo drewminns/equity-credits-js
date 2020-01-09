@@ -170,21 +170,18 @@
 
   @include desktop {
     width: 500px;
-  }
 
-  &--left {
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
+    &--left {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
 
-  &--right {
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
+    &--right {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
 
-  &--center {
-    // background-color: limegreen;
   }
 }
