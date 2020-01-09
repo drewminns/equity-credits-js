@@ -12,6 +12,7 @@ export class Animations extends Window {
   SCROLL_ELEMENT: Element;
   SCROLL_TOP: number;
   PAGE_SCROLLING_PAUSED: boolean;
+  USER_PAUSED: boolean;
   SCROLL_ANIMATION: AnimeInstance | null;
   SCROLL_POSITION: number;
   PAGE_SECTIONS: Array<Element>;
@@ -27,6 +28,7 @@ export class Animations extends Window {
     this.SCROLL_POSITION = 0;
     this.PAGE_HEIGHT = 0;
     this.PAGE_SCROLLING_PAUSED = false;
+    this.USER_PAUSED = false;
     this.SCROLL_ELEMENT = window.document.scrollingElement || window.document.body || window.document.documentElement;
     this.TIME_LINE = anime.timeline({
       easing: 'easeOutExpo',
@@ -75,6 +77,7 @@ export class Animations extends Window {
 
     button.addEventListener('click', () => {
       this.scrollControls(buttonText, buttonIcon);
+      this.USER_PAUSED = !this.USER_PAUSED;
     });
 
     backButton.addEventListener('click', (e) => {
@@ -103,7 +106,7 @@ export class Animations extends Window {
     if (isPortrait) {
       this.PAGE_SCROLLING_PAUSED = true;
       this.SCROLL_ANIMATION?.pause();
-    } else if (this.PAGE_SCROLLING_PAUSED) {
+    } else if (this.PAGE_SCROLLING_PAUSED && !this.USER_PAUSED) {
       this.PAGE_SCROLLING_PAUSED = false;
       this.pageScroll();
     }
@@ -127,6 +130,7 @@ export class Animations extends Window {
       this.SCROLL_ANIMATION?.pause();
       this.PAGE_SCROLLING_PAUSED = true;
       resumeScroll = true;
+      console.log('page is paused');
     }
 
     if (resumeScroll) {
