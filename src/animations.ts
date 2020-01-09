@@ -1,4 +1,6 @@
 import anime, { AnimeInstance, AnimeTimelineInstance } from 'animejs';
+import debounce from 'lodash.debounce';
+
 import { Window } from './window';
 
 import pause from './assets/pause.svg';
@@ -38,6 +40,7 @@ export class Animations extends Window {
   }
 
   init = (SCROLL_TOP: number) : void => {
+    this.windowResizeListener();
     this.SCROLL_TOP = SCROLL_TOP;
     this.PAGE_HEIGHT = document.body.scrollHeight;
     this.HAS_VIEWED = JSON.parse(window.localStorage.getItem('equity-viewed') as string);
@@ -78,6 +81,8 @@ export class Animations extends Window {
       this.fastForward(e, forwardButton, backButton);
     });
 
+    this.preventScrollInPortrait(this.breakpoint.isPortrait);
+    console.log(this.breakpoint)
     window.addEventListener('scroll', () => {
       this.CURRENT_SECTION = this.getCurrentSectionIndex();
       this.manageActiveButtons(forwardButton, backButton);
@@ -85,22 +90,37 @@ export class Animations extends Window {
 
   }
 
+  windowResizeListener = () => {
+    window.addEventListener('resize', debounce(() => {
+      const { innerHeight : height, innerWidth: width  } = window;
+      this.windowSize = { height, width };
+      this.preventScrollInPortrait(this.breakpoint.isPortrait);
+    }, 400));
+  }
+
+  private preventScrollInPortrait(isPortrait: boolean) {
+    if (isPortrait) {
+      this.PAGE_SCROLLING_PAUSED = true;
+      this.SCROLL_ANIMATION?.pause();
+    } else if (this.PAGE_SCROLLING_PAUSED) {
+      this.PAGE_SCROLLING_PAUSED = false;
+      this.pageScroll();
+    }
+  }
+
   private listenUserScroll = () => {
-
-    let isScrolling: any;
-
     window.addEventListener('wheel', (e) => {
-      this.handleUserScroll(isScrolling);
+      this.handleUserScroll();
     });
 
     window.addEventListener('touchmove', (e) => {
-      this.handleUserScroll(isScrolling);
+      this.handleUserScroll();
     });
   }
 
-  private handleUserScroll = (isScrolling: any) => {
+  private handleUserScroll = () => {
     let resumeScroll = false;
-
+    let isScrolling: any;
     // If the page is not paused, pause it and let default scroll take over
     if (!this.PAGE_SCROLLING_PAUSED) {
       this.SCROLL_ANIMATION?.pause();
@@ -116,7 +136,7 @@ export class Animations extends Window {
       isScrolling = setTimeout(() => {
         this.pageScroll();
         this.PAGE_SCROLLING_PAUSED = false;
-      }, 100);
+      }, 2000);
     }
   }
 
