@@ -14,7 +14,7 @@ export const nav = (() => `
       <nav class="${clsx(s.nav)}" id="nav">
         <div class="${clsx(g.container_fluid, g.wrap)}">
           <div class="${clsx(g.row, s.nav_row)}">
-            <div class="${clsx(g.col_md_3, g.col_xs_6, s.logo)}">
+            <div class="${clsx(g.col_sm_3, g.col_xs_6, s.logo)}">
               <h1>
                 <a href="https://shopify.com">
                 <span class="${s.logo}">${shoppingBag}</span>
@@ -22,10 +22,10 @@ export const nav = (() => `
                 </a>
               </h1>
             </div>
-            <div class="${clsx(g.col_md_6, s.nav_headline)}">
+            <div class="${clsx(g.col_sm_6, s.nav_headline)}">
               <p>Supporting Independents</p>
             </div>
-            <div class="${clsx(g.col_md_3, g.col_xs_6, s.nav_controls)}">
+            <div class="${clsx(g.col_sm_3, g.col_xs_6, s.nav_controls)}">
               <button aria-label="Back" id="back" class="${s.button}">
                 <span class="${utils.hidden}">Back</span>
                 <span class="${s.icon}">${rewind}</span>

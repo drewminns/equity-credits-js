@@ -17,13 +17,15 @@
     text-align: center;
     display: none;
 
-    @include d-up {
+    @include tablet {
       display: block;
     }
   }
 
   &_controls {
     text-align: right;
+    display: flex;
+    justify-content: flex-end;
   }
 }
 
