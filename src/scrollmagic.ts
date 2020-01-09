@@ -24,7 +24,7 @@ export class MagicTime extends Window {
   private initScrollMagic = () => {
     this.CONTROLLER = new ScrollMagic.Controller();
 
-    if (this.SECTION) {
+    if (this.SECTION && (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm')) {
       const wrapper = this.SECTION.querySelector('[data-section-wrap]');
 
       if (wrapper) {
@@ -58,6 +58,8 @@ export class MagicTime extends Window {
     if (this.SECTION) {
       const pinSpacer = this.SECTION.querySelector('[data-scrollmagic-pin-spacer]');
 
+      console.log(pinSpacer);
+
       if (pinSpacer) this.unwrapEl(pinSpacer);
     }
   }
@@ -78,8 +80,10 @@ export class MagicTime extends Window {
   windowResizeListener = () => {
     window.addEventListener('resize', debounce(() => {
 
-      this.CONTROLLER.destroy();
-      this.CONTROLLER = null;
+      if (this.CONTROLLER) {
+        this.CONTROLLER.destroy();
+        this.CONTROLLER = null;
+      }
       this.cleanupScrollMagic();
 
       if (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm') {
