@@ -33,7 +33,6 @@ export class DomBuilder {
       <main id="main_content" class="${s.main_content}">
         <ul>
           ${this.buildGroup()}
-          <li class="${s.logo_row}">${logo}</li>
         </ul>
       </main
     </div>

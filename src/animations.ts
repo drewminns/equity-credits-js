@@ -110,11 +110,11 @@ export class Animations extends Window {
 
   private listenUserScroll = () => {
     window.addEventListener('wheel', (e) => {
-      // this.handleUserScroll();
+      this.handleUserScroll();
     });
 
     window.addEventListener('touchmove', (e) => {
-      // this.handleUserScroll();
+      this.handleUserScroll();
     });
   }
 
@@ -232,7 +232,7 @@ export class Animations extends Window {
     introText2.style.opacity = '1';
 
     this.scrollFadeIn();
-    // this.pageScroll();
+    this.pageScroll();
     this.navigationAnimation();
     this.listenUserScroll();
   }
