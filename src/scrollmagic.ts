@@ -16,61 +16,53 @@ export class MagicTime extends Window {
 
   init = (section: any) => {
     this.SECTION = section;
-    this.CONTROLLER = new ScrollMagic.Controller();
 
     this.windowResizeListener();
+    this.initScrollMagic();
+  }
 
-    const wrapper = section.querySelector('[data-section-wrap]');
+  private initScrollMagic = () => {
+    this.CONTROLLER = new ScrollMagic.Controller();
 
-    if (wrapper) {
-      const top = wrapper.getBoundingClientRect().top;
-      // Check if wrapper has images
-      const pin = wrapper.querySelector('.pin-me');
+    if (this.SECTION) {
+      const wrapper = this.SECTION.querySelector('[data-section-wrap]');
 
-      if (pin) {
+      if (wrapper) {
+        const top = wrapper.getBoundingClientRect().top;
+        // Check if wrapper has images
+        const pin = wrapper.querySelector('.pin-me');
 
-        const stopper = wrapper.querySelector('li[data-layout]');
-        const stopTop = stopper.getBoundingClientRect().top;
+        if (pin) {
 
-        const distance = stopTop - top - 262;
+          const stopper = wrapper.querySelector('li[data-layout]')!;
+          const stopTop = stopper.getBoundingClientRect().top;
 
-        if (distance >= 0) {
-          this.SCENE = new ScrollMagic.Scene({
-            triggerElement: section,
-            duration: distance,
-            triggerHook: 0.4,
-            reverse: false,
-          })
-            .setPin(pin, { pushFollowers: false })
-            .addTo(this.CONTROLLER);
+          const distance = stopTop - top - 262;
+
+          if (distance >= 0) {
+            this.SCENE = new ScrollMagic.Scene({
+              triggerElement: this.SECTION,
+              duration: distance,
+              triggerHook: 0.4,
+              reverse: false,
+            })
+              .setPin(pin, { pushFollowers: false })
+              .addTo(this.CONTROLLER);
+          }
         }
       }
     }
   }
 
-  cleanupScrollMagic() {
-    console.log('destroy scrollmagic');
+  private cleanupScrollMagic() {
     if (this.SECTION) {
       const pinSpacer = this.SECTION.querySelector('[data-scrollmagic-pin-spacer]');
 
-      if (pinSpacer) this.unwrap(pinSpacer);
+      if (pinSpacer) this.unwrapEl(pinSpacer);
     }
-
   }
 
-  windowResizeListener = () => {
-    window.addEventListener('resize', debounce(() => {
-
-      console.log(this.windowSize);
-      console.log(this.breakpoint);
-
-      if (this.breakpoint.name === 'xs' || this.breakpoint.name === 'sm' ) {
-        console.log('kill scrollmagic!');
-      }
-    }, 400));
-  }
-
-  private unwrap(el: Element) {
+  private unwrapEl(el: Element) {
     const parent = el.parentNode!;
     const pin = parent.querySelector('.pin-me')!;
 
@@ -83,29 +75,17 @@ export class MagicTime extends Window {
     parent.removeChild(el);
   }
 
-  private handleResize = () => {
-
-    let resizeTimer: any = null;
-
+  windowResizeListener = () => {
     window.addEventListener('resize', debounce(() => {
 
-      // this.trackEvents();
+      this.CONTROLLER.destroy();
+      this.cleanupScrollMagic();
 
-      if (resizeTimer) {
-        clearTimeout(resizeTimer)
+      if (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm') {
+        this.initScrollMagic();
       }
 
-      resizeTimer = setTimeout(() => {
-        console.log('STOPPED RESIZE');
-
-        this.CONTROLLER.destroy(true);
-        this.CONTROLLER = null;
-
-        // if (this.WINDOW_SIZE.width > this.BREAKPOINTS.tablet && (this.CONTROLLER === null || this.CONTROLLER === undefined)) {
-        //   this.setupMagic(this.SECTION);
-        // }
-      }, 250);
-
-    }));
+    }, 400));
   }
+
 }
