@@ -72,11 +72,11 @@ export class DomBuilder {
   }
 
   private buildListItem(item: SectionData, layout: string) {
-    if (item.hasOwnProperty('image')) {
+    if (Object.entries(item.media).length !== 0) {
       const alignClass=`pinned_container--${layout}`;
       const media = `
         <div class="${clsx(s.pinned_container, s[alignClass])}${ layout !== 'center' ? ' pin-me' : '' }">
-          <img id="image-${item.shop_id}" class="${s.image}" src="${item.image.url}" alt="${item.image.alt}">
+          <img id="image-${item.shop_id}" class="${s.image}" src="${item.media.tablet_up.small.url}" alt="${item.media.alt_text}">
         </div>`;
       return `
       <li class="${clsx(s.item)}" data-layout="${layout}">
