@@ -1,6 +1,11 @@
 .main_content {
   opacity: 0;
+  padding-bottom: 40vh;
   background: $black; // Used to overwrite Shopify application styles
+}
+
+.logo_row {
+  margin-top: 40vh;
 }
 
 .title {
@@ -37,10 +42,15 @@
   display: flex;
   position: relative;
   align-items: flex-start;
-  padding: 10px 0;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 13px;
+  line-height: 1.6;
+  letter-spacing: 0.4px;
   margin: 0;
+
+  @include desktop {
+    font-size: 16px;
+    line-height: 24px;
+  }
 }
 
 .item_text {
@@ -55,24 +65,19 @@
 
   a {
     position: relative;
-    display: inline-block;
+    overflow-wrap: break-word;
+    text-decoration: none;
+    color: $white;
 
-    @include d-up {
-      span {
-        position: absolute;
-      }
+    span {
+      position: absolute;
+      right: -18px;
+      top: 0;
     }
   }
 
   span {
     display: inline-block;
-  }
-
-  a,
-  span {
-    text-decoration: none;
-    color: $white;
-    overflow-wrap: break-word;
   }
 
   .arrow svg {
@@ -82,10 +87,20 @@
 
 .merchant_products {
   display: inline-block;
-  width: calc(50% - 32px);
+  width: calc(50% - 12px);
+  margin-right: 12px;
   position: relative;
-  margin-right: 32px;
   text-align: right;
+
+  @include tablet {
+    width: calc(50% - 20px);
+    margin-right: 20px;
+  }
+
+  @include desktop {
+    width: calc(50% - 32px);
+    margin-right: 32px;
+  }
 
   a {
     position: relative;
@@ -112,7 +127,7 @@
     display: flex;
     flex-direction: column-reverse;
   }
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .item_has_image {
@@ -132,7 +147,7 @@
     margin-right: -50vw;
   }
 
-  @include d-up {
+  @include desktop {
     &[data-layout="center"]:before {
       width: 100vw;
     }
@@ -150,7 +165,7 @@
 .image {
   max-width: 100%;
 
-  @include d-up {
+  @include desktop {
     width: 500px;
   }
 }
@@ -158,7 +173,7 @@
 .pinned_container {
   width: 100%;
 
-  @include d-up {
+  @include desktop {
     width: 500px;
 
     &--left {
@@ -172,6 +187,5 @@
       top: 0;
       left: 0;
     }
-
   }
 }

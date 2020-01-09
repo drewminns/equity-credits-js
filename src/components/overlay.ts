@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 
-import g from '../styles/_grid.scss';
 import s from '../styles/components/_overlay.scss';
 
 import rotate from '../assets/rotate.svg';

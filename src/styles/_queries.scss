@@ -1,11 +1,17 @@
-@mixin d-up {
+@mixin tablet {
+  @media (min-width: $sm) {
+    @content;
+  }
+}
+
+@mixin desktop {
   @media (min-width: $md) {
     @content;
   }
 }
 
 @mixin portrait {
-  @media (orientation: portrait) and (max-width: $md) and (-webkit-min-device-pixel-ratio: 2) and (hover: none) {
+  @media (orientation: portrait) and (max-width: $sm - 1) and (-webkit-min-device-pixel-ratio: 2) and (hover: none) {
     @content;
   }
 }

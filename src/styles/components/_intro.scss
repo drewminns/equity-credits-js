@@ -7,14 +7,20 @@
   margin-bottom: 100px;
 
   p {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
     letter-spacing: -0.02em;
     opacity: 0;
     line-height: 1.55;
 
-    @include d-up {
+    @include tablet {
+      letter-spacing: 0;
+      font-size: 1.6rem;
+      line-height: 1.75;
+    }
+
+    @include desktop {
       margin-bottom: 50px;
-      line-height: 1.715;
+      line-height: 1.5;
       font-size: 2.8rem;
     }
   }
@@ -23,7 +29,7 @@
     height: 90vh;
     align-items: center;
 
-    @include d-up {
+    @include desktop {
       height: 90vh;
     }
   }
