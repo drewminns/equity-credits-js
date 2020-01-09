@@ -12,6 +12,7 @@ export class Animations extends Window {
   SCROLL_ELEMENT: Element;
   SCROLL_TOP: number;
   PAGE_SCROLLING_PAUSED: boolean;
+  USER_PAUSED: boolean;
   SCROLL_ANIMATION: AnimeInstance | null;
   SCROLL_POSITION: number;
   PAGE_SECTIONS: Array<Element>;
@@ -19,6 +20,7 @@ export class Animations extends Window {
   DISTANCE_MAP: Array<number>;
   SCROLL_OFFSET: number;
   HAS_VIEWED: boolean;
+  PLAY_PAUSE_BUTTON: any;
 
   constructor() {
     super();
@@ -27,6 +29,7 @@ export class Animations extends Window {
     this.SCROLL_POSITION = 0;
     this.PAGE_HEIGHT = 0;
     this.PAGE_SCROLLING_PAUSED = false;
+    this.USER_PAUSED = false;
     this.SCROLL_ELEMENT = window.document.scrollingElement || window.document.body || window.document.documentElement;
     this.TIME_LINE = anime.timeline({
       easing: 'easeOutExpo',
@@ -40,7 +43,8 @@ export class Animations extends Window {
   }
 
   init = (SCROLL_TOP: number) : void => {
-    this.windowResizeListener();
+
+    this.PLAY_PAUSE_BUTTON = document.getElementById('play')!;
     this.SCROLL_TOP = SCROLL_TOP;
     this.PAGE_HEIGHT = document.body.scrollHeight;
     this.HAS_VIEWED = JSON.parse(window.localStorage.getItem('equity-viewed') as string);
@@ -53,8 +57,6 @@ export class Animations extends Window {
       return item.getBoundingClientRect().top;
     });
 
-    this.attachEventListeners();
-
     if (this.SCROLL_TOP === 0 && !this.HAS_VIEWED) {
       window.document.body.setAttribute('data-no-scroll', 'true');
       this.introAnimation();
@@ -62,20 +64,26 @@ export class Animations extends Window {
       this.runScrolling();
     }
 
+    this.attachEventListeners();
     this.preventScrollInPortrait(this.breakpoint.isPortrait);
 
   }
 
   private attachEventListeners = () => {
-    const button = document.getElementById('play')!;
-    const buttonText = document.getElementById('play--text')!;
-    const buttonIcon = document.getElementById('play--icon')!;
+
+    if (this.PLAY_PAUSE_BUTTON) {
+
+      this.PLAY_PAUSE_BUTTON.addEventListener('click', () => {
+
+        if (this.PLAY_PAUSE_BUTTON.disabled) return;
+
+        this.scrollControls();
+        this.USER_PAUSED = !this.USER_PAUSED;
+      });
+    }
+
     const backButton = document.getElementById('back')!;
     const forwardButton = document.getElementById('forward')!;
-
-    button.addEventListener('click', () => {
-      this.scrollControls(buttonText, buttonIcon);
-    });
 
     backButton.addEventListener('click', (e) => {
       this.rewind(e, forwardButton, backButton);
@@ -89,24 +97,12 @@ export class Animations extends Window {
       this.CURRENT_SECTION = this.getCurrentSectionIndex();
       this.manageActiveButtons(forwardButton, backButton);
     });
-  }
 
-  windowResizeListener = () => {
     window.addEventListener('resize', debounce(() => {
-      const { innerHeight : height, innerWidth: width  } = window;
+      const { innerHeight: height, innerWidth: width } = window;
       this.windowSize = { height, width };
       this.preventScrollInPortrait(this.breakpoint.isPortrait);
     }, 400));
-  }
-
-  private preventScrollInPortrait(isPortrait: boolean) {
-    if (isPortrait) {
-      this.PAGE_SCROLLING_PAUSED = true;
-      this.SCROLL_ANIMATION?.pause();
-    } else if (this.PAGE_SCROLLING_PAUSED) {
-      this.PAGE_SCROLLING_PAUSED = false;
-      this.pageScroll();
-    }
   }
 
   private listenUserScroll = () => {
@@ -119,24 +115,44 @@ export class Animations extends Window {
     });
   }
 
+  private preventScrollInPortrait(isPortrait: boolean) {
+    if (isPortrait) {
+      this.PAGE_SCROLLING_PAUSED = true;
+      this.SCROLL_ANIMATION?.pause();
+    } else if (this.PAGE_SCROLLING_PAUSED && !this.USER_PAUSED) {
+      this.PAGE_SCROLLING_PAUSED = false;
+      this.pageScroll();
+    }
+  }
+
   private handleUserScroll = () => {
     let resumeScroll = false;
     let isScrolling: any;
+
     // If the page is not paused, pause it and let default scroll take over
     if (!this.PAGE_SCROLLING_PAUSED) {
       this.SCROLL_ANIMATION?.pause();
       this.PAGE_SCROLLING_PAUSED = true;
+      this.USER_PAUSED = true;
+      this.managePlayBtnState('play');
       resumeScroll = true;
     }
 
     if (resumeScroll) {
+
       if (isScrolling) {
         window.clearTimeout(isScrolling);
       }
 
       isScrolling = setTimeout(() => {
-        this.pageScroll();
-        this.PAGE_SCROLLING_PAUSED = false;
+
+        // We need to check if scrolling has resumed in the meantime
+        // This could be via play/pause click
+        if (this.PAGE_SCROLLING_PAUSED) {
+
+          this.manageScrollState('play');
+          this.USER_PAUSED = false;
+        }
       }, 2000);
     }
   }
@@ -197,6 +213,8 @@ export class Animations extends Window {
     const scrollTop = window.pageYOffset + nextSection.getBoundingClientRect().top - this.SCROLL_OFFSET;
     let resumeScroll = false;
 
+    this.PLAY_PAUSE_BUTTON.setAttribute('disabled', true);
+
     if (!this.PAGE_SCROLLING_PAUSED) {
       this.SCROLL_ANIMATION?.pause();
       this.PAGE_SCROLLING_PAUSED = true;
@@ -209,6 +227,7 @@ export class Animations extends Window {
       easing: 'linear',
       duration: 1000,
       complete: () => {
+        this.PLAY_PAUSE_BUTTON.removeAttribute('disabled');
         if (resumeScroll) {
           this.pageScroll();
           this.PAGE_SCROLLING_PAUSED = false;
@@ -281,19 +300,41 @@ export class Animations extends Window {
     });
   }
 
-  private scrollControls = (text: Element, icon: Element) => {
+  private managePlayBtnState = (state: string) => {
+
+    if (this.PLAY_PAUSE_BUTTON) {
+      const text = document.getElementById('play--text')!;
+      const icon = document.getElementById('play--icon')!;
+
+      if (state === 'play') {
+        text.innerHTML = 'Play';
+        icon.innerHTML = play;
+      } else {
+        text.innerHTML = 'Pause';
+        icon.innerHTML = pause;
+      }
+    }
+  }
+
+  private manageScrollState(state: string = 'pause') {
     if (!this.SCROLL_ANIMATION) return;
 
-    if (!this.PAGE_SCROLLING_PAUSED) {
-      this.SCROLL_ANIMATION.pause();
-      this.PAGE_SCROLLING_PAUSED = true;
-      text.innerHTML = 'Play';
-      icon.innerHTML = play;
-    } else {
+    if (state === 'play') {
       this.pageScroll();
       this.PAGE_SCROLLING_PAUSED = false;
-      text.innerHTML = 'Pause';
-      icon.innerHTML = pause;
+      this.managePlayBtnState('pause');
+    } else {
+      this.SCROLL_ANIMATION.pause();
+      this.PAGE_SCROLLING_PAUSED = true;
+      this.managePlayBtnState('play');
+    }
+  }
+
+  private scrollControls = () => {
+    if (!this.PAGE_SCROLLING_PAUSED) {
+      this.manageScrollState('pause');
+    } else {
+      this.manageScrollState('play');
     }
   }
 
