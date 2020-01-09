@@ -53,6 +53,7 @@ export class Animations extends Window {
       return item.getBoundingClientRect().top;
     });
 
+    this.attachEventListeners();
 
     if (this.SCROLL_TOP === 0 && !this.HAS_VIEWED) {
       window.document.body.setAttribute('data-no-scroll', 'true');
@@ -61,17 +62,20 @@ export class Animations extends Window {
       this.runScrolling();
     }
 
+    this.preventScrollInPortrait(this.breakpoint.isPortrait);
 
+  }
+
+  private attachEventListeners = () => {
     const button = document.getElementById('play')!;
     const buttonText = document.getElementById('play--text')!;
     const buttonIcon = document.getElementById('play--icon')!;
-    // button.onclick = () =>
+    const backButton = document.getElementById('back')!;
+    const forwardButton = document.getElementById('forward')!;
+
     button.addEventListener('click', () => {
       this.scrollControls(buttonText, buttonIcon);
     });
-
-    const backButton = document.getElementById('back')!;
-    const forwardButton = document.getElementById('forward')!;
 
     backButton.addEventListener('click', (e) => {
       this.rewind(e, forwardButton, backButton);
@@ -81,13 +85,10 @@ export class Animations extends Window {
       this.fastForward(e, forwardButton, backButton);
     });
 
-    this.preventScrollInPortrait(this.breakpoint.isPortrait);
-    console.log(this.breakpoint)
     window.addEventListener('scroll', () => {
       this.CURRENT_SECTION = this.getCurrentSectionIndex();
       this.manageActiveButtons(forwardButton, backButton);
     });
-
   }
 
   windowResizeListener = () => {
