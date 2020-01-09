@@ -18,6 +18,8 @@ export class MagicTime extends Window {
     this.SECTION = section;
     this.CONTROLLER = new ScrollMagic.Controller();
 
+    this.windowResizeListener();
+
     const wrapper = section.querySelector('[data-section-wrap]');
 
     if (wrapper) {
@@ -56,6 +58,18 @@ export class MagicTime extends Window {
 
   }
 
+  windowResizeListener = () => {
+    window.addEventListener('resize', debounce(() => {
+
+      console.log(this.windowSize);
+      console.log(this.breakpoint);
+
+      if (this.breakpoint.name === 'xs' || this.breakpoint.name === 'sm' ) {
+        console.log('kill scrollmagic!');
+      }
+    }, 400));
+  }
+
   private unwrap(el: Element) {
     const parent = el.parentNode!;
     const pin = parent.querySelector('.pin-me')!;
@@ -67,5 +81,31 @@ export class MagicTime extends Window {
 
     // remove the empty element
     parent.removeChild(el);
+  }
+
+  private handleResize = () => {
+
+    let resizeTimer: any = null;
+
+    window.addEventListener('resize', debounce(() => {
+
+      // this.trackEvents();
+
+      if (resizeTimer) {
+        clearTimeout(resizeTimer)
+      }
+
+      resizeTimer = setTimeout(() => {
+        console.log('STOPPED RESIZE');
+
+        this.CONTROLLER.destroy(true);
+        this.CONTROLLER = null;
+
+        // if (this.WINDOW_SIZE.width > this.BREAKPOINTS.tablet && (this.CONTROLLER === null || this.CONTROLLER === undefined)) {
+        //   this.setupMagic(this.SECTION);
+        // }
+      }, 250);
+
+    }));
   }
 }
