@@ -79,6 +79,7 @@ export class MagicTime extends Window {
     window.addEventListener('resize', debounce(() => {
 
       this.CONTROLLER.destroy();
+      this.CONTROLLER = null;
       this.cleanupScrollMagic();
 
       if (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm') {
