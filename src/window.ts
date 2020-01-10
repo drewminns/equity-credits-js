@@ -38,19 +38,24 @@ export abstract class Window {
   }
 
   private trackWindowSize()  {
-      this._IS_PORTRAIT = window.matchMedia('(orientation: portrait) and (max-width: 544px) and (-webkit-min-device-pixel-ratio: 2) and (hover: none)').matches;
+    this._IS_PORTRAIT = window.matchMedia('(orientation: portrait) and (max-width: 544px) and (-webkit-min-device-pixel-ratio: 2) and (hover: none)').matches;
+    let viewportSize = 'xs';
 
-      if (window.matchMedia('min-width: 1456px)').matches) {
-        this._VIEWPORT_SIZE = 'xl';
-      } else if (window.matchMedia('(min-width: 996px)').matches) {
-        this._VIEWPORT_SIZE = 'lg';
-      } else if (window.matchMedia('(min-width: 768px)').matches) {
-        this._VIEWPORT_SIZE = 'md';
-      } else if (window.matchMedia('(min-width: 544px)').matches) {
-        this._VIEWPORT_SIZE = 'sm';
-      } else {
-        this._VIEWPORT_SIZE = 'xs';
-      }
+    if (window.matchMedia('min-width: 1456px)').matches) {
+      viewportSize = 'xl';
+    } else if (window.matchMedia('(min-width: 996px)').matches) {
+      viewportSize = 'lg';
+    } else if (window.matchMedia('(min-width: 768px)').matches) {
+      viewportSize = 'md';
+    } else if (window.matchMedia('(min-width: 544px)').matches) {
+      viewportSize = 'sm';
+    } else {
+      viewportSize = 'xs';
+    }
+
+    document.body.setAttribute('data-viewport-size', viewportSize);
+    this._VIEWPORT_SIZE = viewportSize;
+
   }
 
 }
