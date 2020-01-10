@@ -42,14 +42,14 @@
   display: flex;
   position: relative;
   align-items: flex-start;
-  font-size: 13px;
+  font-size: 1.4rem;
   line-height: 1.6;
   letter-spacing: 0.4px;
   margin: 0;
 
   @include desktop {
     font-size: 16px;
-    line-height: 24px;
+    line-height: 1.6;
   }
 }
 
@@ -72,6 +72,8 @@
     span {
       position: absolute;
       right: -18px;
+      display: inline-block;
+      width: 16px;
       top: 0;
     }
   }
@@ -127,8 +129,16 @@
   flex-direction: column-reverse;
   margin-bottom: 20px;
 
+  &[data-layout] {
+    margin-top: 40px;
+  }
+
   @include desktop {
     display: block;
+
+    &[data-layout] {
+      margin-top: auto;
+    }
 
     &[data-layout="center"] {
       display: flex;
