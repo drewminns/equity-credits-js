@@ -21,10 +21,12 @@ export class Animations extends Window {
   SCROLL_OFFSET: number;
   HAS_VIEWED: boolean;
   PLAY_PAUSE_BUTTON: any;
+  LINKS: NodeListOf<Element> | null;
 
   constructor() {
     super();
     this.SCROLL_ANIMATION = null;
+    this.LINKS = null;
     this.SCROLL_TOP = 0;
     this.SCROLL_POSITION = 0;
     this.PAGE_HEIGHT = 0;
@@ -43,7 +45,7 @@ export class Animations extends Window {
   }
 
   init = (SCROLL_TOP: number) : void => {
-
+    this.LINKS = document.querySelectorAll('.product_link');
     this.PLAY_PAUSE_BUTTON = document.getElementById('play')!;
     this.SCROLL_TOP = SCROLL_TOP;
     this.PAGE_HEIGHT = document.body.scrollHeight;
@@ -93,6 +95,14 @@ export class Animations extends Window {
       this.fastForward(e, forwardButton, backButton);
     });
 
+    if (this.LINKS) {
+      this.LINKS.forEach((el) => {
+        el.addEventListener('mouseover', () => {
+          this.handleUserScroll(true);
+        })
+      });
+    }
+
     window.addEventListener('scroll', () => {
       this.CURRENT_SECTION = this.getCurrentSectionIndex();
       this.manageActiveButtons(forwardButton, backButton);
@@ -125,7 +135,7 @@ export class Animations extends Window {
     }
   }
 
-  private handleUserScroll = () => {
+  private handleUserScroll = (quick = false) => {
     let resumeScroll = false;
     let isScrolling: any;
 
@@ -153,7 +163,7 @@ export class Animations extends Window {
           this.manageScrollState('play');
           this.USER_PAUSED = false;
         }
-      }, 2000);
+      }, quick ? 1000 : 3500);
     }
   }
 
@@ -296,7 +306,7 @@ export class Animations extends Window {
     this.SCROLL_ANIMATION = anime({
       targets: this.SCROLL_ELEMENT,
       scrollTop: this.PAGE_HEIGHT + 500,
-      duration: (this.PAGE_HEIGHT - currentScroll) / .009
+      duration: (this.PAGE_HEIGHT - currentScroll) / .007
     });
   }
 

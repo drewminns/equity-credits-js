@@ -113,7 +113,7 @@ export class DomBuilder {
 
           </span>
           <span class="${s.item_text}">
-            <a target="_blank" rel="noopener noreferrer" href="${item.shop_url}">${item.shop_name} <span class="${s.arrow}">${arrow}</span></a>
+            <a target="_blank" class="product_link" rel="noopener noreferrer" href="${item.shop_url}">${item.shop_name} <span class="${s.arrow}">${arrow}</span></a>
           </span>
         </p>
         ${ media }
@@ -131,7 +131,7 @@ export class DomBuilder {
             }
           </span>
           <span class="${s.item_text}">
-            <a target="_blank" rel="noopener noreferrer" href="${item.shop_url}">${item.shop_name} <span class="${s.arrow}">${arrow}</span></a>
+            <a target="_blank" class="product_link" rel="noopener noreferrer" href="${item.shop_url}">${item.shop_name} <span class="${s.arrow}">${arrow}</span></a>
           </span>
         </p>
       </li>
