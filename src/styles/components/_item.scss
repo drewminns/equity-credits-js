@@ -31,7 +31,11 @@
 }
 
 .section_minor {
-  margin-bottom: 134px;
+  margin-top: 134px;
+
+  &:first-child {
+    margin-top: 0;
+  }
 }
 
 .section_wrapper {

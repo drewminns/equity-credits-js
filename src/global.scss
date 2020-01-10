@@ -59,3 +59,9 @@ li[data-layout] ~ li[data-layout] {
     display: none;
   }
 }
+
+[data-center] + [data-center],
+[data-left] + [data-left],
+[data-right] + [data-right] {
+  margin-top: 0;
+}
