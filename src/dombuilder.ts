@@ -44,11 +44,21 @@ export class DomBuilder {
 
     const { sections, title, group_name: name } = group;
     return sections.map((sec: Section, idx: Number) => {
+
+      console.log(sec);
+
+      if (sec.hasOwnProperty('media') && sec.media.hasOwnProperty('tablet_up') && sec.media.hasOwnProperty('mobile')) {
+        console.log('MEDIA');
+        console.log(sec.media);
+      }
+
+
       return `
         <div data-${sec.layout} class="${clsx(g.row, s.section_minor)}">
           <section id="section-${name}-${sec.section_id}" class="" data-layout="${sec.layout}">
           ${ idx === 0 ? `<h2 class="${s.title}">${title}</h2>` : '' }
           <div class="${s.section_wrapper}" data-section-wrap>
+
             <ul class="${s.section_list_group} ${
               clsx(g.col_md_6,
                 s.section_list,
@@ -72,7 +82,8 @@ export class DomBuilder {
   }
 
   private buildListItem(item: SectionData, layout: string) {
-    if (Object.entries(item.media).length !== 0) {
+
+    if (item.hasOwnProperty('media') && Object.entries(item.media).length !== 0) {
       const alignClass=`pinned_container--${layout}`;
       const media = `
         <div
