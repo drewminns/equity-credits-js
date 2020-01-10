@@ -5,6 +5,7 @@ type Dimensions = {
 
 export interface Media {
   alt_text: string;
+  caption: string;
   tablet_up: {
     small: {
       url: string;

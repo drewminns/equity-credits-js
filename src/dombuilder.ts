@@ -98,7 +98,7 @@ export class DomBuilder {
                 alt="${item.media.alt_text}"
               >
             </picture>
-            <figcaption class="${s[`caption--${ layout }`]}">This is an image caption</figcaption>
+            <figcaption class="${s[`caption--${ layout }`]}">${item.media.caption}</figcaption>
           </figure>
         </div>`;
       return `
