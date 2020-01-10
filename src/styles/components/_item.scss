@@ -192,7 +192,16 @@
 .pinned_container {
   width: 100vw;
   position: relative;
-  left: -2rem;
+
+  figure {
+    width: 100vw;
+    margin-left: -2rem;
+
+    @include desktop {
+      width: auto;
+      margin-left: auto;
+    }
+  }
 
   @include desktop {
     width: 500px;
