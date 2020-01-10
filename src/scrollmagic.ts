@@ -36,8 +36,9 @@ export class MagicTime extends Window {
 
           const stopper = wrapper.querySelector('li[data-layout]')!;
           const stopTop = stopper.getBoundingClientRect().top;
+          const height = pin.getBoundingClientRect().height;
 
-          const distance = stopTop - top - 262;
+          const distance = stopTop - top - height;
 
           if (distance >= 0) {
             this.SCENE = new ScrollMagic.Scene({
