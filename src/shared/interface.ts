@@ -39,16 +39,10 @@ export interface Section {
   section_id: number;
   layout: string;
   merchants: SectionData[];
-  media: {
-    alt_text: string;
-    caption_text: string;
-    tablet_up: Media;
-    mobile: Media;
-  };
 }
 
 export interface GroupData {
   title: string;
-  groupname: string;
+  group_name: string;
   sections: Section[];
 }
