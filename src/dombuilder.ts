@@ -86,17 +86,20 @@ export class DomBuilder {
           data-mobile-small-height="${item.media.mobile.small.dimensions.height}"
           data-mobile-small-width="${item.media.mobile.small.dimensions.width}"
         >
-          <picture>
-            <source srcset="${item.media.tablet_up.large.url}" media="(min-width: 996px)">
-            <source srcset="${item.media.tablet_up.small.url}" media="(min-width: 768px)">
-            <source srcset="${item.media.mobile.large.url}" media="(min-width: 544px)">
-            <img
-              id="image-${item.shop_id}"
-              class="${s.image}"
-              src="${item.media.mobile.small.url}"
-              alt="${item.media.alt_text}"
-            >
-          </picture>
+          <figure>
+            <picture>
+              <source srcset="${item.media.tablet_up.large.url}" media="(min-width: 996px)">
+              <source srcset="${item.media.tablet_up.small.url}" media="(min-width: 768px)">
+              <source srcset="${item.media.mobile.large.url}" media="(min-width: 544px)">
+              <img
+                id="image-${item.shop_id}"
+                class="${s.image}"
+                src="${item.media.mobile.small.url}"
+                alt="${item.media.alt_text}"
+              >
+            </picture>
+            <figcaption class="${s[`caption--${ layout }`]}">This is an image caption</figcaption>
+          </figure>
         </div>`;
       return `
       <li class="${clsx(s.item)}" data-layout="${layout}">

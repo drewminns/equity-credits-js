@@ -201,3 +201,19 @@
     }
   }
 }
+
+.caption--left {
+  @include desktop {
+    text-align: right;
+  }
+}
+
+.caption--right {
+  @include desktop {
+    text-align: left;
+  }
+}
+
+.caption--center {
+  text-align: center;
+}
