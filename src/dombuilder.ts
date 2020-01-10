@@ -45,20 +45,21 @@ export class DomBuilder {
     const { sections, title, group_name: name } = group;
     return sections.map((sec: Section, idx: Number) => {
 
-      console.log(sec);
+      let media = '';
+      let sectionClass = 'section--no-media';
 
       if (sec.hasOwnProperty('media') && sec.media.hasOwnProperty('tablet_up') && sec.media.hasOwnProperty('mobile')) {
-        console.log('MEDIA');
-        console.log(sec.media);
+        media = this.createMediaItem(sec.media, sec.layout, sec.section_id);
+        sectionClass = 'section--has-media';
       }
 
 
       return `
         <div data-${sec.layout} class="${clsx(g.row, s.section_minor)}">
-          <section id="section-${name}-${sec.section_id}" class="" data-layout="${sec.layout}">
+          <section id="section-${sec.section_id}" class="${sectionClass}" data-layout="${sec.layout}">
           ${ idx === 0 ? `<h2 class="${s.title}">${title}</h2>` : '' }
           <div class="${s.section_wrapper}" data-section-wrap>
-
+            ${ media }
             <ul class="${s.section_list_group} ${
               clsx(g.col_md_6,
                 s.section_list,
@@ -81,7 +82,7 @@ export class DomBuilder {
     }).join('');
   }
 
-  private createMediaItem = (media: any, layout: string, shop_id: number) => {
+  private createMediaItem = (media: any, layout: string, id: number | string) => {
     const alignClass = `pinned_container--${layout}`;
     return `
         <div
@@ -101,7 +102,7 @@ export class DomBuilder {
               <source srcset="${media.tablet_up.small.url}" media="(min-width: 768px)">
               <source srcset="${media.mobile.large.url}" media="(min-width: 544px)">
               <img
-                id="image-${shop_id}"
+                id="image-${id}"
                 class="${s.image}"
                 src="${media.mobile.small.url}"
                 alt="${media.alt_text}"
