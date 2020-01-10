@@ -34,14 +34,9 @@ export class MagicTime extends Window {
 
         if (pin) {
 
-          console.log(pin);
-
           const stopper = wrapper.querySelector('li[data-layout]')!;
-
           const stopTop = stopper.getBoundingClientRect().top;
           const height = pin.getBoundingClientRect().height;
-
-          console.log(height);
 
           const distance = stopTop - top - height;
 
