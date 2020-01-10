@@ -91,5 +91,4 @@ export class MagicTime extends Window {
 
     }, 400));
   }
-
 }
