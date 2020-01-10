@@ -47,3 +47,15 @@ figcaption {
   text-align: center;
   padding: 6px 0;
 }
+
+li[data-layout] ~ li[data-layout] {
+  text-transform: uppercase;
+
+  p:before {
+    display: none !important;
+  }
+
+  figure {
+    display: none;
+  }
+}

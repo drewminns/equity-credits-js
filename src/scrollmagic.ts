@@ -44,7 +44,7 @@ export class MagicTime extends Window {
             this.SCENE = new ScrollMagic.Scene({
               triggerElement: this.SECTION,
               duration: distance,
-              triggerHook: 0.4,
+              triggerHook: 0.35,
               reverse: false,
             })
               .setPin(pin, { pushFollowers: false })
