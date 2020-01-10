@@ -75,8 +75,28 @@ export class DomBuilder {
     if (Object.entries(item.media).length !== 0) {
       const alignClass=`pinned_container--${layout}`;
       const media = `
-        <div class="${clsx(s.pinned_container, s[alignClass])}${ layout !== 'center' ? ' pin-me' : '' }">
-          <img id="image-${item.shop_id}" class="${s.image}" src="${item.media.tablet_up.small.url}" alt="${item.media.alt_text}">
+        <div
+          class="${clsx(s.pinned_container, s[alignClass])}${ layout !== 'center' ? ' pin-me' : '' }"
+          data-tablet-large-width="${item.media.tablet_up.large.dimensions.width}"
+          data-tablet-large-height="${item.media.tablet_up.large.dimensions.height}"
+          data-tablet-small-height="${item.media.tablet_up.small.dimensions.height}"
+          data-tablet-small-width="${item.media.tablet_up.small.dimensions.width}"
+          data-mobile-large-width="${item.media.mobile.large.dimensions.width}"
+          data-mobile-large-height="${item.media.mobile.large.dimensions.height}"
+          data-mobile-small-height="${item.media.mobile.small.dimensions.height}"
+          data-mobile-small-width="${item.media.mobile.small.dimensions.width}"
+        >
+          <picture>
+            <source srcset="${item.media.tablet_up.large.url}" media="(min-width: 996px)">
+            <source srcset="${item.media.tablet_up.small.url}" media="(min-width: 768px)">
+            <source srcset="${item.media.mobile.large.url}" media="(min-width: 544px)">
+            <img
+              id="image-${item.shop_id}"
+              class="${s.image}"
+              src="${item.media.mobile.small.url}"
+              alt="${item.media.alt_text}"
+            >
+          </picture>
         </div>`;
       return `
       <li class="${clsx(s.item)}" data-layout="${layout}">
