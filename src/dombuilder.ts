@@ -158,8 +158,10 @@ export class DomBuilder {
 
   private buildGroup = () => {
     return this.sections.map((group: GroupData) => {
+
+      console.log(group);
       const sections = this.buildSection(group);
-      return `<li data-section-main id="${group.group_name}" class="${s.top_section_item}">${sections}</li>`
+      return `<li data-section-main id="${group.groupname}" class="${s.top_section_item}">${sections}</li>`
     }).join('');
   }
 }

@@ -49,6 +49,6 @@ export interface Section {
 
 export interface GroupData {
   title: string;
-  group_name: string;
+  groupname: string;
   sections: Section[];
 }
