@@ -42,7 +42,7 @@ export class DomBuilder {
 
   private buildSection(group: GroupData) {
 
-    const { sections, title, group_name: name } = group;
+    const { sections, title, groupname: name } = group;
     return sections.map((sec: Section, idx: Number) => {
 
       let media = '';
