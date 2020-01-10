@@ -123,11 +123,18 @@
 }
 
 .item {
-  &[data-layout="center"] {
-    display: flex;
-    flex-direction: column-reverse;
-  }
+  display: flex;
+  flex-direction: column-reverse;
   margin-bottom: 20px;
+
+  @include desktop {
+    display: block;
+
+    &[data-layout="center"] {
+      display: flex;
+      flex-direction: column-reverse;
+    }
+  }
 }
 
 .item_has_image {
@@ -138,8 +145,8 @@
     content: "";
     display: block;
     position: absolute;
-    height: 100%;
-    top: 0;
+    height: 115%;
+    top: -6%;
     width: 200vw;
     left: -50%;
     right: 50%;
@@ -164,17 +171,22 @@
 
 .image {
   max-width: 100%;
+  margin-bottom: -2px;
 
   @include desktop {
+    margin-bottom: auto;
     width: 500px;
   }
 }
 
 .pinned_container {
-  width: 100%;
+  width: 100vw;
+  position: relative;
+  left: -2rem;
 
   @include desktop {
     width: 500px;
+    left: auto;
 
     &--left {
       position: absolute;
