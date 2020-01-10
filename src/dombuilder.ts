@@ -47,8 +47,9 @@ export class DomBuilder {
 
       let media = '';
       let sectionClass = 'section--no-media';
+      const sectionHasMedia = sec.hasOwnProperty('media') && sec.media.hasOwnProperty('tablet_up') && sec.media.hasOwnProperty('mobile');
 
-      if (sec.hasOwnProperty('media') && sec.media.hasOwnProperty('tablet_up') && sec.media.hasOwnProperty('mobile')) {
+      if (sectionHasMedia) {
         media = this.createMediaItem(sec.media, sec.layout, sec.section_id);
         sectionClass = 'section--has-media';
       }
@@ -71,7 +72,7 @@ export class DomBuilder {
             }">
               ${sec.merchants.map((item: SectionData) => {
 
-                return this.buildListItem(item, sec.layout);
+                return this.buildListItem(item, sec.layout, sectionHasMedia);
 
               }).join('')}
             </ul>
@@ -113,9 +114,9 @@ export class DomBuilder {
         </div>`;
   }
 
-  private buildListItem(item: SectionData, layout: string) {
+  private buildListItem(item: SectionData, layout: string, sectionHasMedia: boolean) {
 
-    if (item.hasOwnProperty('media') && Object.entries(item.media).length !== 0) {
+    if (!sectionHasMedia && item.hasOwnProperty('media') && Object.entries(item.media).length !== 0) {
 
       const media = this.createMediaItem(item.media, layout, item.shop_id);
 

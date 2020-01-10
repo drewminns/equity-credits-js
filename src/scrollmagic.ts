@@ -31,10 +31,10 @@ export class MagicTime extends Window {
         const top = wrapper.getBoundingClientRect().top;
         // Check if wrapper has images
         const pin = wrapper.querySelector('.pin-me');
+        const stopper = wrapper.querySelector('li[data-layout]')!;
 
-        if (pin) {
+        if (pin && stopper) {
 
-          const stopper = wrapper.querySelector('li[data-layout]')!;
           const stopTop = stopper.getBoundingClientRect().top;
           const caption = pin.querySelector('figcaption');
 
