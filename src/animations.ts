@@ -35,7 +35,7 @@ export class Animations extends Window {
     this.SCROLL_ELEMENT = window.document.scrollingElement || window.document.body || window.document.documentElement;
     this.TIME_LINE = anime.timeline({
       easing: 'easeOutExpo',
-      endDelay: 2000
+      endDelay: 500
     });
     this.PAGE_SECTIONS = [];
     this.DISTANCE_MAP = [];
@@ -98,8 +98,8 @@ export class Animations extends Window {
     if (this.LINKS) {
       this.LINKS.forEach((el) => {
         el.addEventListener('mouseover', () => {
-          this.handleUserScroll(true);
-        })
+          this.handleUserScroll()
+        });
       });
     }
 
@@ -135,7 +135,7 @@ export class Animations extends Window {
     }
   }
 
-  private handleUserScroll = (quick = false) => {
+  private handleUserScroll = () => {
     let resumeScroll = false;
     let isScrolling: any;
 
@@ -163,7 +163,7 @@ export class Animations extends Window {
           this.manageScrollState('play');
           this.USER_PAUSED = false;
         }
-      }, quick ? 1000 : 3500);
+      }, 3500);
     }
   }
 
@@ -272,17 +272,18 @@ export class Animations extends Window {
       .add({
         targets: '#intro',
         opacity: 1,
-        duration: 500
+        duration: 1200
       })
       .add({
         targets: '#intro-text1',
         opacity: 1,
-        duration: 1000
+        duration: 1200
       })
       .add({
         targets: '#intro-text2',
         opacity: 1,
-        duration: 1000
+        duration: 1200,
+        endDelay: 2500
       })
 
     this.TIME_LINE.finished.then(() => {
@@ -296,7 +297,7 @@ export class Animations extends Window {
     anime({
       targets: '#main_content',
       opacity: 1,
-      duration: 1500,
+      duration: 1000,
     });
   }
 

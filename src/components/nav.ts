@@ -16,7 +16,7 @@ export const nav = (() => `
           <div class="${clsx(g.row, s.nav_row)}">
             <div class="${clsx(g.col_sm_3, g.col_xs_6, s.logo)}">
               <h1>
-                <a href="https://shopify.com">
+                <a href="https://shopify.com" data-ga-event='Independents' data-ga-action='Hero link' ga-value='1'>
                 <span class="${s.logo}">${shoppingBag}</span>
                 <span class="${utils.hidden}">Shopify</span>
                 </a>
