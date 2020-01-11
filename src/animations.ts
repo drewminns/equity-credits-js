@@ -75,10 +75,9 @@ export class Animations extends Window {
 
     if (this.PLAY_PAUSE_BUTTON) {
 
+
       this.PLAY_PAUSE_BUTTON.addEventListener('click', () => {
-
         if (this.PLAY_PAUSE_BUTTON.disabled) return;
-
         this.scrollControls();
         this.USER_PAUSED = !this.USER_PAUSED;
       });
@@ -102,6 +101,7 @@ export class Animations extends Window {
       this.manageActiveButtons(forwardButton, backButton);
     });
 
+
     window.addEventListener('resize', debounce(() => {
       const { innerHeight: height, innerWidth: width } = window;
       this.windowSize = { height, width };
@@ -115,6 +115,12 @@ export class Animations extends Window {
     });
 
     window.addEventListener('touchmove', (e) => {
+      if (e.target instanceof Element) {
+        const tagName = e.target.tagName.toLowerCase();
+        if (tagName === 'rect' || tagName === 'svg' || tagName === 'button') {
+          return;
+        }
+      }
       this.handleUserScroll();
     });
   }
@@ -174,6 +180,10 @@ export class Animations extends Window {
   private handleUserScroll = () => {
     let resumeScroll = false;
     let isScrolling: any;
+
+    if (this.PAGE_SCROLLING_PAUSED) {
+      return;
+    }
 
     // If the page is not paused, pause it and let default scroll take over
     if (!this.PAGE_SCROLLING_PAUSED) {
@@ -320,12 +330,12 @@ export class Animations extends Window {
       .add({
         targets: '#intro-text1',
         opacity: 1,
-        duration: 1200
+        duration: 3500
       })
       .add({
         targets: '#intro-text2',
         opacity: 1,
-        duration: 1200,
+        duration: 3500,
         endDelay: 2500
       })
 
