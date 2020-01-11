@@ -218,7 +218,7 @@
   }
 
   @include desktop {
-    width: 500px;
+    width: 400px;
     // height: 375px;
     left: auto;
 
@@ -233,6 +233,10 @@
       top: 0;
       left: 0;
     }
+  }
+
+  @include desktop--lg {
+    width: 500px;
   }
 }
 

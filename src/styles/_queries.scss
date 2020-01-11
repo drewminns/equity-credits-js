@@ -10,6 +10,12 @@
   }
 }
 
+@mixin desktop--lg {
+  @media (min-width: $lg) {
+    @content;
+  }
+}
+
 @mixin portrait {
   @media (orientation: portrait) and (max-width: $sm - 1) and (-webkit-min-device-pixel-ratio: 2) and (hover: none) {
     @content;
