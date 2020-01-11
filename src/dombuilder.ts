@@ -28,7 +28,7 @@ export class DomBuilder {
     this.MOUNT_POINT.insertAdjacentHTML('afterbegin', `
     ${overlay}
     ${nav}
-    <div class="${clsx(g.container_fluid, g.wrap)}">
+    <div class="${clsx(g.container_fluid, g.wrap, s.site_wrapper)}">
       ${intro}
       <main id="main_content" class="${s.main_content}">
         <ul>

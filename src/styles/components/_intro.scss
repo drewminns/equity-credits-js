@@ -7,6 +7,12 @@
   margin-bottom: 5vh;
   margin-top: 5vh;
 
+  position: fixed;
+  width: calc(100% - 7rem);
+  top: 0;
+  left: 3.5rem;
+  z-index: -1;
+
   p {
     font-size: 1.3rem;
     letter-spacing: -0.02em;
