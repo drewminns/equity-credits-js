@@ -6,11 +6,11 @@
   opacity: 0;
   background: transparent; // Used to overwrite Shopify application styles
 
-  // > ul {
-  //   padding-top: 450px;
-  //   background-image: linear-gradient(to bottom, transparent, $black 450px, $black);
-  //   background-color: transparent;
-  // }
+  > ul {
+    padding-top: 200px;
+    background-image: linear-gradient(to bottom, transparent, $black 450px, $black);
+    background-color: transparent;
+  }
 }
 
 .logo_row {
@@ -32,9 +32,9 @@
 }
 
 .top_section_item:first-child {
-  padding-top: 200px;
+  // padding-top: 200px;
   background-color: transparent;
-  background-image: linear-gradient(to bottom, transparent, $black, 950px, $black);
+  // background-image: linear-gradient(to bottom, transparent, $black, 800px, $black);
 }
 
 .top_section_item:not(:last-child) {

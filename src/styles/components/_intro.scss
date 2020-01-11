@@ -32,7 +32,8 @@
     align-items: center;
 
     @include desktop {
-      height: 90vh;
+      height: 80vh;
+      padding-top: 20vh;
     }
   }
 }
