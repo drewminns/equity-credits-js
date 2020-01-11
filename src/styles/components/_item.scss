@@ -59,7 +59,7 @@
 
 .item_text {
   display: inline-block;
-  margin-right: 10px;
+  margin-left: 10px;
   text-align: left;
   width: calc(50% - 10px);
   z-index: 1;
@@ -73,12 +73,16 @@
     text-decoration: none;
     color: $white;
 
+    &:hover {
+      text-decoration: underline;
+    }
+
     span {
       position: absolute;
       right: -18px;
       display: inline-block;
       width: 16px;
-      top: 0;
+      top: -3px;
     }
   }
 
@@ -87,7 +91,7 @@
   }
 
   .arrow svg {
-    height: 16px;
+    height: 28px;
   }
 }
 
@@ -99,13 +103,8 @@
   text-align: right;
 
   @include tablet {
-    width: calc(50% - 20px);
-    margin-right: 20px;
-  }
-
-  @include desktop {
-    width: calc(50% - 32px);
-    margin-right: 32px;
+    width: calc(50% - 10px);
+    margin-right: 10px;
   }
 
   a {
@@ -135,6 +134,10 @@
 
   &[data-layout] {
     margin-top: 40px;
+
+    & a > span > svg > path {
+      fill: #008060;
+    }
   }
 
   @include desktop {
@@ -147,8 +150,13 @@
     &[data-layout="center"] {
       display: flex;
       flex-direction: column-reverse;
+      padding-top: 40px;
     }
   }
+}
+
+[data-center] {
+  padding-top: 40px;
 }
 
 .item_has_image {
@@ -208,7 +216,7 @@
 
   figure {
     width: 100vw;
-    margin-left: -2rem;
+    margin-left: -3.5rem;
 
     @include desktop {
       width: auto;
