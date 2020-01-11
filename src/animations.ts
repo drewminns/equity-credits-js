@@ -65,7 +65,7 @@ export class Animations extends Window {
     } else {
       this.runScrolling();
     }
-
+    this.setDeviceHeight();
     this.attachEventListeners();
     this.preventScrollInPortrait(this.breakpoint.isPortrait);
 
@@ -105,8 +105,14 @@ export class Animations extends Window {
     window.addEventListener('resize', debounce(() => {
       const { innerHeight: height, innerWidth: width } = window;
       this.windowSize = { height, width };
+      this.setDeviceHeight();
       this.preventScrollInPortrait(this.breakpoint.isPortrait);
     }, 400));
+  }
+
+
+  private setDeviceHeight = () => {
+    document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
   }
 
   private listenUserScroll = () => {
