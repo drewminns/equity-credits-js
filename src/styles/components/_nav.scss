@@ -43,7 +43,13 @@
 }
 
 .logo svg {
-  height: 40px;
+  height: 30px;
+  position: relative;
+  top: 2px;
+
+  @include tablet {
+    height: 40px;
+  }
 }
 
 .button {
