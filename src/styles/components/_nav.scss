@@ -11,7 +11,10 @@
     0px 0px 30px rgba(0, 0, 0, 0.7),
     0px 0px 50px rgba(0, 0, 0, 0.5);
   opacity: 0;
-  height: 100px;
+
+  @include tablet {
+    height: 100px;
+  }
 
   &_row {
     align-items: center;
@@ -40,7 +43,13 @@
 }
 
 .logo svg {
-  height: 40px;
+  height: 30px;
+  position: relative;
+  top: 2px;
+
+  @include tablet {
+    height: 40px;
+  }
 }
 
 .button {
