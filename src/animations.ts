@@ -75,10 +75,9 @@ export class Animations extends Window {
 
     if (this.PLAY_PAUSE_BUTTON) {
 
+
       this.PLAY_PAUSE_BUTTON.addEventListener('click', () => {
-
         if (this.PLAY_PAUSE_BUTTON.disabled) return;
-
         this.scrollControls();
         this.USER_PAUSED = !this.USER_PAUSED;
       });
@@ -116,6 +115,12 @@ export class Animations extends Window {
     });
 
     window.addEventListener('touchmove', (e) => {
+      if (e.target instanceof Element) {
+        const tagName = e.target.tagName.toLowerCase();
+        if (tagName === 'rect' || tagName === 'svg' || tagName === 'button') {
+          return;
+        }
+      }
       this.handleUserScroll();
     });
   }
