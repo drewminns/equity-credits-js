@@ -85,7 +85,6 @@ export class DomBuilder {
 
   private createMediaItem = (media: any, layout: string, id: number | string) => {
     const alignClass = `pinned_container--${layout}`;
-    console.log(media);
     return `
         <div
           class="${clsx(s.pinned_container, s[alignClass])}${layout !== 'center' ? ' pin-me' : ''}"
