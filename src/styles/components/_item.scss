@@ -4,7 +4,6 @@
 
 .main_content {
   opacity: 0;
-  padding-bottom: 40vh;
   background: transparent; // Used to overwrite Shopify application styles
 
   > ul {
@@ -34,6 +33,11 @@
 
 .top_section_item:not(:last-child) {
   margin-bottom: 200px;
+}
+
+.top_section_item:last-child {
+  padding-bottom: 40vh;
+  background-color: black;
 }
 
 .section_list_group {

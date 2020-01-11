@@ -2,7 +2,6 @@
   text-align: center;
   justify-content: center;
   align-items: center;
-  background-color: $green;
   opacity: 0;
   margin-bottom: 5vh;
   margin-top: 5vh;
@@ -40,6 +39,10 @@
       height: 90vh;
     }
   }
+}
+
+.intro_inner {
+  background-color: $green;
 }
 
 @keyframes fadein {
