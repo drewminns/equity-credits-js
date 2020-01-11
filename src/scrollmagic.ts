@@ -36,15 +36,8 @@ export class MagicTime extends Window {
         if (pin && stopper) {
 
           const stopTop = stopper.getBoundingClientRect().top;
-          const caption = pin.querySelector('figcaption');
 
           let distance = stopTop - top - 328;
-
-          if (caption) {
-            const captionHeight = caption.getBoundingClientRect().height;
-
-            distance = distance - captionHeight;
-          }
 
           if (distance > 0) {
             this.SCENE = new ScrollMagic.Scene({
@@ -59,15 +52,8 @@ export class MagicTime extends Window {
         } else if (pin) {
 
           const { height, top } = this.SECTION.getBoundingClientRect();
-          const caption = pin.querySelector('figcaption');
 
-          let distance = height - 328;
-
-          if (caption) {
-            const captionHeight = caption.getBoundingClientRect().height;
-
-            distance = distance - captionHeight;
-          }
+          let distance = height - 300;
 
 
           if (distance > 0) {
