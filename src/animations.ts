@@ -251,7 +251,7 @@ export class Animations extends Window {
       return;
     }
 
-    this.scrollToSection(newSectionIndex, forward);
+    this.scrollToSection(newSectionIndex);
   }
 
   private scrollToSection = (newIndex: number,) => {
