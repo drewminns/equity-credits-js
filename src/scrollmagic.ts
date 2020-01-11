@@ -46,7 +46,7 @@ export class MagicTime extends Window {
             distance = distance - captionHeight;
           }
 
-          if (distance >= 0) {
+          if (distance > 0) {
             this.SCENE = new ScrollMagic.Scene({
               triggerElement: this.SECTION,
               duration: distance,
@@ -69,7 +69,8 @@ export class MagicTime extends Window {
             distance = distance - captionHeight;
           }
 
-          if (distance >= 0) {
+
+          if (distance > 0) {
             this.SCENE = new ScrollMagic.Scene({
               triggerElement: this.SECTION,
               duration: distance,
