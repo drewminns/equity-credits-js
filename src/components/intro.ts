@@ -6,6 +6,11 @@ import s from '../styles/components/_intro.scss';
 export const intro = (() =>
   `
       <section class="${s.intro}" id="intro">
+        <div class="${s.intro_bg_wrap}">
+          <div class="${clsx(g.container_fluid, g.wrap)}">
+            <div class="${s.intro_bg}"></div>
+          </div>
+        </div>
         <div class="${clsx(g.container_fluid, g.wrap)}">
           <div class="${s.intro_inner}">
             <div class="${clsx(g.row, s.intro_row)}">
@@ -15,7 +20,7 @@ export const intro = (() =>
               </div>
             </div>
           </div>
-        <div>
+        </div>
       </section>
     `
 )();
