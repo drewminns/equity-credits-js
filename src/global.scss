@@ -66,6 +66,10 @@ li[data-layout] ~ li[data-layout] {
   figure {
     display: none;
   }
+
+  a > span > svg > path {
+    fill: #42474c;
+  }
 }
 
 [data-center] + [data-center],

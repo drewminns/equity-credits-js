@@ -84,6 +84,8 @@ export class Animations extends Window {
       });
     }
 
+    this.handleLinkHover();
+
     const backButton = document.getElementById('back')!;
     const forwardButton = document.getElementById('forward')!;
 
@@ -94,14 +96,6 @@ export class Animations extends Window {
     forwardButton.addEventListener('click', (e) => {
       this.fastForward(e, forwardButton, backButton);
     });
-
-    if (this.LINKS) {
-      this.LINKS.forEach((el) => {
-        el.addEventListener('mouseover', () => {
-          this.handleUserScroll()
-        });
-      });
-    }
 
     window.addEventListener('scroll', () => {
       this.CURRENT_SECTION = this.getCurrentSectionIndex();
@@ -128,11 +122,53 @@ export class Animations extends Window {
   private preventScrollInPortrait(isPortrait: boolean) {
     if (isPortrait) {
       this.PAGE_SCROLLING_PAUSED = true;
+      document.body.setAttribute('data-no-scroll', 'true');
       this.SCROLL_ANIMATION?.pause();
     } else if (this.PAGE_SCROLLING_PAUSED && !this.USER_PAUSED) {
       this.PAGE_SCROLLING_PAUSED = false;
+      document.body.removeAttribute('data-no-scroll');
       this.pageScroll();
     }
+  }
+
+  private handleLinkHover = () => {
+    let resumeScroll = false;
+    let isScrolling: any;
+    if (this.LINKS) {
+      this.LINKS.forEach((el) => {
+        el.addEventListener('mouseenter', () => {
+          if (!this.PAGE_SCROLLING_PAUSED) {
+            this.SCROLL_ANIMATION?.pause();
+            this.PAGE_SCROLLING_PAUSED = true;
+            this.USER_PAUSED = true;
+            this.managePlayBtnState('play');
+            resumeScroll = true;
+          }
+        });
+        el.addEventListener('mouseleave', () => {
+          if (resumeScroll) {
+
+            if (isScrolling) {
+              window.clearTimeout(isScrolling);
+            }
+
+            isScrolling = setTimeout(() => {
+
+              // We need to check if scrolling has resumed in the meantime
+              // This could be via play/pause click
+              if (this.PAGE_SCROLLING_PAUSED) {
+
+                this.manageScrollState('play');
+                this.USER_PAUSED = false;
+              }
+            }, 3500);
+          }
+        })
+      });
+    }
+
+    // If the page is not paused, pause it and let default scroll take over
+
   }
 
   private handleUserScroll = () => {
@@ -260,6 +296,11 @@ export class Animations extends Window {
     intro.style.opacity = '1';
     introText1.style.opacity = '1';
     introText2.style.opacity = '1';
+
+    const footer = document.getElementById('IndependentsFooter')!;
+    if (footer) {
+      footer.classList.remove('hidden');
+    }
 
     this.scrollFadeIn();
     this.pageScroll();
