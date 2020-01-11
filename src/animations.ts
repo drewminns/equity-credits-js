@@ -40,7 +40,7 @@ export class Animations extends Window {
     this.PAGE_SECTIONS = [];
     this.DISTANCE_MAP = [];
     this.CURRENT_SECTION = 0;
-    this.SCROLL_OFFSET = 120;
+    this.SCROLL_OFFSET = 100;
     this.HAS_VIEWED = false;
   }
 
@@ -251,12 +251,16 @@ export class Animations extends Window {
       return;
     }
 
-    this.scrollToSection(newSectionIndex);
+    this.scrollToSection(newSectionIndex, forward);
   }
 
-  private scrollToSection = (newIndex: number) => {
+  private scrollToSection = (newIndex: number,) => {
+
+
     const nextSection = this.PAGE_SECTIONS[newIndex];
     const scrollTop = window.pageYOffset + nextSection.getBoundingClientRect().top - this.SCROLL_OFFSET;
+    const distance = Math.abs(scrollTop - this.SCROLL_POSITION);
+
     let resumeScroll = false;
 
     this.PLAY_PAUSE_BUTTON.setAttribute('disabled', true);
@@ -267,23 +271,21 @@ export class Animations extends Window {
       resumeScroll = true;
     }
 
+    const duration = distance < 1000 ? (distance / (100)) * 100 : (distance / (300)) * 100;
+
     this.SCROLL_ANIMATION = anime({
       targets: this.SCROLL_ELEMENT,
       scrollTop: scrollTop,
       easing: 'linear',
-      duration: 1000,
+      duration,
       complete: () => {
         this.PLAY_PAUSE_BUTTON.removeAttribute('disabled');
+        // el.removeAttribute('disabled');
         if (resumeScroll) {
           this.pageScroll();
           this.PAGE_SCROLLING_PAUSED = false;
         }
       }
-    });
-
-    nextSection.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
     });
 
     this.CURRENT_SECTION = newIndex;
