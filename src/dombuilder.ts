@@ -42,13 +42,25 @@ export class DomBuilder {
 
   private buildSection(group: GroupData) {
 
-    const { sections, title, group_name: name } = group;
+    const { sections, title, groupname: name } = group;
     return sections.map((sec: Section, idx: Number) => {
+
+      let media = '';
+      let sectionClass = 'section--no-media';
+      const sectionHasMedia = sec.hasOwnProperty('media') && sec.media.hasOwnProperty('tablet_up') && sec.media.hasOwnProperty('mobile');
+
+      if (sectionHasMedia) {
+        media = this.createMediaItem(sec.media, sec.layout, sec.section_id);
+        sectionClass = 'section--has-media';
+      }
+
+
       return `
         <div data-${sec.layout} class="${clsx(g.row, s.section_minor)}">
-          <section id="section-${name}-${sec.section_id}" class="" data-layout="${sec.layout}">
+          <section id="section-${sec.section_id}" class="${sectionClass}" data-layout="${sec.layout}">
           ${ idx === 0 ? `<h2 class="${s.title}">${title}</h2>` : '' }
           <div class="${s.section_wrapper}" data-section-wrap>
+            ${ media }
             <ul class="${s.section_list_group} ${
               clsx(g.col_md_6,
                 s.section_list,
@@ -60,7 +72,7 @@ export class DomBuilder {
             }">
               ${sec.merchants.map((item: SectionData) => {
 
-                return this.buildListItem(item, sec.layout);
+                return this.buildListItem(item, sec.layout, sectionHasMedia);
 
               }).join('')}
             </ul>
@@ -71,36 +83,43 @@ export class DomBuilder {
     }).join('');
   }
 
-  private buildListItem(item: SectionData, layout: string) {
-    if (Object.entries(item.media).length !== 0) {
-      const alignClass=`pinned_container--${layout}`;
-      const media = `
+  private createMediaItem = (media: any, layout: string, id: number | string) => {
+    const alignClass = `pinned_container--${layout}`;
+    return `
         <div
-          class="${clsx(s.pinned_container, s[alignClass])}${ layout !== 'center' ? ' pin-me' : '' }"
-          data-tablet-large-width="${item.media.tablet_up.large.dimensions.width}"
-          data-tablet-large-height="${item.media.tablet_up.large.dimensions.height}"
-          data-tablet-small-height="${item.media.tablet_up.small.dimensions.height}"
-          data-tablet-small-width="${item.media.tablet_up.small.dimensions.width}"
-          data-mobile-large-width="${item.media.mobile.large.dimensions.width}"
-          data-mobile-large-height="${item.media.mobile.large.dimensions.height}"
-          data-mobile-small-height="${item.media.mobile.small.dimensions.height}"
-          data-mobile-small-width="${item.media.mobile.small.dimensions.width}"
+          class="${clsx(s.pinned_container, s[alignClass])}${layout !== 'center' ? ' pin-me' : ''}"
+          data-tablet-large-width="${media.tablet_up.large.dimensions.width}"
+          data-tablet-large-height="${media.tablet_up.large.dimensions.height}"
+          data-tablet-small-height="${media.tablet_up.small.dimensions.height}"
+          data-tablet-small-width="${media.tablet_up.small.dimensions.width}"
+          data-mobile-large-width="${media.mobile.large.dimensions.width}"
+          data-mobile-large-height="${media.mobile.large.dimensions.height}"
+          data-mobile-small-height="${media.mobile.small.dimensions.height}"
+          data-mobile-small-width="${media.mobile.small.dimensions.width}"
         >
           <figure>
             <picture>
-              <source srcset="${item.media.tablet_up.large.url}" media="(min-width: 996px)">
-              <source srcset="${item.media.tablet_up.small.url}" media="(min-width: 768px)">
-              <source srcset="${item.media.mobile.large.url}" media="(min-width: 544px)">
+              <source srcset="${media.tablet_up.large.url}" media="(min-width: 996px)">
+              <source srcset="${media.tablet_up.small.url}" media="(min-width: 768px)">
+              <source srcset="${media.mobile.large.url}" media="(min-width: 544px)">
               <img
-                id="image-${item.shop_id}"
+                id="image-${id}"
                 class="${s.image}"
-                src="${item.media.mobile.small.url}"
-                alt="${item.media.alt_text}"
+                src="${media.mobile.small.url}"
+                alt="${media.alt_text}"
               >
             </picture>
-            <figcaption class="${s[`caption--${ layout }`]}">${item.media.caption}</figcaption>
+            <figcaption class="${s[`caption--${ layout }`]}">${media.caption}</figcaption>
           </figure>
         </div>`;
+  }
+
+  private buildListItem(item: SectionData, layout: string, sectionHasMedia: boolean) {
+
+    if (!sectionHasMedia && item.hasOwnProperty('media') && Object.entries(item.media).length !== 0) {
+
+      const media = this.createMediaItem(item.media, layout, item.shop_id);
+
       return `
       <li class="${clsx(s.item)}" data-layout="${layout}">
         <p class="${clsx(s.item_content, s.item_has_image)}">
@@ -140,8 +159,9 @@ export class DomBuilder {
 
   private buildGroup = () => {
     return this.sections.map((group: GroupData) => {
+
       const sections = this.buildSection(group);
-      return `<li data-section-main id="${group.group_name}" class="${s.top_section_item}">${sections}</li>`
+      return `<li data-section-main id="${group.groupname}" class="${s.top_section_item}">${sections}</li>`
     }).join('');
   }
 }
