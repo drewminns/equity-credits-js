@@ -97,6 +97,7 @@
   margin-right: 12px;
   position: relative;
   text-align: right;
+  text-transform: capitalize;
 
   @include tablet {
     width: calc(50% - 20px);

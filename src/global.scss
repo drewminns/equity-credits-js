@@ -20,6 +20,14 @@ body {
   overflow-x: hidden;
 }
 
+h1 {
+  margin: 0.3em 0;
+
+  @include tablet {
+    margin: 0.67em 0;
+  }
+}
+
 [data-no-scroll] {
   height: 100vh;
   overflow-y: hidden;
