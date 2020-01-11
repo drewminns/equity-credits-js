@@ -1,11 +1,17 @@
 .site_wrapper {
-  padding-top: 100vh;
+  padding-top: 110vh;
 }
 
 .main_content {
   opacity: 0;
   padding-bottom: 40vh;
-  background: $black; // Used to overwrite Shopify application styles
+  background: transparent; // Used to overwrite Shopify application styles
+
+  > ul {
+    padding-top: 100px;
+    background-image: linear-gradient(to bottom, transparent, $black 100px, $black);
+    background-color: transparent;
+  }
 }
 
 .logo_row {

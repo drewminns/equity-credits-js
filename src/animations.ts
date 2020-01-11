@@ -327,7 +327,7 @@ export class Animations extends Window {
         opacity: 1,
         duration: 1200,
         endDelay: 2500
-      })
+      });
 
     this.TIME_LINE.finished.then(() => {
       this.runScrolling();
