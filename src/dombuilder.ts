@@ -85,6 +85,7 @@ export class DomBuilder {
 
   private createMediaItem = (media: any, layout: string, id: number | string) => {
     const alignClass = `pinned_container--${layout}`;
+    console.log(media);
     return `
         <div
           class="${clsx(s.pinned_container, s[alignClass])}${layout !== 'center' ? ' pin-me' : ''}"
@@ -132,7 +133,18 @@ export class DomBuilder {
 
           </span>
           <span class="${s.item_text}">
-            <a target="_blank" class="product_link" rel="noopener noreferrer" href="${item.shop_url}">${item.shop_name} <span class="${s.arrow}">${arrow}</span></a>
+            <a
+              target="_blank"
+              class="product_link"
+              rel="noopener noreferrer"
+              data-ga-event='Independents'
+              ga-value='1'
+              data-ga-action="${item.shop_url}"
+              href="${item.shop_url}"
+            >
+              ${item.shop_name}
+              <span class="${s.arrow}">${arrow}</span>
+            </a>
           </span>
         </p>
         ${ media }
@@ -150,7 +162,18 @@ export class DomBuilder {
             }
           </span>
           <span class="${s.item_text}">
-            <a target="_blank" class="product_link" rel="noopener noreferrer" href="${item.shop_url}">${item.shop_name} <span class="${s.arrow}">${arrow}</span></a>
+            <a
+              target="_blank"
+              class="product_link"
+              rel="noopener noreferrer"
+              data-ga-event='Independents'
+              ga-value='1'
+              data-ga-action="${item.shop_url}"
+              href="${item.shop_url}"
+            >
+              ${item.shop_name}
+              <span class="${s.arrow}">${arrow}</span>
+            </a>
           </span>
         </p>
       </li>
