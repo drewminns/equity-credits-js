@@ -171,12 +171,17 @@
     display: block;
     position: absolute;
     height: 115%;
+    width: 100vw;
+    margin-left: -3.5rem;
     top: -6%;
-    width: 200vw;
-    left: -50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
+
+    @include desktop {
+      width: 200vw;
+      left: -50%;
+      right: 50%;
+      margin-left: -50vw;
+      margin-right: -50vw;
+    }
   }
 
   @include desktop {
@@ -209,18 +214,22 @@
 }
 
 .pinned_container {
-  width: 100vw;
+  // width: 100vw;
   position: relative;
+
+  .section_wrapper > & {
+    margin-bottom: 1.6rem;
+  }
 
   [data-layout="center"] & {
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 1.6rem;
   }
 
   figure {
     width: 100vw;
     margin-left: -3.5rem;
+
     margin-bottom: 0;
 
     figcaption {
@@ -229,7 +238,6 @@
 
       @include desktop {
         background-color: transparent;
-        padding-bottom: 0;
       }
     }
 
