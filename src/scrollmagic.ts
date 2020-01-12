@@ -12,12 +12,11 @@ export class MagicTime extends Window {
   constructor() {
     super();
     this.SECTION = null;
+    this.CONTROLLER = new ScrollMagic.Controller();
   }
 
   init = (section: Element) => {
     this.SECTION = section;
-    this.CONTROLLER = new ScrollMagic.Controller();
-
 
     this.windowResizeListener();
     this.initScrollMagic();
