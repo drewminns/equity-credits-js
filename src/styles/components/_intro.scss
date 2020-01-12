@@ -27,6 +27,7 @@
   }
 
   &_row {
+    height: calc(var(--vh, 1vh) * 90);
     max-height: 90vh;
     align-items: center;
 
