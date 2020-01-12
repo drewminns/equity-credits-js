@@ -7,15 +7,15 @@ const ScrollMagic = require('scrollmagic');
 export class MagicTime extends Window {
   CONTROLLER: any;
   SCENE: any;
-  SECTIONS: Array<Element> | null;
+  SECTION: Element | null;
 
   constructor() {
     super();
-    this.SECTIONS = null;
+    this.SECTION = null;
   }
 
-  init = (sections: any) => {
-    this.SECTIONS = sections;
+  init = (section: Element) => {
+    this.SECTION = section;
     this.CONTROLLER = new ScrollMagic.Controller();
 
 
@@ -29,10 +29,10 @@ export class MagicTime extends Window {
   }
 
   private scrollSections = () => {
-    if (this.SECTIONS && (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm')) {
+    if (this.SECTION && (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm')) {
 
-      this.SECTIONS.forEach((section, index) => {
-        const wrapper = section.querySelector('[data-section-wrap]');
+      // this.SECTION.forEach((section, index) => {
+        const wrapper = this.SECTION.querySelector('[data-section-wrap]');
 
         if (wrapper) {
           const top = wrapper.getBoundingClientRect().top;
@@ -48,7 +48,7 @@ export class MagicTime extends Window {
 
             if (distance > 0) {
               this.SCENE = new ScrollMagic.Scene({
-                triggerElement: section,
+                triggerElement: this.SECTION,
                 duration: distance,
                 triggerHook: 0.4,
                 reverse: false,
@@ -58,7 +58,7 @@ export class MagicTime extends Window {
             }
           } else if (pin) {
 
-            const { height, top } = section.getBoundingClientRect();
+            const { height, top } = this.SECTION.getBoundingClientRect();
             const caption = pin.querySelector('figcaption');
 
             let distance = height - 328;
@@ -71,7 +71,7 @@ export class MagicTime extends Window {
 
             if (distance > 0) {
               this.SCENE = new ScrollMagic.Scene({
-                triggerElement: section,
+                triggerElement: this.SECTION,
                 duration: distance,
                 triggerHook: 0.4,
                 reverse: false,
@@ -81,18 +81,16 @@ export class MagicTime extends Window {
             }
           }
         }
-      })
+      // })
     }
   }
 
   private cleanupScrollMagic() {
-    if (this.SECTIONS) {
+    if (this.SECTION) {
 
-      this.SECTIONS.forEach((section, index) => {
-        const pinSpacer = section.querySelector('[data-scrollmagic-pin-spacer]');
+      const pinSpacer = this.SECTION.querySelector('[data-scrollmagic-pin-spacer]');
 
-        if (pinSpacer) this.unwrapEl(pinSpacer);
-      });
+      if (pinSpacer) this.unwrapEl(pinSpacer);
 
     }
   }
