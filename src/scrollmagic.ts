@@ -28,6 +28,8 @@ export class MagicTime extends Window {
   }
 
   private scrollSections = () => {
+    this.CONTROLLER = new ScrollMagic.Controller();
+
     if (this.SECTION && (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm')) {
 
       // this.SECTION.forEach((section, index) => {
