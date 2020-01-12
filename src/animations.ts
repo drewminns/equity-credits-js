@@ -21,6 +21,7 @@ export class Animations extends Window {
   SCROLL_OFFSET: number;
   HAS_VIEWED: boolean;
   PLAY_PAUSE_BUTTON: any;
+  USER_CLICKED_PLAY_PAUSE: boolean;
   LINKS: NodeListOf<Element> | null;
 
   constructor() {
@@ -32,6 +33,7 @@ export class Animations extends Window {
     this.PAGE_HEIGHT = 0;
     this.PAGE_SCROLLING_PAUSED = false;
     this.USER_PAUSED = false;
+    this.USER_CLICKED_PLAY_PAUSE = false;
     this.SCROLL_ELEMENT = window.document.scrollingElement || window.document.body || window.document.documentElement;
     this.TIME_LINE = anime.timeline({
       easing: 'easeOutExpo',
@@ -65,7 +67,7 @@ export class Animations extends Window {
     } else {
       this.runScrolling();
     }
-
+    this.setDeviceHeight();
     this.attachEventListeners();
     this.preventScrollInPortrait(this.breakpoint.isPortrait);
 
@@ -75,11 +77,11 @@ export class Animations extends Window {
 
     if (this.PLAY_PAUSE_BUTTON) {
 
+
       this.PLAY_PAUSE_BUTTON.addEventListener('click', () => {
-
         if (this.PLAY_PAUSE_BUTTON.disabled) return;
-
         this.scrollControls();
+        this.USER_CLICKED_PLAY_PAUSE = !this.USER_CLICKED_PLAY_PAUSE;
         this.USER_PAUSED = !this.USER_PAUSED;
       });
     }
@@ -102,11 +104,18 @@ export class Animations extends Window {
       this.manageActiveButtons(forwardButton, backButton);
     });
 
+
     window.addEventListener('resize', debounce(() => {
       const { innerHeight: height, innerWidth: width } = window;
       this.windowSize = { height, width };
+      this.setDeviceHeight();
       this.preventScrollInPortrait(this.breakpoint.isPortrait);
     }, 400));
+  }
+
+
+  private setDeviceHeight = () => {
+    document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
   }
 
   private listenUserScroll = () => {
@@ -115,6 +124,12 @@ export class Animations extends Window {
     });
 
     window.addEventListener('touchmove', (e) => {
+      if (e.target instanceof Element) {
+        const tagName = e.target.tagName.toLowerCase();
+        if (tagName === 'rect' || tagName === 'svg' || tagName === 'button') {
+          return;
+        }
+      }
       this.handleUserScroll();
     });
   }
@@ -132,11 +147,13 @@ export class Animations extends Window {
   }
 
   private handleLinkHover = () => {
+
     let resumeScroll = false;
     let isScrolling: any;
     if (this.LINKS) {
       this.LINKS.forEach((el) => {
         el.addEventListener('mouseenter', () => {
+
           if (!this.PAGE_SCROLLING_PAUSED) {
             this.SCROLL_ANIMATION?.pause();
             this.PAGE_SCROLLING_PAUSED = true;
@@ -145,7 +162,11 @@ export class Animations extends Window {
             resumeScroll = true;
           }
         });
+
         el.addEventListener('mouseleave', () => {
+          if (this.USER_CLICKED_PLAY_PAUSE) {
+            return;
+          }
           if (resumeScroll) {
 
             if (isScrolling) {
@@ -174,6 +195,10 @@ export class Animations extends Window {
   private handleUserScroll = () => {
     let resumeScroll = false;
     let isScrolling: any;
+
+    if (this.PAGE_SCROLLING_PAUSED) {
+      return;
+    }
 
     // If the page is not paused, pause it and let default scroll take over
     if (!this.PAGE_SCROLLING_PAUSED) {
@@ -320,12 +345,12 @@ export class Animations extends Window {
       .add({
         targets: '#intro-text1',
         opacity: 1,
-        duration: 1200
+        duration: 3500
       })
       .add({
         targets: '#intro-text2',
         opacity: 1,
-        duration: 1200,
+        duration: 3500,
         endDelay: 2500
       });
 

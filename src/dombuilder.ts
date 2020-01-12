@@ -56,7 +56,7 @@ export class DomBuilder {
 
 
       return `
-        <div data-${sec.layout} class="${clsx(g.row, s.section_minor)}">
+        <div data-${sec.layout} class="${clsx(g.row, s.section_minor, g.section_)}">
           <section id="section-${sec.section_id}" class="${sectionClass}" data-layout="${sec.layout}">
           ${ idx === 0 ? `<h2 class="${s.title}">${title}</h2>` : '' }
           <div class="${s.section_wrapper}" data-section-wrap>
@@ -109,7 +109,7 @@ export class DomBuilder {
                 alt="${media.alt_text}"
               >
             </picture>
-            <figcaption class="${s[`caption--${ layout }`]}">${media.caption}</figcaption>
+
           </figure>
         </div>`;
   }
@@ -183,7 +183,7 @@ export class DomBuilder {
     return this.sections.map((group: GroupData) => {
 
       const sections = this.buildSection(group);
-      return `<li data-section-main id="${group.groupname}" class="${s.top_section_item}">${sections}</li>`
+      return `<li data-section-main id="${group.groupname}" class="${clsx(s.top_section_item, group.groupname === 'social' && s.top_section_item_social)}">${sections}</li>`
     }).join('');
   }
 }

@@ -44,37 +44,23 @@ export class MagicTime extends Window {
 
             const stopTop = stopper.getBoundingClientRect().top;
             const caption = pin.querySelector('figcaption');
-
             let distance = stopTop - top - 328;
 
-            if (caption) {
-              const captionHeight = caption.getBoundingClientRect().height;
+          if (distance > 0) {
+            this.SCENE = new ScrollMagic.Scene({
+              triggerElement: section,
+              duration: distance,
+              triggerHook: 0.4,
+              reverse: false,
+            })
+              .setPin(pin, { pushFollowers: false })
+              .addTo(this.CONTROLLER);
+          }
+        } else if (pin) {
 
-              distance = distance - captionHeight;
-            }
+          const { height, top } = section.getBoundingClientRect();
 
-            if (distance > 0) {
-              this.SCENE = new ScrollMagic.Scene({
-                triggerElement: section,
-                duration: distance,
-                triggerHook: 0.4,
-                reverse: false,
-              })
-                .setPin(pin, { pushFollowers: false })
-                .addTo(this.CONTROLLER);
-            }
-          } else if (pin) {
-
-            const { height, top } = section.getBoundingClientRect();
-            const caption = pin.querySelector('figcaption');
-
-            let distance = height - 328;
-
-            if (caption) {
-              const captionHeight = caption.getBoundingClientRect().height;
-
-              distance = distance - captionHeight;
-            }
+          let distance = height - 300;
 
 
             if (distance > 0) {
