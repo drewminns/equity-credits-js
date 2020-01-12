@@ -69,7 +69,7 @@ export class Animations extends Window {
     }
     this.setDeviceHeight();
     this.attachEventListeners();
-    this.preventScrollInPortrait(this.breakpoint.isPortrait);
+    // this.preventScrollInPortrait(this.breakpoint.isPortrait);
 
   }
 
@@ -109,7 +109,7 @@ export class Animations extends Window {
       const { innerHeight: height, innerWidth: width } = window;
       this.windowSize = { height, width };
       this.setDeviceHeight();
-      this.preventScrollInPortrait(this.breakpoint.isPortrait);
+      // this.preventScrollInPortrait(this.breakpoint.isPortrait);
     }, 400));
   }
 
@@ -134,17 +134,17 @@ export class Animations extends Window {
     });
   }
 
-  private preventScrollInPortrait(isPortrait: boolean) {
-    if (isPortrait) {
-      this.PAGE_SCROLLING_PAUSED = true;
-      document.body.setAttribute('data-no-scroll', 'true');
-      this.SCROLL_ANIMATION?.pause();
-    } else if (this.PAGE_SCROLLING_PAUSED && !this.USER_PAUSED) {
-      this.PAGE_SCROLLING_PAUSED = false;
-      document.body.removeAttribute('data-no-scroll');
-      this.pageScroll();
-    }
-  }
+  // private preventScrollInPortrait(isPortrait: boolean) {
+  //   if (isPortrait) {
+  //     this.PAGE_SCROLLING_PAUSED = true;
+  //     // document.body.setAttribute('data-no-scroll', 'true');
+  //     this.SCROLL_ANIMATION?.pause();
+  //   } else if (this.PAGE_SCROLLING_PAUSED && !this.USER_PAUSED) {
+  //     this.PAGE_SCROLLING_PAUSED = false;
+  //     document.body.removeAttribute('data-no-scroll');
+  //     this.pageScroll();
+  //   }
+  // }
 
   private handleLinkHover = () => {
 
