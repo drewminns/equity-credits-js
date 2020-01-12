@@ -28,13 +28,9 @@
   }
 
   &_row {
-    height: 90vh;
+    height: 80vh;
+    padding-top: 20vh;
     align-items: center;
-
-    @include desktop {
-      height: 80vh;
-      padding-top: 20vh;
-    }
   }
 }
 
