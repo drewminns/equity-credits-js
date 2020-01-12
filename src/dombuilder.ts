@@ -103,6 +103,7 @@ export class DomBuilder {
               <source srcset="${media.tablet_up.small.url}" media="(min-width: 768px)">
               <source srcset="${media.mobile.large.url}" media="(min-width: 544px)">
               <img
+                loading="lazy"
                 id="image-${id}"
                 class="${s.image}"
                 src="${media.mobile.small.url}"
@@ -137,7 +138,6 @@ export class DomBuilder {
               class="product_link"
               rel="noopener noreferrer"
               data-ga-event='Independents'
-              ga-value='1'
               data-ga-action="${item.shop_url}"
               href="${item.shop_url}"
             >
@@ -166,7 +166,6 @@ export class DomBuilder {
               class="product_link"
               rel="noopener noreferrer"
               data-ga-event='Independents'
-              ga-value='1'
               data-ga-action="${item.shop_url}"
               href="${item.shop_url}"
             >

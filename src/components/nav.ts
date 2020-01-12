@@ -18,7 +18,7 @@ export const nav = (() => `
               <h1>
                 <a href="https://shopify.com" data-ga-event='Independents' data-ga-action='Hero link' ga-value='1'>
                 <span class="${s.logo}">${shoppingBag}</span>
-                <span class="${utils.hidden}">Shopify</span>
+                <span class="${utils.hidden}">Supporting Independents</span>
                 </a>
               </h1>
             </div>
@@ -26,16 +26,16 @@ export const nav = (() => `
               <p>Supporting Independents</p>
             </div>
             <div class="${clsx(g.col_sm_4, g.col_md_3, g.col_xs_6, s.nav_controls)}">
-              <button aria-label="Back" id="back" class="${s.button}">
+              <button aria-label="Back" type="button" id="back" class="${s.button}">
                 <span class="${utils.hidden}">Back</span>
                 <span class="${s.icon}">${rewind}</span>
               </button>
-              <button aria-label="Play" id="play" class="${s.button}">
+              <button aria-label="Play" type="button" id="play" class="${s.button}">
                 <span id="play--text" class="${utils.hidden}">Pause</span>
                 <span id="play--icon" class="${s.icon}">${pause}</span>
               </button>
-              <button aria-label="Forward" id="forward" class="${s.button}">
-                <span class="${utils.hidden}">Shopify</span>
+              <button aria-label="Forward" type="button" id="forward" class="${s.button}">
+                <span class="${utils.hidden}">Forward</span>
                 <span class="${s.icon}">${fastForward}</span>
               </button>
             </div>
