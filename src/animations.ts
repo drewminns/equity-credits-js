@@ -19,7 +19,6 @@ export class Animations extends Window {
   CURRENT_SECTION: number;
   DISTANCE_MAP: Array<number>;
   SCROLL_OFFSET: number;
-  HAS_VIEWED: boolean;
   PLAY_PAUSE_BUTTON: any;
   USER_CLICKED_PLAY_PAUSE: boolean;
   LINKS: NodeListOf<Element> | null;
@@ -43,7 +42,6 @@ export class Animations extends Window {
     this.DISTANCE_MAP = [];
     this.CURRENT_SECTION = 0;
     this.SCROLL_OFFSET = 100;
-    this.HAS_VIEWED = false;
   }
 
   init = (SCROLL_TOP: number) : void => {
@@ -51,7 +49,6 @@ export class Animations extends Window {
     this.PLAY_PAUSE_BUTTON = document.getElementById('play')!;
     this.SCROLL_TOP = SCROLL_TOP;
     this.PAGE_HEIGHT = document.body.scrollHeight;
-    this.HAS_VIEWED = JSON.parse(window.localStorage.getItem('equity-viewed') as string);
 
     const intro = document.getElementById('intro')!;
     const sections = Array.from(document.querySelectorAll('[data-section-main]'));
@@ -61,12 +58,9 @@ export class Animations extends Window {
       return item.getBoundingClientRect().top;
     });
 
-    if (this.SCROLL_TOP === 0 && !this.HAS_VIEWED) {
-      window.document.body.setAttribute('data-no-scroll', 'true');
-      this.introAnimation();
-    } else {
-      this.runScrolling();
-    }
+    window.document.body.setAttribute('data-no-scroll', 'true');
+    this.introAnimation();
+
     this.setDeviceHeight();
     this.attachEventListeners();
     // this.preventScrollInPortrait(this.breakpoint.isPortrait);
@@ -361,7 +355,6 @@ export class Animations extends Window {
     this.TIME_LINE.finished.then(() => {
       this.runScrolling();
       window.document.body.removeAttribute('data-no-scroll');
-      window.localStorage.setItem('equity-viewed', 'true');
     });
   }
 
