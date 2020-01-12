@@ -150,41 +150,45 @@ export class Animations extends Window {
 
     let resumeScroll = false;
     let isScrolling: any;
+
+    const startScroll = () => {
+      if (this.USER_CLICKED_PLAY_PAUSE) {
+        return;
+      }
+      if (resumeScroll) {
+
+        if (isScrolling) {
+          window.clearTimeout(isScrolling);
+        }
+
+        isScrolling = setTimeout(() => {
+
+          // We need to check if scrolling has resumed in the meantime
+          // This could be via play/pause click
+          if (this.PAGE_SCROLLING_PAUSED) {
+
+            this.manageScrollState('play');
+            this.USER_PAUSED = false;
+          }
+        }, 3500);
+      }
+    }
+
+    const pauseScroll = () => {
+      if (!this.PAGE_SCROLLING_PAUSED) {
+        this.SCROLL_ANIMATION?.pause();
+        this.PAGE_SCROLLING_PAUSED = true;
+        this.USER_PAUSED = true;
+        this.managePlayBtnState('play');
+        resumeScroll = true;
+      }
+    }
+
     if (this.LINKS) {
       this.LINKS.forEach((el) => {
-        el.addEventListener('mouseenter', () => {
-
-          if (!this.PAGE_SCROLLING_PAUSED) {
-            this.SCROLL_ANIMATION?.pause();
-            this.PAGE_SCROLLING_PAUSED = true;
-            this.USER_PAUSED = true;
-            this.managePlayBtnState('play');
-            resumeScroll = true;
-          }
-        });
-
-        el.addEventListener('mouseleave', () => {
-          if (this.USER_CLICKED_PLAY_PAUSE) {
-            return;
-          }
-          if (resumeScroll) {
-
-            if (isScrolling) {
-              window.clearTimeout(isScrolling);
-            }
-
-            isScrolling = setTimeout(() => {
-
-              // We need to check if scrolling has resumed in the meantime
-              // This could be via play/pause click
-              if (this.PAGE_SCROLLING_PAUSED) {
-
-                this.manageScrollState('play');
-                this.USER_PAUSED = false;
-              }
-            }, 3500);
-          }
-        })
+        el.addEventListener('focus', () => pauseScroll());
+        el.addEventListener('mouseenter', () => pauseScroll());
+        el.addEventListener('mouseleave', () => startScroll())
       });
     }
 

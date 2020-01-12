@@ -27,7 +27,7 @@
   }
 
   &_row {
-    height: 90vh;
+    max-height: 90vh;
     align-items: center;
 
     @include desktop {
