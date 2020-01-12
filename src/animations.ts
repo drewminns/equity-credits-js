@@ -287,7 +287,7 @@ export class Animations extends Window {
 
 
     const nextSection = this.PAGE_SECTIONS[newIndex];
-    const scrollTop = window.pageYOffset + nextSection.getBoundingClientRect().top - this.SCROLL_OFFSET;
+    let scrollTop = newIndex === 0 ? 0 : window.pageYOffset + nextSection.getBoundingClientRect().top - this.SCROLL_OFFSET;
     const distance = Math.abs(scrollTop - this.SCROLL_POSITION);
 
     let resumeScroll = false;
@@ -356,7 +356,7 @@ export class Animations extends Window {
         opacity: 1,
         duration: 3500,
         endDelay: 2500
-      })
+      });
 
     this.TIME_LINE.finished.then(() => {
       this.runScrolling();
