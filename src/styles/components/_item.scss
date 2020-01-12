@@ -1,7 +1,17 @@
+// .site_wrapper {
+//   padding-top: 110vh;
+// }
+
 .main_content {
   opacity: 0;
-  padding-bottom: 40vh;
-  background: $black; // Used to overwrite Shopify application styles
+  background: transparent; // Used to overwrite Shopify application styles
+
+  > ul {
+    padding-top: 200px;
+    background-image: linear-gradient(to bottom, transparent, $black 450px, $black);
+    background-color: transparent;
+    margin-top: -10vh;
+  }
 }
 
 .logo_row {
@@ -22,6 +32,12 @@
   text-align: center;
 }
 
+.top_section_item:first-child {
+  // padding-top: 200px;
+  background-color: transparent;
+  // background-image: linear-gradient(to bottom, transparent, $black, 800px, $black);
+}
+
 .top_section_item_social > div {
   margin-top: 0;
 
@@ -32,6 +48,11 @@
 
 .top_section_item:not(:last-child) {
   margin-bottom: 200px;
+}
+
+.top_section_item:last-child {
+  padding-bottom: 40vh;
+  background-color: black;
 }
 
 .section_list_group {
@@ -87,10 +108,9 @@
 
     span {
       position: absolute;
-      right: -18px;
+      right: -28px;
       display: inline-block;
-      width: 16px;
-      top: -3px;
+      width: 26px;
     }
   }
 
@@ -101,7 +121,7 @@
   .arrow svg {
     height: 26px;
     position: relative;
-    top: 1px;
+    bottom: 0;
   }
 }
 
@@ -180,8 +200,12 @@
     position: absolute;
     height: 115%;
     width: 100vw;
-    margin-left: -3.5rem;
+    margin-left: -3rem;
     top: 0;
+
+    @include tablet {
+      margin-left: -3.5rem;
+    }
 
     @include desktop {
       width: 200vw;
@@ -236,9 +260,12 @@
 
   figure {
     width: 100vw;
-    margin-left: -3.5rem;
-
+    margin-left: -3rem;
     margin-bottom: 0;
+
+    @include tablet {
+      margin-left: -3.5rem;
+    }
 
     figcaption {
       background-color: $green;
