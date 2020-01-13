@@ -87,14 +87,14 @@ export class DomBuilder {
     return `
         <div
           class="${clsx(s.pinned_container, s[alignClass])}${layout !== 'center' ? ' pin-me' : ''}"
-          data-tablet-large-width="${media.tablet_up.large.dimensions.width}"
-          data-tablet-large-height="${media.tablet_up.large.dimensions.height}"
-          data-tablet-small-height="${media.tablet_up.small.dimensions.height}"
-          data-tablet-small-width="${media.tablet_up.small.dimensions.width}"
-          data-mobile-large-width="${media.mobile.large.dimensions.width}"
-          data-mobile-large-height="${media.mobile.large.dimensions.height}"
-          data-mobile-small-height="${media.mobile.small.dimensions.height}"
-          data-mobile-small-width="${media.mobile.small.dimensions.width}"
+          data-lg-width="${media.tablet_up.large.dimensions.width}"
+          data-lg-height="${media.tablet_up.large.dimensions.height}"
+          data-md-height="${media.tablet_up.small.dimensions.height}"
+          data-md-width="${media.tablet_up.small.dimensions.width}"
+          data-sm-width="${media.mobile.large.dimensions.width}"
+          data-sm-height="${media.mobile.large.dimensions.height}"
+          data-xs-height="${media.mobile.small.dimensions.height}"
+          data-xs-width="${media.mobile.small.dimensions.width}"
         >
           <figure>
             <picture>
