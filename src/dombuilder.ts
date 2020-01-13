@@ -7,7 +7,6 @@ import s from './styles/components/_item.scss';
 import { nav } from './components/nav';
 import { intro } from './components/intro';
 import { overlay } from './components/overlay';
-import { logo } from './components/logo';
 
 import arrow from './assets/arrow.svg';
 
@@ -122,7 +121,7 @@ export class DomBuilder {
       const media = this.createMediaItem(item.media, layout, item.shop_id);
 
       return `
-      <li class="${clsx(s.item)}" data-layout="${layout}">
+      <li class="${clsx(s.item)}" data-layout="${layout}" data-media-section>
         <p class="${clsx(s.item_content, s.item_has_image)}">
           <span class="${s.merchant_products}">
             ${

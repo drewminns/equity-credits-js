@@ -18,6 +18,7 @@ export class MagicTime extends Window {
     this.SECTION = section;
     this.CONTROLLER = new ScrollMagic.Controller();
 
+    this.setImageWidths();
     this.windowResizeListener();
     this.initScrollMagic();
   }
@@ -25,6 +26,25 @@ export class MagicTime extends Window {
   private initScrollMagic = () => {
     // this.scrollHero();
     this.scrollSections();
+  }
+
+  private setImageWidths = () => {
+    if (this.SECTION) {
+      let width = this.SECTION.clientWidth;
+
+      const listItem = this.SECTION.querySelector('li');
+      if (listItem) {
+        width = listItem.clientWidth || 0;
+      }
+
+      this.SECTION.querySelectorAll('.pin-me img').forEach((elem) => {
+        if (elem instanceof HTMLElement) {
+          elem.style.width = `${width - 60}px`;
+        } else {
+          throw new Error("element #test not in document")
+        }
+      });
+    }
   }
 
   private scrollSections = () => {

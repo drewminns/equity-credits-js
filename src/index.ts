@@ -22,7 +22,7 @@ fetchData.fetch()
     domBuilder.init(data, MOUNT_POINT);
   })
   .then(() => {
-    const sections = Array.from(document.querySelectorAll('section[id]'));
+    const sections = Array.from(document.querySelectorAll('section[id^=section]'));
 
     sections.forEach((section, index) => {
       scrollMagic.init(section);
