@@ -26,7 +26,7 @@ export class Animations extends Window {
 
   constructor() {
     super();
-    this.DEBUG = false;
+    this.DEBUG = true;
     this.SCROLL_ANIMATION = null;
     this.LINKS = null;
     this.SCROLL_TOP = 0;
@@ -374,6 +374,7 @@ export class Animations extends Window {
       });
 
     this.TIME_LINE.finished.then(() => {
+      window.scrollTo(0, 1);
       this.runScrolling();
       window.document.body.removeAttribute('data-no-scroll');
     });
