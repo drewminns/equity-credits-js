@@ -71,7 +71,6 @@ export class Animations extends Window {
 
     if (this.PLAY_PAUSE_BUTTON) {
 
-
       this.PLAY_PAUSE_BUTTON.addEventListener('click', () => {
         if (this.PLAY_PAUSE_BUTTON.disabled) return;
         this.scrollControls();
@@ -126,7 +125,6 @@ export class Animations extends Window {
 
     this.DISTANCE_MAP = distances;
   }
-
 
   private setDeviceHeight = () => {
     document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
@@ -254,7 +252,13 @@ export class Animations extends Window {
       b.removeAttribute('disabled');
     }
 
-    if ( this.CURRENT_SECTION >= this.PAGE_SECTIONS.length - 1) {
+    // if ( this.CURRENT_SECTION >= this.PAGE_SECTIONS.length) {
+    //   f.setAttribute('disabled', 'true');
+    // } else {
+    //   f.removeAttribute('disabled');
+    // }
+
+    if (this.SCROLL_POSITION >= ( this.PAGE_HEIGHT - this.SCROLL_OFFSET - window.innerHeight )) {
       f.setAttribute('disabled', 'true');
     } else {
       f.removeAttribute('disabled');
@@ -288,21 +292,30 @@ export class Animations extends Window {
   }
 
   private fastForward = (e: any, forward: Element, back: Element) => {
+
     const newSectionIndex = this.CURRENT_SECTION + 1;
 
     if (newSectionIndex > this.PAGE_SECTIONS.length) {
       return;
+    } else if (newSectionIndex === this.PAGE_SECTIONS.length) {
+      this.scrollToSection(newSectionIndex - 1, true);
+    } else {
+      this.scrollToSection(newSectionIndex);
     }
-
-    this.scrollToSection(newSectionIndex);
   }
 
-  private scrollToSection = (newIndex: number,) => {
-
+  private scrollToSection = (newIndex: number, end: boolean = false) => {
 
     const nextSection = this.PAGE_SECTIONS[newIndex];
-    let scrollTop = newIndex === 0 ? 0 : window.pageYOffset + nextSection.getBoundingClientRect().top - this.SCROLL_OFFSET;
-    const distance = Math.abs(scrollTop - this.SCROLL_POSITION);
+    let scrollTop;
+
+    if (end) {
+      scrollTop = this.PAGE_HEIGHT;
+    } else {
+      scrollTop = newIndex === 0 ? 0 : window.pageYOffset + nextSection.getBoundingClientRect().top - this.SCROLL_OFFSET;
+    }
+
+    // const distance = Math.abs(scrollTop - this.SCROLL_POSITION);
 
     let resumeScroll = false;
 
