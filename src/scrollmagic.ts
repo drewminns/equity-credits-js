@@ -16,18 +16,58 @@ export class MagicTime extends Window {
 
   init = (section: Element) => {
     this.SECTION = section;
+    this.setImageWidths();
     this.CONTROLLER = new ScrollMagic.Controller();
 
-    this.windowResizeListener();
     this.initScrollMagic();
+    this.windowResizeListener();
+    window.addEventListener('resize', () => {
+      this.setImageWidths();
+    })
   }
 
   private initScrollMagic = () => {
-    // this.scrollHero();
     this.scrollSections();
   }
 
-  private scrollSections = () => {
+  private setImageWidths() {
+    this.trackLISize();
+  }
+
+  private trackLISize() {
+    const images = document.querySelectorAll('.pin-me img');
+    if ((this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm')) {
+      const width = (document.querySelector('li[data-media-section]')?.clientWidth || 0) - 60;
+      images.forEach((elem) => {
+        if (elem instanceof HTMLElement) {
+          elem.style.width = `${width}px`;
+        } else {
+          throw new Error("element #test not in document")
+        }
+      });
+    } else {
+      images.forEach((elem) => {
+        if (elem instanceof HTMLElement) {
+          elem.style.width = '';
+        } else {
+          throw new Error("element #test not in document")
+        }
+      })
+    }
+  }
+
+  private getAspect(pin: Element) {
+    const height = Number(pin?.getAttribute(`data-${this.breakpoint.name}-height`));
+    const width = Number(pin?.getAttribute(`data-${this.breakpoint.name}-width`));
+    let aspect = 1.6;
+    if (height && width) {
+      aspect = width / height;
+    }
+
+    return aspect;
+  }
+
+  private scrollSections = async () => {
     this.CONTROLLER = new ScrollMagic.Controller();
 
     if (this.SECTION && (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm')) {
@@ -42,16 +82,24 @@ export class MagicTime extends Window {
           const stopper = wrapper.querySelector('li[data-layout]')!;
 
           if (pin && stopper) {
-
             const stopTop = stopper.getBoundingClientRect().top;
 
-            let distance = stopTop - top - 328;
+            const aspect = this.getAspect(pin);
+            const image = stopper.querySelector('img');
+            let imageHeight = 0;
+
+            if (image) {
+              imageHeight = Number(image.style.width.replace('px', '')) / aspect;
+            }
+
+            let distance = stopTop - top - imageHeight;
+
 
             if (distance > 0) {
-              this.SCENE = new ScrollMagic.Scene({
+              new ScrollMagic.Scene({
                 triggerElement: this.SECTION,
                 duration: distance,
-                triggerHook: 0.4,
+                triggerHook: 0.3,
                 reverse: false,
               })
                 .setPin(pin, { pushFollowers: false })
@@ -59,22 +107,23 @@ export class MagicTime extends Window {
             }
           } else if (pin) {
 
-            const { height, top } = this.SECTION.getBoundingClientRect();
-            const caption = pin.querySelector('figcaption');
+            const { height } = this.SECTION.getBoundingClientRect();
+            const image = this.SECTION.querySelector('img');
+            const aspect = this.getAspect(pin);
 
-            let distance = height - 328;
+            let imageHeight = 0;
 
-            if (caption) {
-              const captionHeight = caption.getBoundingClientRect().height;
-
-              distance = distance - captionHeight;
+            if (image) {
+              imageHeight = Number(image.style.width.replace('px', '')) / aspect;
             }
+
+            let distance = height - imageHeight;
 
             if (distance > 0) {
               this.SCENE = new ScrollMagic.Scene({
                 triggerElement: this.SECTION,
                 duration: distance,
-                triggerHook: 0.4,
+                triggerHook: 0.2,
                 reverse: false,
               })
                 .setPin(pin, { pushFollowers: false })
@@ -82,7 +131,6 @@ export class MagicTime extends Window {
             }
           }
         }
-      // })
     }
   }
 
@@ -116,9 +164,9 @@ export class MagicTime extends Window {
         this.CONTROLLER.destroy();
         this.CONTROLLER = null;
       }
-      this.cleanupScrollMagic();
 
       if (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm') {
+        this.setImageWidths();
         this.initScrollMagic();
       }
 
