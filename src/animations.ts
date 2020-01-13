@@ -51,7 +51,7 @@ export class Animations extends Window {
     this.PLAY_PAUSE_BUTTON = document.getElementById('play')!;
     this.SCROLL_TOP = SCROLL_TOP;
     this.PAGE_HEIGHT = document.body.scrollHeight;
-    this.SCROLL_OFFSET = (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm') ? 100 : 75;
+    this.SCROLL_OFFSET = 100;
 
 
     const intro = document.getElementById('intro')!;
@@ -344,10 +344,10 @@ export class Animations extends Window {
           this.pageScroll();
           this.PAGE_SCROLLING_PAUSED = false;
         }
+
+        this.CURRENT_SECTION = newIndex;
       }
     });
-
-    this.CURRENT_SECTION = newIndex;
   }
 
   private runScrolling = () => {
