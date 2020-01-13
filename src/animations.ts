@@ -51,7 +51,6 @@ export class Animations extends Window {
     this.PLAY_PAUSE_BUTTON = document.getElementById('play')!;
     this.SCROLL_TOP = SCROLL_TOP;
     this.PAGE_HEIGHT = document.body.scrollHeight;
-    this.SCROLL_OFFSET = 100;
 
 
     const intro = document.getElementById('intro')!;
@@ -103,7 +102,6 @@ export class Animations extends Window {
     window.addEventListener('resize', debounce(() => {
       const { innerHeight: height, innerWidth: width } = window;
       this.windowSize = { height, width };
-      this.SCROLL_OFFSET = (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm') ? 100 : 75;
       this.setDeviceHeight();
       this.setDistanceMap();
       // this.preventScrollInPortrait(this.breakpoint.isPortrait);
