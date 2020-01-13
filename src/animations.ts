@@ -69,7 +69,7 @@ export class Animations extends Window {
   }
 
   private getScrollOffset = () => {
-    return (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm') ? 100 : 150;
+    return (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm') ? 100 : 100;
   }
 
   private attachEventListeners = () => {
@@ -109,7 +109,6 @@ export class Animations extends Window {
       this.SCROLL_OFFSET = this.getScrollOffset();
       this.setDeviceHeight();
       this.setDistanceMap();
-      console.log('RESIZE');
       // this.preventScrollInPortrait(this.breakpoint.isPortrait);
     }, 400));
   }
@@ -135,7 +134,6 @@ export class Animations extends Window {
   }
 
   private setDeviceHeight = () => {
-    console.log('running!');
     document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
   }
 
