@@ -22,9 +22,11 @@ export class Animations extends Window {
   PLAY_PAUSE_BUTTON: any;
   USER_CLICKED_PLAY_PAUSE: boolean;
   LINKS: NodeListOf<Element> | null;
+  DEBUG: boolean;
 
   constructor() {
     super();
+    this.DEBUG = false;
     this.SCROLL_ANIMATION = null;
     this.LINKS = null;
     this.SCROLL_TOP = 0;
@@ -54,9 +56,7 @@ export class Animations extends Window {
     const sections = Array.from(document.querySelectorAll('[data-section-main]'));
 
     this.PAGE_SECTIONS = [ intro, ...sections];
-    this.DISTANCE_MAP = this.PAGE_SECTIONS.map(item => {
-      return item.getBoundingClientRect().top;
-    });
+    this.setDistanceMap();
 
     window.document.body.setAttribute('data-no-scroll', 'true');
     this.introAnimation();
@@ -103,8 +103,28 @@ export class Animations extends Window {
       const { innerHeight: height, innerWidth: width } = window;
       this.windowSize = { height, width };
       this.setDeviceHeight();
+      this.setDistanceMap();
       // this.preventScrollInPortrait(this.breakpoint.isPortrait);
     }, 400));
+  }
+
+  private offsetTop = (el: any) => {
+    var location = 0;
+    if (el.offsetParent) {
+      do {
+        location += el.offsetTop;
+        el = el.offsetParent;
+      } while (el);
+    }
+    return location >= 0 ? location : 0;
+  }
+
+  private setDistanceMap = () => {
+    const distances = this.PAGE_SECTIONS.map(item => {
+      return this.offsetTop(item);
+    });
+
+    this.DISTANCE_MAP = distances;
   }
 
 
@@ -334,22 +354,23 @@ export class Animations extends Window {
   }
 
   private introAnimation = () => {
+
     this.TIME_LINE
       .add({
         targets: '#intro',
         opacity: 1,
-        duration: 1200
+        duration: this.DEBUG ? 0 : 1200
       })
       .add({
         targets: '#intro-text1',
         opacity: 1,
-        duration: 3500
+        duration: this.DEBUG ? 0 : 3500
       })
       .add({
         targets: '#intro-text2',
         opacity: 1,
-        duration: 3500,
-        endDelay: 2500
+        duration: this.DEBUG ? 0 : 3500,
+        endDelay: this.DEBUG ? 0 : 2500
       });
 
     this.TIME_LINE.finished.then(() => {
@@ -362,7 +383,7 @@ export class Animations extends Window {
     anime({
       targets: '#main_content',
       opacity: 1,
-      duration: 1000,
+      duration: this.DEBUG ? 0 : 1000,
     });
   }
 
