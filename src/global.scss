@@ -82,4 +82,10 @@ li[data-layout] ~ li[data-layout] {
 
 [data-section-main] {
   background-color: black;
+
+  > [data-center]:first-child,
+  > [data-left]:first-child,
+  > [data-right]:first-child {
+    padding-top: 40px;
+  }
 }
