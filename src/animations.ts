@@ -66,6 +66,8 @@ export class Animations extends Window {
     this.attachEventListeners();
     // this.preventScrollInPortrait(this.breakpoint.isPortrait);
 
+    console.log(this.DISTANCE_MAP);
+
   }
 
   private getScrollOffset = () => {
