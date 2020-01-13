@@ -294,13 +294,13 @@ export class Animations extends Window {
       resumeScroll = true;
     }
 
-    const duration = distance < 1000 ? (distance / (100)) * 100 : (distance / (300)) * 100;
+    // const duration = distance < 1000 ? (distance / (100)) * 100 : (distance / (300)) * 100;
 
     this.SCROLL_ANIMATION = anime({
       targets: this.SCROLL_ELEMENT,
       scrollTop: scrollTop,
       easing: 'linear',
-      duration,
+      duration: 500,
       complete: () => {
         this.PLAY_PAUSE_BUTTON.removeAttribute('disabled');
         // el.removeAttribute('disabled');
