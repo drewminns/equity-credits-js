@@ -53,7 +53,6 @@ export class Animations extends Window {
     this.PAGE_HEIGHT = document.body.scrollHeight;
     this.SCROLL_OFFSET = this.getScrollOffset();
 
-
     const intro = document.getElementById('intro')!;
     const sections = Array.from(document.querySelectorAll('[data-section-main]'));
 
@@ -126,8 +125,9 @@ export class Animations extends Window {
   }
 
   private setDistanceMap = () => {
-    const distances = this.PAGE_SECTIONS.map(item => {
-      return this.offsetTop(item);
+    // Store the distance for each section from the top of the page to the top of the section
+    const distances = this.PAGE_SECTIONS.map((item, index) => {
+      return index === 0 ? 0 : this.offsetTop(item);
     });
 
     this.DISTANCE_MAP = distances;
@@ -253,7 +253,13 @@ export class Animations extends Window {
 
   private manageActiveButtons = (f: Element, b: Element) => {
 
-    if (this.CURRENT_SECTION <= 0) {
+    // if (this.CURRENT_SECTION <= 0) {
+    //   b.setAttribute('disabled', 'true');
+    // } else {
+    //   b.removeAttribute('disabled');
+    // }
+
+    if (this.SCROLL_POSITION <= (this.SCROLL_OFFSET * 2)) {
       b.setAttribute('disabled', 'true');
     } else {
       b.removeAttribute('disabled');
@@ -274,9 +280,10 @@ export class Animations extends Window {
   }
 
   private getCurrentSectionIndex = () => {
-    this.SCROLL_POSITION = (window.pageYOffset || this.SCROLL_ELEMENT.scrollTop) - (this.SCROLL_ELEMENT.clientTop || 0) + this.SCROLL_OFFSET;
+    // this.SCROLL_POSITION = (window.pageYOffset || this.SCROLL_ELEMENT.scrollTop) - (this.SCROLL_ELEMENT.clientTop || 0);
+    this.SCROLL_POSITION = this.SCROLL_ELEMENT.scrollTop + this.SCROLL_OFFSET;
 
-    const index = this.DISTANCE_MAP.findIndex(item => {
+    const index = this.DISTANCE_MAP.findIndex((item, index) => {
       return this.SCROLL_POSITION < item;
     });
 
@@ -287,12 +294,12 @@ export class Animations extends Window {
     // we need to calculate how far into the current section one is
     // If we are just starting in the section, go to the previous one
     // if we are far into the curent section, go to the top
-    const sectionScrolled = this.SCROLL_POSITION - this.DISTANCE_MAP[this.CURRENT_SECTION] - this.SCROLL_OFFSET;
+    const sectionScrolled = this.SCROLL_POSITION - this.DISTANCE_MAP[this.CURRENT_SECTION];
 
-    let newSectionIndex = sectionScrolled > 100 ? this.CURRENT_SECTION : this.CURRENT_SECTION - 1;
+    let newSectionIndex = sectionScrolled > 50 ? this.CURRENT_SECTION : this.CURRENT_SECTION - 1;
 
     if (newSectionIndex < 0) {
-      return;
+      newSectionIndex = 0;
     }
 
     this.scrollToSection(newSectionIndex);
@@ -313,8 +320,7 @@ export class Animations extends Window {
 
   private scrollToSection = (newIndex: number, end: boolean = false) => {
 
-    const nextSection = this.PAGE_SECTIONS[newIndex];
-    let scrollTop;
+    let scrollTop: any;
 
     if (end) {
       scrollTop = this.PAGE_HEIGHT;
