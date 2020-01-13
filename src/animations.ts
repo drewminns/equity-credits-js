@@ -109,6 +109,8 @@ export class Animations extends Window {
       this.SCROLL_OFFSET = this.getScrollOffset();
       this.setDeviceHeight();
       this.setDistanceMap();
+
+      console.log(this.DISTANCE_MAP);
       // this.preventScrollInPortrait(this.breakpoint.isPortrait);
     }, 400));
   }
