@@ -26,7 +26,7 @@ export class Animations extends Window {
 
   constructor() {
     super();
-    this.DEBUG = false;
+    this.DEBUG = true;
     this.SCROLL_ANIMATION = null;
     this.LINKS = null;
     this.SCROLL_TOP = 0;
