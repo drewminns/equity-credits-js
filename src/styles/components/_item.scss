@@ -8,7 +8,12 @@
 
   > ul {
     padding-top: 200px;
-    background-image: linear-gradient(to bottom, transparent, $black 450px, $black);
+    background-image: linear-gradient(
+      to bottom,
+      transparent,
+      $black 450px,
+      $black
+    );
     background-color: transparent;
     margin-top: -10vh;
   }
@@ -102,7 +107,9 @@
     text-decoration: none;
     color: $white;
 
-    &:hover {
+    &:hover,
+    &:focus {
+      outline: none;
       text-decoration: underline;
     }
 
@@ -248,6 +255,7 @@
 .pinned_container {
   // width: 100vw;
   position: relative;
+  opacity: 0;
 
   .section_wrapper > & {
     margin-bottom: 1.6rem;
@@ -256,6 +264,7 @@
   [data-layout="center"] & {
     margin-left: auto;
     margin-right: auto;
+    opacity: 1;
   }
 
   figure {

@@ -1,4 +1,4 @@
-import { Section } from './shared/interface';
+import anime, { AnimeInstance, AnimeTimelineInstance } from 'animejs';
 import { Window } from './window';
 import debounce from 'lodash.debounce';
 
@@ -6,7 +6,6 @@ const ScrollMagic = require('scrollmagic');
 
 export class MagicTime extends Window {
   CONTROLLER: any;
-  SCENE: any;
   SECTION: Element | null;
 
   constructor() {
@@ -29,6 +28,7 @@ export class MagicTime extends Window {
 
   private scrollSections = () => {
     this.CONTROLLER = new ScrollMagic.Controller();
+    let SCENE;
 
     if (this.SECTION && (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm')) {
 
@@ -48,14 +48,21 @@ export class MagicTime extends Window {
             let distance = stopTop - top - 328;
 
             if (distance > 0) {
-              this.SCENE = new ScrollMagic.Scene({
+              SCENE = new ScrollMagic.Scene({
                 triggerElement: this.SECTION,
                 duration: distance,
                 triggerHook: 0.4,
                 reverse: false,
               })
                 .setPin(pin, { pushFollowers: false })
-                .addTo(this.CONTROLLER);
+                .addTo(this.CONTROLLER)
+                .on('enter', (e: any) => {
+                  anime({
+                    targets: pin,
+                    opacity: 1,
+                    duration: 5000,
+                  })
+                })
             }
           } else if (pin) {
 
@@ -71,14 +78,21 @@ export class MagicTime extends Window {
             }
 
             if (distance > 0) {
-              this.SCENE = new ScrollMagic.Scene({
+              SCENE = new ScrollMagic.Scene({
                 triggerElement: this.SECTION,
                 duration: distance,
                 triggerHook: 0.4,
                 reverse: false,
               })
                 .setPin(pin, { pushFollowers: false })
-                .addTo(this.CONTROLLER);
+                .addTo(this.CONTROLLER)
+                .on('enter', (e: any) => {
+                  anime({
+                    targets: pin,
+                    opacity: 1,
+                    duration: 5000,
+                  })
+                })
             }
           }
         }
