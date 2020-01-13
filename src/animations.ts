@@ -285,7 +285,7 @@ export class Animations extends Window {
     // if we are far into the curent section, go to the top
     const sectionScrolled = this.SCROLL_POSITION - this.DISTANCE_MAP[this.CURRENT_SECTION] - this.SCROLL_OFFSET;
 
-    let newSectionIndex = sectionScrolled > 20 ? this.CURRENT_SECTION : this.CURRENT_SECTION - 1;
+    let newSectionIndex = sectionScrolled > 100 ? this.CURRENT_SECTION : this.CURRENT_SECTION - 1;
 
     if (newSectionIndex < 0) {
       return;
@@ -315,7 +315,7 @@ export class Animations extends Window {
     if (end) {
       scrollTop = this.PAGE_HEIGHT;
     } else {
-      scrollTop = newIndex === 0 ? 0 : window.pageYOffset + nextSection.getBoundingClientRect().top - this.SCROLL_OFFSET;
+      scrollTop = newIndex === 0 ? 0 : this.DISTANCE_MAP[newIndex] - this.SCROLL_OFFSET;
     }
 
     // const distance = Math.abs(scrollTop - this.SCROLL_POSITION);
