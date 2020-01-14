@@ -1,9 +1,7 @@
-import { Section } from './shared/interface';
 import { Window } from './window';
-import debounce from 'lodash.debounce';
-import throttle from 'lodash.throttle';
+import debounce from 'lodash.throttle';
 
-const ScrollMagic = require('scrollmagic');
+import ScrollMagic from 'scrollmagic';
 
 export class MagicTime extends Window {
   CONTROLLER: any;
@@ -19,17 +17,16 @@ export class MagicTime extends Window {
   init = (sections: Element[]) => {
     this.CONTROLLER = new ScrollMagic.Controller();
     this.SECTIONS = sections;
-    this.setImageWidths();
 
-    this.initScrollMagic();
+    this.setImageWidths();
+    this.scrollSections();
     this.windowResizeListener();
   }
 
-  private initScrollMagic = () => {
-    this.scrollSections();
-  }
-
-  private setImageWidths() {
+  /**
+  * Tracks width of columns and updates width attribute of image.
+  **/
+  private setImageWidths() : void {
     const images = document.querySelectorAll('.pin-me img');
     if ((this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm')) {
       const width = (document.querySelector('li[data-media-section]')?.clientWidth || 0) - 60;
@@ -51,9 +48,15 @@ export class MagicTime extends Window {
     }
   }
 
-  private getAspect(pin: Element) {
-    const height = Number(pin?.getAttribute(`data-${this.breakpoint.name}-height`));
-    const width = Number(pin?.getAttribute(`data-${this.breakpoint.name}-width`));
+  /**
+  * Returns aspect ratio of an element
+  * @param pin    element to get dimensions of
+  * @returns number
+  **/
+  private getAspect(pin: Element) : number {
+    const breakpoint = this.breakpoint.name;
+    const height = Number(pin?.getAttribute(`data-${breakpoint}-height`));
+    const width = Number(pin?.getAttribute(`data-${breakpoint}-width`));
     let aspect = 1.6;
     if (height && width) {
       aspect = width / height;
@@ -62,7 +65,10 @@ export class MagicTime extends Window {
     return aspect;
   }
 
-  private scrollSections = () => {
+  /**
+  * Initializes ScrollMagic for all sections provided to the class
+  **/
+  private scrollSections = () : void => {
 
     if (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm') {
       this.SECTIONS.forEach((section) => {
@@ -134,17 +140,27 @@ export class MagicTime extends Window {
       }
   }
 
-  private windowResizeListener = () => {
-    window.addEventListener('resize', throttle(() => {
+  /**
+  * Iterates through this.SCENES and resets scrollMagic scenes for each.
+  **/
+  private resetScenes = (): void => {
+    this.SCENES.forEach((scene) => {
+      scene.removePin(true);
+      scene.refresh();
+    });
+  }
+
+  /**
+  * Adds a window resize listener to the window to update image sizes
+  * and reset scrollmagic settings
+  **/
+  private windowResizeListener = (): void => {
+    window.addEventListener('resize', debounce(() => {
       this.setImageWidths();
 
-      this.SCENES.forEach((scene) => {
-        scene.removePin(true);
-        scene.refresh();
-      });
-
       if (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm') {
-        this.initScrollMagic();
+        this.resetScenes();
+        this.scrollSections();
       }
 
     }, 500));
