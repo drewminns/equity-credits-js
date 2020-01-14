@@ -255,17 +255,6 @@ export class Animations extends Window {
   }
 
   private manageActiveButtons(f: Element, b: Element) : void {
-    // if (this.CURRENT_SECTION <= 0) {
-    //   b.setAttribute('disabled', 'true');
-    // } else {
-    //   b.removeAttribute('disabled');
-    // }
-
-    // if ( this.CURRENT_SECTION >= this.PAGE_SECTIONS.length - 1) {
-    //   f.setAttribute('disabled', 'true');
-    // } else {
-    //   f.removeAttribute('disabled');
-    // }
 
     if (this.scrollTop <= (this.SCROLL_OFFSET * 2)) {
       b.setAttribute('disabled', 'true');
@@ -327,10 +316,7 @@ export class Animations extends Window {
       index = index + 1;
     }
 
-    // const nextSection = this.PAGE_SECTIONS[index];
-
     let scrollTop;
-    // let scrollTop = newIndex === 0 ? 0 : window.pageYOffset + nextSection.getBoundingClientRect().top - this.SCROLL_OFFSET;
 
     if (end) {
       scrollTop = this.PAGE_HEIGHT;
@@ -368,28 +354,6 @@ export class Animations extends Window {
     });
 
   }
-
-  // private introAnimation() : void {
-
-  //   this.TIME_LINE
-  //     .add({
-  //       targets: '#intro',
-  //       opacity: 1,
-  //       duration: this.DEBUG ? 0 : 1200
-  //     });
-
-  //   this.TIME_LINE.finished.then(() => {
-  //     this.runScrolling();
-  //   });
-  // }
-
-  // private scrollFadeIn() : void {
-  //   anime({
-  //     targets: '#main_content',
-  //     opacity: 1,
-  //     duration: this.DEBUG ? 0 : 1000,
-  //   });
-  // }
 
   private pageScroll() {
     const currentScroll = this.SCROLL_ELEMENT.scrollTop;
