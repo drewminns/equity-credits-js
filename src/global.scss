@@ -84,3 +84,27 @@ li[data-layout] ~ li[data-layout] {
 [data-section-main] {
   background-color: black;
 }
+
+[data-wistia-id] {
+  -webkit-appearance: none;
+  background-color: white;
+  border: 0;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  top: calc(50% - 30px);
+  left: calc(50% - 30px);
+
+  &:after {
+    content: '';
+    width: 0;
+    height: 0;
+    display: block;
+    border: 10px solid transparent;
+    border-left: 16px solid $green--alt;
+    position: relative;
+    left: 18px;
+    top: 1px;
+  }
+}
