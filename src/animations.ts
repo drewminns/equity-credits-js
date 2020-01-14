@@ -330,7 +330,7 @@ export class Animations extends Window {
       footer.classList.remove('hidden');
     }
 
-    this.scrollFadeIn();
+    // this.scrollFadeIn();
     // this.pageScroll();
     // this.navigationAnimation();
     this.listenUserScroll();
