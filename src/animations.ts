@@ -121,7 +121,7 @@ export class Animations extends Window {
 
   private navVisibility() {
     const threshold = this.windowSize.height * 0.5;
-    if (!this.NAV_SHOWN && this.scrollTop >= threshold) {
+    if (this.scrollTop >= threshold) {
       this.navigationAnimation(true);
     } else if (this.scrollTop < threshold) {
       this.navigationAnimation(false);
@@ -438,16 +438,12 @@ export class Animations extends Window {
     if (show) {
       opts.duration = 500;
       opts['complete'] = () => {
-        // nav?.classList.add('nav--is-visible');
         nav?.setAttribute('data-shown', 'true');
-        this.NAV_SHOWN = true;
       }
     } else {
       opts.duration = 1000;
-      opts['begin'] = () => {
-        // nav?.classList.remove('nav--is-visible');
+      opts['complete'] = () => {
         nav?.removeAttribute('data-shown');
-        this.NAV_SHOWN = false;
       }
     }
     anime(opts);
