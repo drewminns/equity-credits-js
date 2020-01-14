@@ -52,6 +52,7 @@ export class Animations extends Window {
     this.LINKS = document.querySelectorAll('.product_link');
     this.PLAY_PAUSE_BUTTON = document.getElementById('play')!;
     this.PAGE_HEIGHT = document.body.scrollHeight;
+    this.SCROLL_OFFSET = this.getScrollOffset();
 
     const intro = document.getElementById('intro')!;
     const sections = Array.from(document.querySelectorAll('[data-section-main]'));
@@ -66,12 +67,17 @@ export class Animations extends Window {
     this.attachEventListeners();
     // this.preventScrollInPortrait(this.breakpoint.isPortrait);
 
+    console.log(this.DISTANCE_MAP);
+
+  }
+
+  private getScrollOffset = () => {
+    return (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm') ? 100 : 100;
   }
 
   private attachEventListeners() : void {
 
     if (this.PLAY_PAUSE_BUTTON) {
-
 
       this.PLAY_PAUSE_BUTTON.addEventListener('click', () => {
         if (this.PLAY_PAUSE_BUTTON.disabled) return;
@@ -103,6 +109,7 @@ export class Animations extends Window {
     window.addEventListener('resize', debounce(() => {
       const { innerHeight: height, innerWidth: width } = window;
       this.windowSize = { height, width };
+      this.SCROLL_OFFSET = this.getScrollOffset();
       this.setDeviceHeight();
       this.DISTANCE_MAP = this.setDistanceMap();
       // this.preventScrollInPortrait(this.breakpoint.isPortrait);
@@ -120,9 +127,10 @@ export class Animations extends Window {
     return location >= 0 ? location : 0;
   }
 
-  private setDistanceMap() : number[] {
-    const distances = this.PAGE_SECTIONS.map(item => {
-      return this.offsetTop(item);
+  private setDistanceMap = () => {
+    // Store the distance for each section from the top of the page to the top of the section
+    const distances = this.PAGE_SECTIONS.map((item, index) => {
+      return index === 0 ? 0 : this.offsetTop(item);
     });
 
     return distances;
@@ -236,13 +244,25 @@ export class Animations extends Window {
 
   private manageActiveButtons(f: Element, b: Element) : void {
 
-    if (this.CURRENT_SECTION <= 0) {
+    // if (this.CURRENT_SECTION <= 0) {
+    //   b.setAttribute('disabled', 'true');
+    // } else {
+    //   b.removeAttribute('disabled');
+    // }
+
+    if (this.SCROLL_POSITION <= (this.SCROLL_OFFSET * 2)) {
       b.setAttribute('disabled', 'true');
     } else {
       b.removeAttribute('disabled');
     }
 
-    if ( this.CURRENT_SECTION >= this.PAGE_SECTIONS.length - 1) {
+    // if ( this.CURRENT_SECTION >= this.PAGE_SECTIONS.length) {
+    //   f.setAttribute('disabled', 'true');
+    // } else {
+    //   f.removeAttribute('disabled');
+    // }
+
+    if (this.SCROLL_POSITION >= ( this.PAGE_HEIGHT - this.SCROLL_OFFSET - window.innerHeight )) {
       f.setAttribute('disabled', 'true');
     } else {
       f.removeAttribute('disabled');
@@ -250,10 +270,11 @@ export class Animations extends Window {
 
   }
 
-  private getCurrentSectionIndex() : number {
-    this.SCROLL_POSITION = (window.pageYOffset || this.SCROLL_ELEMENT.scrollTop) - (this.SCROLL_ELEMENT.clientTop || 0) + this.SCROLL_OFFSET;
+  private getCurrentSectionIndex = () => {
+    // this.SCROLL_POSITION = (window.pageYOffset || this.SCROLL_ELEMENT.scrollTop) - (this.SCROLL_ELEMENT.clientTop || 0);
+    this.SCROLL_POSITION = this.SCROLL_ELEMENT.scrollTop + this.SCROLL_OFFSET;
 
-    const index = this.DISTANCE_MAP.findIndex(item => {
+    const index = this.DISTANCE_MAP.findIndex((item, index) => {
       return this.SCROLL_POSITION < item;
     });
 
@@ -264,12 +285,12 @@ export class Animations extends Window {
     // we need to calculate how far into the current section one is
     // If we are just starting in the section, go to the previous one
     // if we are far into the curent section, go to the top
-    const sectionScrolled = this.SCROLL_POSITION - this.DISTANCE_MAP[this.CURRENT_SECTION] - this.SCROLL_OFFSET;
+    const sectionScrolled = this.SCROLL_POSITION - this.DISTANCE_MAP[this.CURRENT_SECTION];
 
-    let newSectionIndex = sectionScrolled > 20 ? this.CURRENT_SECTION : this.CURRENT_SECTION - 1;
+    let newSectionIndex = sectionScrolled > 50 ? this.CURRENT_SECTION : this.CURRENT_SECTION - 1;
 
     if (newSectionIndex < 0) {
-      return;
+      newSectionIndex = 0;
     }
 
     this.scrollToSection(newSectionIndex);
@@ -280,17 +301,24 @@ export class Animations extends Window {
 
     if (newSectionIndex > this.PAGE_SECTIONS.length) {
       return;
+    } else if (newSectionIndex === this.PAGE_SECTIONS.length) {
+      this.scrollToSection(newSectionIndex - 1, true);
+    } else {
+      this.scrollToSection(newSectionIndex);
     }
-
-    this.scrollToSection(newSectionIndex);
   }
 
-  private scrollToSection(newIndex: number) : void {
+  private scrollToSection = (newIndex: number, end: boolean = false) : void => {
 
+    let scrollTop: any;
 
-    const nextSection = this.PAGE_SECTIONS[newIndex];
-    let scrollTop = newIndex === 0 ? 0 : window.pageYOffset + nextSection.getBoundingClientRect().top - this.SCROLL_OFFSET;
-    const distance = Math.abs(scrollTop - this.SCROLL_POSITION);
+    if (end) {
+      scrollTop = this.PAGE_HEIGHT;
+    } else {
+      scrollTop = newIndex === 0 ? 0 : this.DISTANCE_MAP[newIndex] - this.SCROLL_OFFSET;
+    }
+
+    // const distance = Math.abs(scrollTop - this.SCROLL_POSITION);
 
     let resumeScroll = false;
 
@@ -316,10 +344,10 @@ export class Animations extends Window {
           this.pageScroll();
           this.PAGE_SCROLLING_PAUSED = false;
         }
+
+        this.CURRENT_SECTION = newIndex;
       }
     });
-
-    this.CURRENT_SECTION = newIndex;
   }
 
   private runScrolling() : void {
@@ -362,6 +390,7 @@ export class Animations extends Window {
       });
 
     this.TIME_LINE.finished.then(() => {
+      window.scrollTo(0, 1);
       this.runScrolling();
       window.document.body.removeAttribute('data-no-scroll');
     });
