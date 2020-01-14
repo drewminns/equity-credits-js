@@ -1,5 +1,6 @@
 import anime, { AnimeInstance, AnimeTimelineInstance } from 'animejs';
 import debounce from 'lodash.debounce';
+import throttle from 'lodash.throttle';
 
 import { Window } from './window';
 
@@ -10,11 +11,11 @@ export class Animations extends Window {
   TIME_LINE: AnimeTimelineInstance;
   PAGE_HEIGHT: number;
   SCROLL_ELEMENT: Element;
-  SCROLL_TOP: number;
   PAGE_SCROLLING_PAUSED: boolean;
   USER_PAUSED: boolean;
   SCROLL_ANIMATION: AnimeInstance | null;
   SCROLL_POSITION: number;
+  IS_USER_SCROLLING: Boolean;
   PAGE_SECTIONS: Array<Element>;
   CURRENT_SECTION: number;
   DISTANCE_MAP: Array<number>;
@@ -31,7 +32,6 @@ export class Animations extends Window {
     this.DEBUG = debug;
     this.SCROLL_ANIMATION = null;
     this.LINKS = null;
-    this.SCROLL_TOP = 0;
     this.SCROLL_POSITION = 0;
     this.PAGE_HEIGHT = 0;
     this.PAGE_SCROLLING_PAUSED = false;
@@ -46,13 +46,15 @@ export class Animations extends Window {
     this.DISTANCE_MAP = [];
     this.CURRENT_SECTION = 0;
     this.SCROLL_OFFSET = 100;
+    this.IS_USER_SCROLLING = false;
     this.NAV_SHOWN = false;
     this.INITIAL_PLAY = false;
   }
 
-  init = (SCROLL_TOP: number) : void => {
-    this.SCROLL_TOP = SCROLL_TOP;
-
+  init = () : void => {
+    if (this.deviceIsTouch) {
+      this.SCROLL_OFFSET = 100 - this.deviceHeight;
+    }
     this.LINKS = document.querySelectorAll('.product_link');
     this.PLAY_PAUSE_BUTTON = document.getElementById('play')!;
     this.PAGE_HEIGHT = document.body.scrollHeight;
@@ -64,8 +66,6 @@ export class Animations extends Window {
     this.DISTANCE_MAP = this.setDistanceMap();
 
     this.introAnimation();
-
-    this.setDeviceHeight();
     this.attachEventListeners();
     // this.preventScrollInPortrait(this.breakpoint.isPortrait);
 
@@ -103,7 +103,9 @@ export class Animations extends Window {
     });
 
     window.addEventListener('scroll', () => {
-      this.CURRENT_SECTION = this.getCurrentSectionIndex();
+      if (!this.IS_USER_SCROLLING) {
+        this.CURRENT_SECTION = this.getCurrentSectionIndex();
+      }
       this.manageActiveButtons(forwardButton, backButton);
       this.navVisibility();
     });
@@ -112,7 +114,6 @@ export class Animations extends Window {
     window.addEventListener('resize', debounce(() => {
       const { innerHeight: height, innerWidth: width } = window;
       this.windowSize = { height, width };
-      this.setDeviceHeight();
       this.DISTANCE_MAP = this.setDistanceMap();
       // this.preventScrollInPortrait(this.breakpoint.isPortrait);
     }, 400));
@@ -148,10 +149,6 @@ export class Animations extends Window {
     });
 
     return distances;
-  }
-
-  private setDeviceHeight() : void {
-    document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
   }
 
   private listenUserScroll() : void {
@@ -257,7 +254,6 @@ export class Animations extends Window {
   }
 
   private manageActiveButtons(f: Element, b: Element) : void {
-
     if (this.CURRENT_SECTION <= 0) {
       b.setAttribute('disabled', 'true');
     } else {
@@ -294,7 +290,7 @@ export class Animations extends Window {
       return;
     }
 
-    this.scrollToSection(newSectionIndex);
+    this.scrollToSection(newSectionIndex, 'rewind');
   }
 
   private fastForward = (e: any, forward: Element, back: Element) : void => {
@@ -304,16 +300,19 @@ export class Animations extends Window {
       return;
     }
 
-    this.scrollToSection(newSectionIndex);
+    this.scrollToSection(newSectionIndex, 'forward');
   }
 
-  private scrollToSection(newIndex: number) : void {
+  private scrollToSection(newIndex: number, direction: string) : void {
+    let index = newIndex;
+    this.IS_USER_SCROLLING = true;
+    if (direction === 'forward' && this.PAGE_SECTIONS[index].getBoundingClientRect().top < this.SCROLL_OFFSET) {
+      index = index + 1;
+    }
 
 
-    const nextSection = this.PAGE_SECTIONS[newIndex];
+    const nextSection = this.PAGE_SECTIONS[index];
     let scrollTop = newIndex === 0 ? 0 : window.pageYOffset + nextSection.getBoundingClientRect().top - this.SCROLL_OFFSET;
-    const distance = Math.abs(scrollTop - this.SCROLL_POSITION);
-
     let resumeScroll = false;
 
     this.PLAY_PAUSE_BUTTON.setAttribute('disabled', true);
@@ -324,8 +323,6 @@ export class Animations extends Window {
       resumeScroll = true;
     }
 
-    // const duration = distance < 1000 ? (distance / (100)) * 100 : (distance / (300)) * 100;
-
     this.SCROLL_ANIMATION = anime({
       targets: this.SCROLL_ELEMENT,
       scrollTop: scrollTop,
@@ -333,7 +330,8 @@ export class Animations extends Window {
       duration: 500,
       complete: () => {
         this.PLAY_PAUSE_BUTTON.removeAttribute('disabled');
-        // el.removeAttribute('disabled');
+        this.IS_USER_SCROLLING = false;
+
         if (resumeScroll) {
           this.pageScroll();
           this.PAGE_SCROLLING_PAUSED = false;
