@@ -27,8 +27,8 @@ export const intro = (() =>
                   <h2>Supporting independent businesses is at the heart of <span class="${clsx(s.tag)}"><span>everything</span></span> we do.</h2>
                   <div class="${s.intro_video_container}">
                     <div class="${s.intro_video_widget}">
-                      <img src="https://cdn.shopify.com/static/images/brand-equity/hero-video-thumb.jpg" alt="">
-                      <button type="button" class="js-wistia-modal" data-wistia-id="qfcu6lt69y"><span class="${clsx(utils.hidden)}">Watch video</span>
+                      <img src="https://cdn.shopify.com/static/images/brand-equity/hero-video-thumb@2x.jpg" alt="">
+                      <button type="button" class="js-wistia-modal" data-wistia-id="b7g57f7mn4" data-video-btn><span class="${clsx(utils.hidden)}">Watch video</span>
                       </button>
                     </div>
                   </div>

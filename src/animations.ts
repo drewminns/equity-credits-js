@@ -122,7 +122,7 @@ export class Animations extends Window {
     const threshold = this.windowSize.height * 0.5;
     if (!this.NAV_SHOWN && this.scrollTop >= threshold) {
       this.navigationAnimation(true);
-    } else if (this.NAV_SHOWN && this.scrollTop < threshold) {
+    } else if (this.scrollTop < threshold) {
       this.navigationAnimation(false);
 
       if (!this.PAGE_SCROLLING_PAUSED) {
@@ -352,7 +352,7 @@ export class Animations extends Window {
     }
 
     // this.scrollFadeIn();
-    this.pageScroll();
+    // this.pageScroll();
     // this.navigationAnimation();
     this.listenUserScroll();
   }
