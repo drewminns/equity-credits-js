@@ -73,15 +73,17 @@ export class Animations extends Window {
 
   private attachEventListeners() : void {
 
+    this.listenUserScroll();
+
     if (this.PLAY_PAUSE_BUTTON) {
 
       this.PLAY_PAUSE_BUTTON.addEventListener('click', () => {
         if (this.PLAY_PAUSE_BUTTON.disabled) return;
 
-        // if (!this.INITIAL_PLAY) {
-        //   this.runScrolling();
-        //   this.INITIAL_PLAY = true;
-        // }
+        if (!this.INITIAL_PLAY) {
+          this.runScrolling();
+          this.INITIAL_PLAY = true;
+        }
 
         this.scrollControls();
         this.USER_CLICKED_PLAY_PAUSE = !this.USER_CLICKED_PLAY_PAUSE;
@@ -350,9 +352,9 @@ export class Animations extends Window {
     }
 
     // this.scrollFadeIn();
-    // this.pageScroll();
+    this.pageScroll();
     // this.navigationAnimation();
-    this.listenUserScroll();
+    // this.listenUserScroll();
   }
 
   private introAnimation() : void {
