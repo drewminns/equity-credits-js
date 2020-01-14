@@ -64,22 +64,40 @@
   border: none;
   padding: 0;
   margin-right: 16px;
+  position: relative;
+  top: -1px;
+  padding: 5px;
 
   @include tablet {
     margin-right: 20px;
   }
 
+  &:first-child {
+    svg {
+      left: 2px;
+    }
+  }
+
   &:last-child {
     margin-right: 0;
+    svg {
+      left: -2px;
+    }
   }
 }
 
-.icon svg {
-  height: 16px;
-  width: 19px;
+.icon {
+  overflow: hidden;
 
-  @include tablet {
-    height: 20px;
-    width: 23px;
+  svg {
+    height: 16px;
+    width: 19px;
+    position: relative;
+    top: 2px;
+
+    @include tablet {
+      height: 20px;
+      width: 23px;
+    }
   }
 }
