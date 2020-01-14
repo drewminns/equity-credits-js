@@ -1,7 +1,7 @@
 .intro {
   min-height: 100vh;
   background-color: $black;
-  background-image: linear-gradient(to bottom, $green, $black);
+  background-image: linear-gradient(to bottom, $green, $green, $black);
 
   &_logo {
     text-align: center;
@@ -20,6 +20,46 @@
     font-size: 7.6rem;
     font-weight: 300;
     line-height: 1.35;
+  }
+}
+
+.tag {
+  color: $green--alt;
+  font-weight: 400;
+  padding: 0 1.5rem;
+  position: relative;
+
+  span {
+    position: relative;
+    z-index: 10;
+  }
+
+  &:before,
+  &:after {
+    content: '';
+    width: 100%;
+    display: block;
+    height: calc(100%);
+    position: absolute;
+    top: 0.5rem;
+    left: 0;
+    background-color: $white;
+    z-index: 1;
+    border-radius: 5px;
+    border-bottom-left-radius: 0;
+  }
+
+  &:after {
+    width: 0;
+    height: 0;
+    top: auto;
+    bottom: -24px;
+    left: -24px;
+    border: 24px solid transparent;
+    transform: rotate(0.125turn);
+    background-color: transparent;
+    border-right-color: $white;
+    border-radius: 0;
   }
 }
 
