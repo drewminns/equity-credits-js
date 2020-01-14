@@ -9,10 +9,12 @@ export abstract class Window {
   private _IS_PORTRAIT: boolean;
   private _IS_REDUCED_MOTION: boolean;
   private _SCROLL_TOP: number;
+  private _DEVICE_HEIGHT: number;
 
   constructor() {
     this._VIEWPORT_SIZE = 'MD';
     this._SCROLL_TOP = 0;
+    this._DEVICE_HEIGHT = 0;
     this._IS_PORTRAIT = false;
     this._IS_REDUCED_MOTION = false;
     this._WINDOW_SIZE = {
@@ -21,6 +23,7 @@ export abstract class Window {
     }
     this.trackWindowSize();
     this.trackScroll();
+    this.setDeviceHeight();
   }
 
   private trackScroll() : void {
@@ -33,6 +36,10 @@ export abstract class Window {
     return this._SCROLL_TOP;
   }
 
+  get deviceIsTouch() : boolean {
+    return window.matchMedia('(pointer: coarse)').matches;
+  }
+
   get windowSize(): WINDOW_SIZE {
     return this._WINDOW_SIZE;
   }
@@ -42,6 +49,20 @@ export abstract class Window {
       height: size.height,
       width: size.width,
     }
+  }
+
+  private setDeviceHeight() : void {
+    this._DEVICE_HEIGHT = window.innerHeight * 0.01
+    document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+
+    window.addEventListener('resize', () => {
+      this._DEVICE_HEIGHT = window.innerHeight * 0.01
+      document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+    })
+  }
+
+  get deviceHeight(): number {
+    return this._DEVICE_HEIGHT;
   }
 
   get breakpoint() : { name: string, isPortrait: boolean, reducedMotion: boolean } {

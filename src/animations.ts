@@ -48,7 +48,9 @@ export class Animations extends Window {
   }
 
   init = () : void => {
-
+    if (this.deviceIsTouch) {
+      this.SCROLL_OFFSET = 100 - this.deviceHeight;
+    }
     this.LINKS = document.querySelectorAll('.product_link');
     this.PLAY_PAUSE_BUTTON = document.getElementById('play')!;
     this.PAGE_HEIGHT = document.body.scrollHeight;
@@ -61,8 +63,6 @@ export class Animations extends Window {
 
     window.document.body.setAttribute('data-no-scroll', 'true');
     this.introAnimation();
-
-    this.setDeviceHeight();
     this.attachEventListeners();
     // this.preventScrollInPortrait(this.breakpoint.isPortrait);
 
@@ -105,7 +105,6 @@ export class Animations extends Window {
     window.addEventListener('resize', debounce(() => {
       const { innerHeight: height, innerWidth: width } = window;
       this.windowSize = { height, width };
-      this.setDeviceHeight();
       this.DISTANCE_MAP = this.setDistanceMap();
       // this.preventScrollInPortrait(this.breakpoint.isPortrait);
     }, 400));
@@ -128,10 +127,6 @@ export class Animations extends Window {
     });
 
     return distances;
-  }
-
-  private setDeviceHeight() : void {
-    document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
   }
 
   private listenUserScroll() : void {
