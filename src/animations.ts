@@ -10,11 +10,11 @@ export class Animations extends Window {
   TIME_LINE: AnimeTimelineInstance;
   PAGE_HEIGHT: number;
   SCROLL_ELEMENT: Element;
-  SCROLL_TOP: number;
   PAGE_SCROLLING_PAUSED: boolean;
   USER_PAUSED: boolean;
   SCROLL_ANIMATION: AnimeInstance | null;
   SCROLL_POSITION: number;
+  IS_USER_SCROLLING: Boolean;
   PAGE_SECTIONS: Array<Element>;
   CURRENT_SECTION: number;
   DISTANCE_MAP: Array<number>;
@@ -29,7 +29,6 @@ export class Animations extends Window {
     this.DEBUG = debug;
     this.SCROLL_ANIMATION = null;
     this.LINKS = null;
-    this.SCROLL_TOP = 0;
     this.SCROLL_POSITION = 0;
     this.PAGE_HEIGHT = 0;
     this.PAGE_SCROLLING_PAUSED = false;
@@ -44,10 +43,10 @@ export class Animations extends Window {
     this.DISTANCE_MAP = [];
     this.CURRENT_SECTION = 0;
     this.SCROLL_OFFSET = 100;
+    this.IS_USER_SCROLLING = false;
   }
 
-  init = (SCROLL_TOP: number) : void => {
-    this.SCROLL_TOP = SCROLL_TOP;
+  init = () : void => {
 
     this.LINKS = document.querySelectorAll('.product_link');
     this.PLAY_PAUSE_BUTTON = document.getElementById('play')!;
@@ -95,7 +94,9 @@ export class Animations extends Window {
     });
 
     window.addEventListener('scroll', () => {
-      this.CURRENT_SECTION = this.getCurrentSectionIndex();
+      if (!this.IS_USER_SCROLLING) {
+        this.CURRENT_SECTION = this.getCurrentSectionIndex();
+      }
       this.manageActiveButtons(forwardButton, backButton);
     });
 
@@ -287,10 +288,10 @@ export class Animations extends Window {
 
   private scrollToSection(newIndex: number) : void {
 
-
+    this.IS_USER_SCROLLING = true;
     const nextSection = this.PAGE_SECTIONS[newIndex];
-    let scrollTop = newIndex === 0 ? 0 : window.pageYOffset + nextSection.getBoundingClientRect().top - this.SCROLL_OFFSET;
-    const distance = Math.abs(scrollTop - this.SCROLL_POSITION);
+    let scrollTop = newIndex === 0 ? 0 : window.pageYOffset + nextSection.getBoundingClientRect().top - this.SCROLL_OFFSET + 50;
+    console.log(scrollTop);
 
     let resumeScroll = false;
 
@@ -304,6 +305,8 @@ export class Animations extends Window {
 
     // const duration = distance < 1000 ? (distance / (100)) * 100 : (distance / (300)) * 100;
 
+
+
     this.SCROLL_ANIMATION = anime({
       targets: this.SCROLL_ELEMENT,
       scrollTop: scrollTop,
@@ -311,7 +314,8 @@ export class Animations extends Window {
       duration: 500,
       complete: () => {
         this.PLAY_PAUSE_BUTTON.removeAttribute('disabled');
-        // el.removeAttribute('disabled');
+        this.IS_USER_SCROLLING = false;
+
         if (resumeScroll) {
           this.pageScroll();
           this.PAGE_SCROLLING_PAUSED = false;

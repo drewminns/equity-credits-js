@@ -13,7 +13,7 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=development ENDPOINT=http://localhost:8000/ npx webpack-dev-server --mode=development --devtool=inline-source-map --hot --open",
+    "start": "NODE_ENV=development ENDPOINT=https://cors-anywhere.herokuapp.com/https://shopify.com/independents.json npx webpack-dev-server --mode=development --devtool=inline-source-map --hot --open",
     "demo": "rimraf demo && NODE_ENV=production ENDPOINT=https://cors-anywhere.herokuapp.com/https://upcoming9.shopify.com/independents.json DEMO=true webpack -p --mode=production",
     "build": "NODE_ENV=production ENDPOINT=https://upcoming9.shopify.com/independents.json webpack -p --mode=production --config=webpack.build.js"
   },
