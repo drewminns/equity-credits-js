@@ -1,5 +1,6 @@
 import anime, { AnimeInstance, AnimeTimelineInstance } from 'animejs';
 import debounce from 'lodash.debounce';
+import throttle from 'lodash.throttle';
 
 import { Window } from './window';
 
@@ -236,7 +237,6 @@ export class Animations extends Window {
   }
 
   private manageActiveButtons(f: Element, b: Element) : void {
-
     if (this.CURRENT_SECTION <= 0) {
       b.setAttribute('disabled', 'true');
     } else {
@@ -273,7 +273,7 @@ export class Animations extends Window {
       return;
     }
 
-    this.scrollToSection(newSectionIndex);
+    this.scrollToSection(newSectionIndex, 'rewind');
   }
 
   private fastForward = (e: any, forward: Element, back: Element) : void => {
@@ -283,16 +283,19 @@ export class Animations extends Window {
       return;
     }
 
-    this.scrollToSection(newSectionIndex);
+    this.scrollToSection(newSectionIndex, 'forward');
   }
 
-  private scrollToSection(newIndex: number) : void {
-
+  private scrollToSection(newIndex: number, direction: string) : void {
+    let index = newIndex;
     this.IS_USER_SCROLLING = true;
-    const nextSection = this.PAGE_SECTIONS[newIndex];
-    let scrollTop = newIndex === 0 ? 0 : window.pageYOffset + nextSection.getBoundingClientRect().top - this.SCROLL_OFFSET + 50;
-    console.log(scrollTop);
+    if (direction === 'forward' && this.PAGE_SECTIONS[index].getBoundingClientRect().top < this.SCROLL_OFFSET) {
+      index = index + 1;
+    }
 
+
+    const nextSection = this.PAGE_SECTIONS[index];
+    let scrollTop = newIndex === 0 ? 0 : window.pageYOffset + nextSection.getBoundingClientRect().top - this.SCROLL_OFFSET;
     let resumeScroll = false;
 
     this.PLAY_PAUSE_BUTTON.setAttribute('disabled', true);
@@ -302,10 +305,6 @@ export class Animations extends Window {
       this.PAGE_SCROLLING_PAUSED = true;
       resumeScroll = true;
     }
-
-    // const duration = distance < 1000 ? (distance / (100)) * 100 : (distance / (300)) * 100;
-
-
 
     this.SCROLL_ANIMATION = anime({
       targets: this.SCROLL_ELEMENT,
