@@ -1,69 +1,181 @@
 .intro {
+  min-height: 100vh;
+  background-color: $black;
+  background-image: linear-gradient(to bottom, $green, $green, mix($black, $green), $black);
+  // margin-bottom: 20vh;
+
+  &_logo {
+    text-align: center;
+  }
+
+  &_video_container {
+    display: flex;
+    justify-content: center;
+  }
+
+  &_video_widget {
+    position: relative;
+  }
+}
+
+.logo {
+  display: inline-block;
+  width: 145px;
+}
+
+.intro_content {
   text-align: center;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  margin-bottom: 5vh;
-  margin-top: 5vh;
+
+  h2 {
+    font-size: 3.4rem;
+    line-height: 1.5;
+    font-weight: 400;
+    margin-bottom: 10rem;
+  }
 
   p {
-    font-size: 1.3rem;
-    letter-spacing: -0.02em;
-    opacity: 0;
-    line-height: 1.55;
+    font-size: 2.4rem;
+    line-height: 1.65;
 
-    @include tablet {
-      letter-spacing: 0;
-      font-size: 1.6rem;
-      line-height: 1.75;
+    &:first-of-type {
+      margin-top: 8rem;
     }
 
-    @include desktop {
-      margin-bottom: 50px;
-      line-height: 1.5;
-      font-size: 2.4rem;
-    }
+
   }
-
-  &_row {
-    height: calc(var(--vh, 1vh) * 90);
-    padding-top: 5vh;
-    max-height: 90vh;
-    align-items: center;
-  }
-}
-
-.intro_bg_wrap {
-  background-color: $black;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: -1;
-}
-
-.intro_bg {
-  width: 100%;
-  z-index: -1;
-  height: 90vh;
-  margin-top: 5vh;
-  background-color: $green;
-  padding: 0 3.5rem;
-
-  background-size: cover;
-  background-image: url(#{$bg--sm});
 
   @include tablet {
-    background-image: url(#{$bg--lg});
+    h2 {
+      font-size: 4.8rem;
+    }
+
+    p {
+      padding: 0 12rem;
+    }
+  }
+
+  @include desktop {
+    h2 {
+      font-size: 5.4rem;
+    }
+  }
+
+  @include desktop--lg {
+    h2 {
+      font-size: 7.2rem;
+    }
+  }
+
+
+}
+
+.tag {
+  color: $green--alt;
+  font-weight: 400;
+  padding: 0 1.5rem;
+  position: relative;
+  display: inline-block;
+
+  span {
+    position: relative;
+    z-index: 10;
+  }
+
+  &:before,
+  &:after {
+    content: '';
+    width: 100%;
+    display: block;
+    height: calc(100%);
+    position: absolute;
+    top: 0.5rem;
+    left: 0;
+    background-color: $white;
+    z-index: 1;
+    border-radius: 5px;
+    border-bottom-left-radius: 0;
+  }
+
+  &:after {
+    width: 0;
+    height: 0;
+    top: auto;
+    bottom: -24px;
+    left: -24px;
+    border: 24px solid transparent;
+    transform: rotate(0.125turn);
+    background-color: transparent;
+    border-right-color: $white;
+    border-radius: 0;
   }
 }
 
-@keyframes fadein {
-  0% {
-    opacity: 0;
-  }
+// .intro {
+//   text-align: center;
+//   justify-content: center;
+//   align-items: center;
+//   opacity: 0;
+//   margin-bottom: 5vh;
+//   margin-top: 5vh;
 
-  100% {
-    opacity: 1;
-  }
-}
+//   p {
+//     font-size: 1.3rem;
+//     letter-spacing: -0.02em;
+//     opacity: 0;
+//     line-height: 1.55;
+
+//     @include tablet {
+//       letter-spacing: 0;
+//       font-size: 1.6rem;
+//       line-height: 1.75;
+//     }
+
+//     @include desktop {
+//       margin-bottom: 50px;
+//       line-height: 1.5;
+//       font-size: 2.4rem;
+//     }
+//   }
+
+//   &_row {
+//     height: calc(var(--vh, 1vh) * 90);
+//     padding-top: 5vh;
+//     max-height: 90vh;
+//     align-items: center;
+//   }
+// }
+
+// .intro_bg_wrap {
+//   background-color: $black;
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   z-index: -1;
+// }
+
+// .intro_bg {
+//   width: 100%;
+//   z-index: -1;
+//   height: 90vh;
+//   margin-top: 5vh;
+//   background-color: $green;
+//   padding: 0 3.5rem;
+
+//   background-size: cover;
+//   background-image: url(#{$bg--sm});
+
+//   @include tablet {
+//     background-image: url(#{$bg--lg});
+//   }
+// }
+
+// @keyframes fadein {
+//   0% {
+//     opacity: 0;
+//   }
+
+//   100% {
+//     opacity: 1;
+//   }
+// }
