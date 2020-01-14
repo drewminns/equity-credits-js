@@ -24,6 +24,7 @@ export class Animations extends Window {
   LINKS: NodeListOf<Element> | null;
   DEBUG: boolean;
   NAV_SHOWN: boolean;
+  INITIAL_PLAY: boolean;
 
   constructor(debug = false) {
     super();
@@ -46,6 +47,7 @@ export class Animations extends Window {
     this.CURRENT_SECTION = 0;
     this.SCROLL_OFFSET = 100;
     this.NAV_SHOWN = false;
+    this.INITIAL_PLAY = false;
   }
 
   init = (SCROLL_TOP: number) : void => {
@@ -73,9 +75,14 @@ export class Animations extends Window {
 
     if (this.PLAY_PAUSE_BUTTON) {
 
-
       this.PLAY_PAUSE_BUTTON.addEventListener('click', () => {
         if (this.PLAY_PAUSE_BUTTON.disabled) return;
+
+        // if (!this.INITIAL_PLAY) {
+        //   this.runScrolling();
+        //   this.INITIAL_PLAY = true;
+        // }
+
         this.scrollControls();
         this.USER_CLICKED_PLAY_PAUSE = !this.USER_CLICKED_PLAY_PAUSE;
         this.USER_PAUSED = !this.USER_PAUSED;
@@ -114,11 +121,13 @@ export class Animations extends Window {
   private navVisibility() {
     const threshold = this.windowSize.height * 0.5;
     if (!this.NAV_SHOWN && this.scrollTop >= threshold) {
-      this.NAV_SHOWN = true;
       this.navigationAnimation(true);
     } else if (this.NAV_SHOWN && this.scrollTop < threshold) {
-      this.NAV_SHOWN = false;
       this.navigationAnimation(false);
+
+      if (!this.PAGE_SCROLLING_PAUSED) {
+        this.manageScrollState('pause');
+      }
     }
   }
 
@@ -336,8 +345,6 @@ export class Animations extends Window {
   }
 
   private runScrolling() : void {
-    const intro = document.getElementById('intro')!;
-    intro.style.opacity = '1';
 
     const footer = document.getElementById('IndependentsFooter')!;
     if (footer) {
@@ -345,7 +352,7 @@ export class Animations extends Window {
     }
 
     // this.scrollFadeIn();
-    // this.pageScroll();
+    this.pageScroll();
     // this.navigationAnimation();
     this.listenUserScroll();
   }
@@ -364,13 +371,13 @@ export class Animations extends Window {
     });
   }
 
-  private scrollFadeIn() : void {
-    anime({
-      targets: '#main_content',
-      opacity: 1,
-      duration: this.DEBUG ? 0 : 1000,
-    });
-  }
+  // private scrollFadeIn() : void {
+  //   anime({
+  //     targets: '#main_content',
+  //     opacity: 1,
+  //     duration: this.DEBUG ? 0 : 1000,
+  //   });
+  // }
 
   private pageScroll() {
     const currentScroll = this.SCROLL_ELEMENT.scrollTop;
@@ -421,10 +428,30 @@ export class Animations extends Window {
   }
 
   private navigationAnimation(show: boolean) : void {
-    anime({
+
+    const nav = document.querySelector('#nav');
+
+    const opts: any = {
       targets: '#nav',
       opacity: show ? 1 : 0,
-      duration: 2000,
-    })
+      easing: 'easeOutBack',
+    };
+
+    if (show) {
+      opts.duration = 500;
+      opts['complete'] = () => {
+        // nav?.classList.add('nav--is-visible');
+        nav?.setAttribute('data-shown', 'true');
+        this.NAV_SHOWN = true;
+      }
+    } else {
+      opts.duration = 1000;
+      opts['begin'] = () => {
+        // nav?.classList.remove('nav--is-visible');
+        nav?.removeAttribute('data-shown');
+        this.NAV_SHOWN = false;
+      }
+    }
+    anime(opts);
   }
 }

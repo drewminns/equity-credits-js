@@ -102,3 +102,7 @@ li[data-layout] ~ li[data-layout] {
     top: 1px;
   }
 }
+
+nav[data-shown] {
+  pointer-events: auto;
+}
