@@ -23,10 +23,7 @@ fetchData.fetch()
   })
   .then(() => {
     const sections = Array.from(document.querySelectorAll('section[id^=section]'));
-
-    sections.forEach((section, index) => {
-      scrollMagic.init(section);
-    });
+    scrollMagic.init(sections);
   })
   .then(() => {
     animations.init(document.documentElement.scrollTop);
