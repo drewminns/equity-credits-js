@@ -66,12 +66,14 @@ export class Animations extends Window {
     this.DISTANCE_MAP = this.setDistanceMap();
 
     this.attachEventListeners();
-    // this.preventScrollInPortrait(this.breakpoint.isPortrait);
 
     const footer = document.getElementById('IndependentsFooter')!;
     if (footer) {
       footer.classList.remove('hidden');
     }
+
+    this.pageScroll();
+    this.SCROLL_ANIMATION?.pause();
 
   }
 
@@ -83,11 +85,6 @@ export class Animations extends Window {
 
       this.PLAY_PAUSE_BUTTON.addEventListener('click', () => {
         if (this.PLAY_PAUSE_BUTTON.disabled) return;
-
-        if (!this.INITIAL_PLAY) {
-          this.pageScroll();
-          this.INITIAL_PLAY = true;
-        }
 
         this.scrollControls();
         this.USER_CLICKED_PLAY_PAUSE = !this.USER_CLICKED_PLAY_PAUSE;
