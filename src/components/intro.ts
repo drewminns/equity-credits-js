@@ -25,6 +25,13 @@ export const intro = (() =>
               <div class="${clsx(g.col_xs_12, g.col_md_10, g.col_md_offset_1, g.col_lg_8, g.col_lg_offset_2)}">
                 <div class="${clsx(s.intro_content)}">
                   <h2>Supporting independent businesses is at the heart of <span class="${clsx(s.tag)}"><span>everything</span></span> we do.</h2>
+                  <div class="${s.intro_video_container}">
+                    <div class="${s.intro_video_widget}">
+                      <img src="https://cdn.shopify.com/static/images/brand-equity/hero-video-thumb.jpg" alt="">
+                      <button type="button" class="js-wistia-modal" data-wistia-id="qfcu6lt69y"><span class="${clsx(utils.hidden)}">Watch video</span>
+                      </button>
+                    </div>
+                  </div>
                   <p id="intro-text1">Every product on our billboards, shout out on the radio, and set piece in our commercial is the result of someone pursuing independence.</p>
                   <p id="intro-text2">Helping people turn their ideas into a business is what we do at Shopify. Our thanks to those who let us share their story.</p>
                 </div>
