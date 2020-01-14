@@ -255,13 +255,25 @@ export class Animations extends Window {
   }
 
   private manageActiveButtons(f: Element, b: Element) : void {
-    if (this.CURRENT_SECTION <= 0) {
+    // if (this.CURRENT_SECTION <= 0) {
+    //   b.setAttribute('disabled', 'true');
+    // } else {
+    //   b.removeAttribute('disabled');
+    // }
+
+    // if ( this.CURRENT_SECTION >= this.PAGE_SECTIONS.length - 1) {
+    //   f.setAttribute('disabled', 'true');
+    // } else {
+    //   f.removeAttribute('disabled');
+    // }
+
+    if (this.scrollTop <= (this.SCROLL_OFFSET * 2)) {
       b.setAttribute('disabled', 'true');
     } else {
       b.removeAttribute('disabled');
     }
 
-    if ( this.CURRENT_SECTION >= this.PAGE_SECTIONS.length - 1) {
+    if (this.scrollTop >= (this.PAGE_HEIGHT - this.SCROLL_OFFSET - this.windowSize.height)) {
       f.setAttribute('disabled', 'true');
     } else {
       f.removeAttribute('disabled');
@@ -299,21 +311,33 @@ export class Animations extends Window {
 
     if (newSectionIndex > this.PAGE_SECTIONS.length) {
       return;
+    } else if (newSectionIndex === this.PAGE_SECTIONS.length) {
+      this.scrollToSection(newSectionIndex - 1, 'forward', true);
+    } else {
+      this.scrollToSection(newSectionIndex, 'forward');
     }
 
-    this.scrollToSection(newSectionIndex, 'forward');
   }
 
-  private scrollToSection(newIndex: number, direction: string) : void {
+  private scrollToSection(newIndex: number, direction: string, end: boolean = false) : void {
+
     let index = newIndex;
     this.IS_USER_SCROLLING = true;
     if (direction === 'forward' && this.PAGE_SECTIONS[index].getBoundingClientRect().top < this.SCROLL_OFFSET) {
       index = index + 1;
     }
 
+    // const nextSection = this.PAGE_SECTIONS[index];
 
-    const nextSection = this.PAGE_SECTIONS[index];
-    let scrollTop = newIndex === 0 ? 0 : window.pageYOffset + nextSection.getBoundingClientRect().top - this.SCROLL_OFFSET;
+    let scrollTop;
+    // let scrollTop = newIndex === 0 ? 0 : window.pageYOffset + nextSection.getBoundingClientRect().top - this.SCROLL_OFFSET;
+
+    if (end) {
+      scrollTop = this.PAGE_HEIGHT;
+    } else {
+      scrollTop = newIndex === 0 ? 0 : this.DISTANCE_MAP[newIndex] - this.SCROLL_OFFSET;
+    }
+
     let resumeScroll = false;
 
     this.PLAY_PAUSE_BUTTON.setAttribute('disabled', true);
@@ -337,10 +361,12 @@ export class Animations extends Window {
           this.pageScroll();
           this.PAGE_SCROLLING_PAUSED = false;
         }
+
+        this.CURRENT_SECTION = newIndex;
       }
+
     });
 
-    this.CURRENT_SECTION = newIndex;
   }
 
   // private introAnimation() : void {
