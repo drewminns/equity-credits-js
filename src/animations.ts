@@ -23,6 +23,7 @@ export class Animations extends Window {
   USER_CLICKED_PLAY_PAUSE: boolean;
   LINKS: NodeListOf<Element> | null;
   DEBUG: boolean;
+  NAV_SHOWN: boolean;
 
   constructor(debug = false) {
     super();
@@ -44,6 +45,7 @@ export class Animations extends Window {
     this.DISTANCE_MAP = [];
     this.CURRENT_SECTION = 0;
     this.SCROLL_OFFSET = 100;
+    this.NAV_SHOWN = false;
   }
 
   init = (SCROLL_TOP: number) : void => {
@@ -96,6 +98,7 @@ export class Animations extends Window {
     window.addEventListener('scroll', () => {
       this.CURRENT_SECTION = this.getCurrentSectionIndex();
       this.manageActiveButtons(forwardButton, backButton);
+      this.navVisibility();
     });
 
 
@@ -106,6 +109,17 @@ export class Animations extends Window {
       this.DISTANCE_MAP = this.setDistanceMap();
       // this.preventScrollInPortrait(this.breakpoint.isPortrait);
     }, 400));
+  }
+
+  private navVisibility() {
+    const threshold = this.windowSize.height * 0.5;
+    if (!this.NAV_SHOWN && this.scrollTop >= threshold) {
+      this.NAV_SHOWN = true;
+      this.navigationAnimation(true);
+    } else if (this.NAV_SHOWN && this.scrollTop < threshold) {
+      this.NAV_SHOWN = false;
+      this.navigationAnimation(false);
+    }
   }
 
   private offsetTop(el: any) : number {
