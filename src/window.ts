@@ -37,7 +37,7 @@ export abstract class Window {
     }
   }
 
-  private trackWindowSize()  {
+  private trackWindowSize() : void  {
     this._IS_PORTRAIT = window.matchMedia('(orientation: portrait) and (max-width: 544px) and (-webkit-min-device-pixel-ratio: 2) and (hover: none)').matches;
     let viewportSize = 'xs';
 

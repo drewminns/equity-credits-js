@@ -22,11 +22,8 @@ fetchData.fetch()
     domBuilder.init(data, MOUNT_POINT);
   })
   .then(() => {
-    const sections = Array.from(document.querySelectorAll('section[id]'));
-
-    sections.forEach((section, index) => {
-      scrollMagic.init(section);
-    });
+    const sections = Array.from(document.querySelectorAll('section[id^=section]'));
+    scrollMagic.init(sections);
   })
   .then(() => {
     animations.init(document.documentElement.scrollTop);

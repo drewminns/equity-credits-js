@@ -7,7 +7,6 @@ import s from './styles/components/_item.scss';
 import { nav } from './components/nav';
 import { intro } from './components/intro';
 import { overlay } from './components/overlay';
-import { logo } from './components/logo';
 
 import arrow from './assets/arrow.svg';
 
@@ -88,14 +87,14 @@ export class DomBuilder {
     return `
         <div
           class="${clsx(s.pinned_container, s[alignClass])}${layout !== 'center' ? ' pin-me' : ''}"
-          data-tablet-large-width="${media.tablet_up.large.dimensions.width}"
-          data-tablet-large-height="${media.tablet_up.large.dimensions.height}"
-          data-tablet-small-height="${media.tablet_up.small.dimensions.height}"
-          data-tablet-small-width="${media.tablet_up.small.dimensions.width}"
-          data-mobile-large-width="${media.mobile.large.dimensions.width}"
-          data-mobile-large-height="${media.mobile.large.dimensions.height}"
-          data-mobile-small-height="${media.mobile.small.dimensions.height}"
-          data-mobile-small-width="${media.mobile.small.dimensions.width}"
+          data-lg-width="${media.tablet_up.large.dimensions.width}"
+          data-lg-height="${media.tablet_up.large.dimensions.height}"
+          data-md-height="${media.tablet_up.small.dimensions.height}"
+          data-md-width="${media.tablet_up.small.dimensions.width}"
+          data-sm-width="${media.mobile.large.dimensions.width}"
+          data-sm-height="${media.mobile.large.dimensions.height}"
+          data-xs-height="${media.mobile.small.dimensions.height}"
+          data-xs-width="${media.mobile.small.dimensions.width}"
         >
           <figure>
             <picture>
@@ -122,7 +121,7 @@ export class DomBuilder {
       const media = this.createMediaItem(item.media, layout, item.shop_id);
 
       return `
-      <li class="${clsx(s.item)}" data-layout="${layout}">
+      <li class="${clsx(s.item)}" data-layout="${layout}" data-media-section>
         <p class="${clsx(s.item_content, s.item_has_image)}">
           <span class="${s.merchant_products}">
             ${

@@ -19,6 +19,7 @@ body {
   color: $white;
   font-size: 1.6rem;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: auto;
 }
 
 h1 {

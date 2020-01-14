@@ -1,127 +1,168 @@
-import { Section } from './shared/interface';
 import { Window } from './window';
-import debounce from 'lodash.debounce';
+import debounce from 'lodash.throttle';
 
-const ScrollMagic = require('scrollmagic');
+import ScrollMagic from 'scrollmagic';
 
 export class MagicTime extends Window {
   CONTROLLER: any;
-  SCENE: any;
-  SECTION: Element | null;
+  SCENES: any[];
+  SECTIONS: Element[];
 
   constructor() {
     super();
-    this.SECTION = null;
+    this.SECTIONS = [];
+    this.SCENES = [];
   }
 
-  init = (section: Element) => {
-    this.SECTION = section;
+  init = (sections: Element[]) => {
     this.CONTROLLER = new ScrollMagic.Controller();
+    this.SECTIONS = sections;
 
-    this.windowResizeListener();
-    this.initScrollMagic();
-  }
-
-  private initScrollMagic = () => {
-    // this.scrollHero();
+    this.setImageWidths();
     this.scrollSections();
+    this.windowResizeListener();
   }
 
-  private scrollSections = () => {
-    this.CONTROLLER = new ScrollMagic.Controller();
+  /**
+  * Tracks width of columns and updates width attribute of image.
+  **/
+  private setImageWidths() : void {
+    const images = document.querySelectorAll('.pin-me img');
+    if ((this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm')) {
+      const width = (document.querySelector('li[data-media-section]')?.clientWidth || 0) - 60;
+      images.forEach((elem) => {
+        if (elem instanceof HTMLElement) {
+          elem.style.width = `${width}px`;
+        } else {
+          throw new Error("element #test not in document")
+        }
+      });
+    } else {
+      images.forEach((elem) => {
+        if (elem instanceof HTMLElement) {
+          elem.style.width = '';
+        } else {
+          throw new Error("element #test not in document")
+        }
+      })
+    }
+  }
 
-    if (this.SECTION && (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm')) {
+  /**
+  * Returns aspect ratio of an element
+  * @param pin    element to get dimensions of
+  * @returns number
+  **/
+  private getAspect(pin: Element) : number {
+    const breakpoint = this.breakpoint.name;
+    const height = Number(pin?.getAttribute(`data-${breakpoint}-height`));
+    const width = Number(pin?.getAttribute(`data-${breakpoint}-width`));
+    let aspect = 1.6;
+    if (height && width) {
+      aspect = width / height;
+    }
 
-      // this.SECTION.forEach((section, index) => {
-        const wrapper = this.SECTION.querySelector('[data-section-wrap]');
+    return aspect;
+  }
 
-        if (wrapper) {
-          const top = wrapper.getBoundingClientRect().top;
-          // Check if wrapper has images
-          const pin = wrapper.querySelector('.pin-me');
-          const stopper = wrapper.querySelector('li[data-layout]')!;
+  /**
+  * Initializes ScrollMagic for all sections provided to the class
+  **/
+  private scrollSections = () : void => {
 
-          if (pin && stopper) {
+    if (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm') {
+      this.SECTIONS.forEach((section) => {
 
-            const stopTop = stopper.getBoundingClientRect().top;
+        // this.SECTION.forEach((section, index) => {
+          const wrapper = section.querySelector('[data-section-wrap]')!;
 
-            let distance = stopTop - top - 328;
+          if (wrapper) {
+            const top = wrapper.getBoundingClientRect().top;
+            // Check if wrapper has images
+            const pin = wrapper.querySelector('.pin-me')!;
+            const stopper = wrapper.querySelector('li[data-layout]')!;
+            // console.log(stopper);
 
-            if (distance > 0) {
-              this.SCENE = new ScrollMagic.Scene({
-                triggerElement: this.SECTION,
-                duration: distance,
-                triggerHook: 0.4,
-                reverse: false,
-              })
-                .setPin(pin, { pushFollowers: false })
-                .addTo(this.CONTROLLER);
-            }
-          } else if (pin) {
+            if (pin && stopper) {
+              const stopTop = stopper.getBoundingClientRect().top;
 
-            const { height, top } = this.SECTION.getBoundingClientRect();
-            const caption = pin.querySelector('figcaption');
+              const aspect = this.getAspect(pin);
+              const image = stopper.querySelector('img');
+              let imageHeight = 0;
 
-            let distance = height - 328;
 
-            if (caption) {
-              const captionHeight = caption.getBoundingClientRect().height;
+              if (image) {
+                imageHeight = Number(image.style.width.replace('px', '')) / aspect;
+              }
 
-              distance = distance - captionHeight;
-            }
+              let distance = stopTop - top - imageHeight;
 
-            if (distance > 0) {
-              this.SCENE = new ScrollMagic.Scene({
-                triggerElement: this.SECTION,
-                duration: distance,
-                triggerHook: 0.4,
-                reverse: false,
-              })
-                .setPin(pin, { pushFollowers: false })
-                .addTo(this.CONTROLLER);
+
+              if (distance > 0) {
+                const scene = new ScrollMagic.Scene({
+                  triggerElement: section,
+                  duration: distance,
+                  triggerHook: 0.3,
+                  reverse: false,
+                })
+                  .setPin(pin, { pushFollowers: false })
+                  .addTo(this.CONTROLLER)
+                this.SCENES.push(scene);
+              }
+            } else if (pin) {
+
+              const { height } = section.getBoundingClientRect();
+              const image = section.querySelector('img');
+              const aspect = this.getAspect(pin);
+
+              let imageHeight = 0;
+1
+              if (image) {
+                imageHeight = Number(image.style.width.replace('px', '')) / aspect;
+              }
+
+              let distance = height - imageHeight;
+
+              if (distance > 50) {
+                const scene = new ScrollMagic.Scene({
+                  triggerElement: section,
+                  duration: distance,
+                  triggerHook: 0.2,
+                  reverse: false,
+                })
+                  .setPin(pin, { pushFollowers: false })
+                  .addTo(this.CONTROLLER)
+                this.SCENES.push(scene);
+              }
             }
           }
-        }
-      // })
-    }
-  }
-
-  private cleanupScrollMagic() {
-    if (this.SECTION) {
-
-      const pinSpacer = this.SECTION.querySelector('[data-scrollmagic-pin-spacer]');
-
-      if (pinSpacer) this.unwrapEl(pinSpacer);
-
-    }
-  }
-
-  private unwrapEl(el: Element) {
-    const parent = el.parentNode!;
-    const pin = parent.querySelector('.pin-me')!;
-
-    if (pin) {
-      pin.removeAttribute('style');
-      parent.insertBefore(pin, el);
-    }
-
-    // remove the empty element
-    parent.removeChild(el);
-  }
-
-  windowResizeListener = () => {
-    window.addEventListener('resize', debounce(() => {
-
-      if (this.CONTROLLER) {
-        this.CONTROLLER.destroy();
-        this.CONTROLLER = null;
+        })
       }
-      this.cleanupScrollMagic();
+  }
+
+  /**
+  * Iterates through this.SCENES and resets scrollMagic scenes for each.
+  **/
+  private resetScenes = (): void => {
+    this.SCENES.forEach((scene) => {
+      scene.removePin(true);
+      scene.refresh();
+    });
+  }
+
+  /**
+  * Adds a window resize listener to the window to update image sizes
+  * and reset scrollmagic settings
+  **/
+  private windowResizeListener = (): void => {
+    window.addEventListener('resize', debounce(() => {
+      this.setImageWidths();
 
       if (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm') {
-        this.initScrollMagic();
+        this.resetScenes();
+        this.scrollSections();
       }
 
-    }, 400));
+    }, 500));
   }
 }

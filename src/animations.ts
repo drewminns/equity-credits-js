@@ -24,9 +24,9 @@ export class Animations extends Window {
   LINKS: NodeListOf<Element> | null;
   DEBUG: boolean;
 
-  constructor() {
+  constructor(debug = false) {
     super();
-    this.DEBUG = false;
+    this.DEBUG = debug;
     this.SCROLL_ANIMATION = null;
     this.LINKS = null;
     this.SCROLL_TOP = 0;
@@ -47,9 +47,10 @@ export class Animations extends Window {
   }
 
   init = (SCROLL_TOP: number) : void => {
+    this.SCROLL_TOP = SCROLL_TOP;
+
     this.LINKS = document.querySelectorAll('.product_link');
     this.PLAY_PAUSE_BUTTON = document.getElementById('play')!;
-    this.SCROLL_TOP = SCROLL_TOP;
     this.PAGE_HEIGHT = document.body.scrollHeight;
     this.SCROLL_OFFSET = this.getScrollOffset();
 
@@ -57,7 +58,7 @@ export class Animations extends Window {
     const sections = Array.from(document.querySelectorAll('[data-section-main]'));
 
     this.PAGE_SECTIONS = [ intro, ...sections];
-    this.setDistanceMap();
+    this.DISTANCE_MAP = this.setDistanceMap();
 
     window.document.body.setAttribute('data-no-scroll', 'true');
     this.introAnimation();
@@ -74,7 +75,7 @@ export class Animations extends Window {
     return (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm') ? 100 : 100;
   }
 
-  private attachEventListeners = () => {
+  private attachEventListeners() : void {
 
     if (this.PLAY_PAUSE_BUTTON) {
 
@@ -110,14 +111,12 @@ export class Animations extends Window {
       this.windowSize = { height, width };
       this.SCROLL_OFFSET = this.getScrollOffset();
       this.setDeviceHeight();
-      this.setDistanceMap();
-
-      console.log(this.DISTANCE_MAP);
+      this.DISTANCE_MAP = this.setDistanceMap();
       // this.preventScrollInPortrait(this.breakpoint.isPortrait);
     }, 400));
   }
 
-  private offsetTop = (el: any) => {
+  private offsetTop(el: any) : number {
     var location = 0;
     if (el.offsetParent) {
       do {
@@ -134,14 +133,14 @@ export class Animations extends Window {
       return index === 0 ? 0 : this.offsetTop(item);
     });
 
-    this.DISTANCE_MAP = distances;
+    return distances;
   }
 
-  private setDeviceHeight = () => {
+  private setDeviceHeight() : void {
     document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
   }
 
-  private listenUserScroll = () => {
+  private listenUserScroll() : void {
     window.addEventListener('wheel', (e) => {
       this.handleUserScroll();
     });
@@ -157,19 +156,7 @@ export class Animations extends Window {
     });
   }
 
-  // private preventScrollInPortrait(isPortrait: boolean) {
-  //   if (isPortrait) {
-  //     this.PAGE_SCROLLING_PAUSED = true;
-  //     // document.body.setAttribute('data-no-scroll', 'true');
-  //     this.SCROLL_ANIMATION?.pause();
-  //   } else if (this.PAGE_SCROLLING_PAUSED && !this.USER_PAUSED) {
-  //     this.PAGE_SCROLLING_PAUSED = false;
-  //     document.body.removeAttribute('data-no-scroll');
-  //     this.pageScroll();
-  //   }
-  // }
-
-  private handleLinkHover = () => {
+  private handleLinkHover() : void {
 
     let resumeScroll = false;
     let isScrolling: any;
@@ -197,7 +184,7 @@ export class Animations extends Window {
       }
     }
 
-    const pauseScroll = () => {
+    const pauseScroll = () : void => {
       if (!this.PAGE_SCROLLING_PAUSED) {
         this.SCROLL_ANIMATION?.pause();
         this.PAGE_SCROLLING_PAUSED = true;
@@ -219,7 +206,7 @@ export class Animations extends Window {
 
   }
 
-  private handleUserScroll = () => {
+  private handleUserScroll() : void {
     let resumeScroll = false;
     let isScrolling: any;
 
@@ -255,7 +242,7 @@ export class Animations extends Window {
     }
   }
 
-  private manageActiveButtons = (f: Element, b: Element) => {
+  private manageActiveButtons(f: Element, b: Element) : void {
 
     // if (this.CURRENT_SECTION <= 0) {
     //   b.setAttribute('disabled', 'true');
@@ -294,7 +281,7 @@ export class Animations extends Window {
     return index === -1 ? this.PAGE_SECTIONS.length - 1 : (index === 0 ? 0 : index - 1);
   }
 
-  private rewind = (e: any, forward: Element, back: Element) => {
+  private rewind = (e: any, forward: Element, back: Element) : void => {
     // we need to calculate how far into the current section one is
     // If we are just starting in the section, go to the previous one
     // if we are far into the curent section, go to the top
@@ -309,8 +296,7 @@ export class Animations extends Window {
     this.scrollToSection(newSectionIndex);
   }
 
-  private fastForward = (e: any, forward: Element, back: Element) => {
-
+  private fastForward = (e: any, forward: Element, back: Element) : void => {
     const newSectionIndex = this.CURRENT_SECTION + 1;
 
     if (newSectionIndex > this.PAGE_SECTIONS.length) {
@@ -322,7 +308,7 @@ export class Animations extends Window {
     }
   }
 
-  private scrollToSection = (newIndex: number, end: boolean = false) => {
+  private scrollToSection = (newIndex: number, end: boolean = false) : void => {
 
     let scrollTop: any;
 
@@ -364,7 +350,7 @@ export class Animations extends Window {
     });
   }
 
-  private runScrolling = () => {
+  private runScrolling() : void {
     const intro = document.getElementById('intro')!;
     const introText1 = document.getElementById('intro-text1')!;
     const introText2 = document.getElementById('intro-text2')!;
@@ -383,7 +369,7 @@ export class Animations extends Window {
     this.listenUserScroll();
   }
 
-  private introAnimation = () => {
+  private introAnimation() : void {
 
     this.TIME_LINE
       .add({
@@ -410,7 +396,7 @@ export class Animations extends Window {
     });
   }
 
-  private scrollFadeIn() {
+  private scrollFadeIn() : void {
     anime({
       targets: '#main_content',
       opacity: 1,
@@ -418,7 +404,7 @@ export class Animations extends Window {
     });
   }
 
-  private pageScroll = () => {
+  private pageScroll() {
     const currentScroll = this.SCROLL_ELEMENT.scrollTop;
 
     this.SCROLL_ANIMATION = anime({
@@ -428,7 +414,7 @@ export class Animations extends Window {
     });
   }
 
-  private managePlayBtnState = (state: string) => {
+  private managePlayBtnState(state: string) : void {
 
     if (this.PLAY_PAUSE_BUTTON) {
       const text = document.getElementById('play--text')!;
@@ -444,7 +430,7 @@ export class Animations extends Window {
     }
   }
 
-  private manageScrollState(state: string = 'pause') {
+  private manageScrollState(state: string = 'pause') : void {
     if (!this.SCROLL_ANIMATION) return;
 
     if (state === 'play') {
@@ -458,7 +444,7 @@ export class Animations extends Window {
     }
   }
 
-  private scrollControls = () => {
+  private scrollControls() : void {
     if (!this.PAGE_SCROLLING_PAUSED) {
       this.manageScrollState('pause');
     } else {
@@ -466,7 +452,7 @@ export class Animations extends Window {
     }
   }
 
-  private navigationAnimation = () => {
+  private navigationAnimation() : void {
     anime({
       targets: '#nav',
       opacity: 1,
