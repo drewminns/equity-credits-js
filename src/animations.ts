@@ -65,9 +65,13 @@ export class Animations extends Window {
     this.PAGE_SECTIONS = [ intro, ...sections];
     this.DISTANCE_MAP = this.setDistanceMap();
 
-    this.introAnimation();
     this.attachEventListeners();
     // this.preventScrollInPortrait(this.breakpoint.isPortrait);
+
+    const footer = document.getElementById('IndependentsFooter')!;
+    if (footer) {
+      footer.classList.remove('hidden');
+    }
 
   }
 
@@ -81,7 +85,7 @@ export class Animations extends Window {
         if (this.PLAY_PAUSE_BUTTON.disabled) return;
 
         if (!this.INITIAL_PLAY) {
-          this.runScrolling();
+          this.pageScroll();
           this.INITIAL_PLAY = true;
         }
 
@@ -344,32 +348,19 @@ export class Animations extends Window {
     this.CURRENT_SECTION = newIndex;
   }
 
-  private runScrolling() : void {
+  // private introAnimation() : void {
 
-    const footer = document.getElementById('IndependentsFooter')!;
-    if (footer) {
-      footer.classList.remove('hidden');
-    }
+  //   this.TIME_LINE
+  //     .add({
+  //       targets: '#intro',
+  //       opacity: 1,
+  //       duration: this.DEBUG ? 0 : 1200
+  //     });
 
-    // this.scrollFadeIn();
-    this.pageScroll();
-    // this.navigationAnimation();
-    // this.listenUserScroll();
-  }
-
-  private introAnimation() : void {
-
-    this.TIME_LINE
-      .add({
-        targets: '#intro',
-        opacity: 1,
-        duration: this.DEBUG ? 0 : 1200
-      });
-
-    this.TIME_LINE.finished.then(() => {
-      this.runScrolling();
-    });
-  }
+  //   this.TIME_LINE.finished.then(() => {
+  //     this.runScrolling();
+  //   });
+  // }
 
   // private scrollFadeIn() : void {
   //   anime({
