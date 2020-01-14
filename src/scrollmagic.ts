@@ -81,19 +81,17 @@ export class MagicTime extends Window {
             // Check if wrapper has images
             const pin = wrapper.querySelector('.pin-me')!;
             const stopper = wrapper.querySelector('li[data-layout]')!;
-            // console.log(stopper);
+
+            const aspect = this.getAspect(pin);
+            const image = section.querySelector('img');
+            let imageHeight = 0;
+1
+            if (image) {
+              imageHeight = Number(image.style.width.replace('px', '')) / aspect;
+            }
 
             if (pin && stopper) {
               const stopTop = stopper.getBoundingClientRect().top;
-
-              const aspect = this.getAspect(pin);
-              const image = stopper.querySelector('img');
-              let imageHeight = 0;
-
-
-              if (image) {
-                imageHeight = Number(image.style.width.replace('px', '')) / aspect;
-              }
 
               let distance = stopTop - top - imageHeight;
 
@@ -112,14 +110,7 @@ export class MagicTime extends Window {
             } else if (pin) {
 
               const { height } = section.getBoundingClientRect();
-              const image = section.querySelector('img');
-              const aspect = this.getAspect(pin);
 
-              let imageHeight = 0;
-1
-              if (image) {
-                imageHeight = Number(image.style.width.replace('px', '')) / aspect;
-              }
 
               let distance = height - imageHeight;
 
