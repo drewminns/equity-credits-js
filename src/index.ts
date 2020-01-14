@@ -14,7 +14,7 @@ const MOUNT_POINT: HTMLElement = document.getElementById('App')!;
 const fetchData = new FetchData(endpoint);
 const domBuilder = new DomBuilder();
 const scrollMagic = new MagicTime();
-const animations = new Animations();
+const animations = new Animations(true);
 
 // console.log(FetchData);
 fetchData.fetch()

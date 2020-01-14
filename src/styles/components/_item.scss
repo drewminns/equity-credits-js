@@ -198,40 +198,36 @@
 .item_has_image {
   position: relative;
 
-  &:before {
-    background-color: $green;
-    content: "";
-    display: block;
-    position: absolute;
-    height: 115%;
-    width: 100vw;
-    margin-left: -3rem;
-    top: 0;
+  .merchant_products > span:first-child {
+    position: relative;
 
-    @include tablet {
-      margin-left: -3.5rem;
+    span {
+      position: relative;
+      z-index: 10;
     }
 
-    @include desktop {
-      width: 200vw;
-      left: -50%;
-      right: 50%;
-      margin-left: -50vw;
-      margin-right: -50vw;
-    }
-  }
-
-  @include desktop {
-    &[data-layout="center"]:before {
+    &:before {
+      background-color: $green;
+      content: "";
+      display: block;
+      position: absolute;
+      height: 100%;
       width: 100vw;
-    }
+      margin-left: -3rem;
+      top: 0;
+      z-index: 0;
 
-    &[data-layout="left"]:before {
-      left: 150%;
-    }
-    &[data-layout="right"]:before {
-      left: -65%;
-      width: 110vw;
+      @include tablet {
+        margin-left: -3.5rem;
+      }
+
+      @include desktop {
+        width: 200vw;
+        left: -50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+      }
     }
   }
 }

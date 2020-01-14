@@ -126,7 +126,7 @@ export class DomBuilder {
           <span class="${s.merchant_products}">
             ${
               item.products.map((listItem) => {
-                return `<span>${listItem}</span>`
+                return `<span><span>${listItem}</span></span>`
               }).join('')
             }
 
