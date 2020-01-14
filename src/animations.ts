@@ -65,23 +65,26 @@ export class Animations extends Window {
     this.PAGE_SECTIONS = [ intro, ...sections];
     this.DISTANCE_MAP = this.setDistanceMap();
 
-    this.introAnimation();
     this.attachEventListeners();
-    // this.preventScrollInPortrait(this.breakpoint.isPortrait);
+
+    const footer = document.getElementById('IndependentsFooter')!;
+    if (footer) {
+      footer.classList.remove('hidden');
+    }
+
+    this.pageScroll();
+    this.SCROLL_ANIMATION?.pause();
 
   }
 
   private attachEventListeners() : void {
 
+    this.listenUserScroll();
+
     if (this.PLAY_PAUSE_BUTTON) {
 
       this.PLAY_PAUSE_BUTTON.addEventListener('click', () => {
         if (this.PLAY_PAUSE_BUTTON.disabled) return;
-
-        // if (!this.INITIAL_PLAY) {
-        //   this.runScrolling();
-        //   this.INITIAL_PLAY = true;
-        // }
 
         this.scrollControls();
         this.USER_CLICKED_PLAY_PAUSE = !this.USER_CLICKED_PLAY_PAUSE;
@@ -342,32 +345,19 @@ export class Animations extends Window {
     this.CURRENT_SECTION = newIndex;
   }
 
-  private runScrolling() : void {
+  // private introAnimation() : void {
 
-    const footer = document.getElementById('IndependentsFooter')!;
-    if (footer) {
-      footer.classList.remove('hidden');
-    }
+  //   this.TIME_LINE
+  //     .add({
+  //       targets: '#intro',
+  //       opacity: 1,
+  //       duration: this.DEBUG ? 0 : 1200
+  //     });
 
-    // this.scrollFadeIn();
-    // this.pageScroll();
-    // this.navigationAnimation();
-    this.listenUserScroll();
-  }
-
-  private introAnimation() : void {
-
-    this.TIME_LINE
-      .add({
-        targets: '#intro',
-        opacity: 1,
-        duration: this.DEBUG ? 0 : 1200
-      });
-
-    this.TIME_LINE.finished.then(() => {
-      this.runScrolling();
-    });
-  }
+  //   this.TIME_LINE.finished.then(() => {
+  //     this.runScrolling();
+  //   });
+  // }
 
   // private scrollFadeIn() : void {
   //   anime({
@@ -429,23 +419,12 @@ export class Animations extends Window {
 
     const nav = document.querySelector('#nav');
 
-    const opts: any = {
-      targets: '#nav',
-      opacity: show ? 1 : 0,
-      easing: 'easeOutBack',
-    };
-
     if (show) {
-      opts.duration = 500;
-      opts['complete'] = () => {
-        nav?.setAttribute('data-shown', 'true');
-      }
+      nav?.setAttribute('data-nav-visible', 'true');
+      nav?.removeAttribute('data-nav-hidden');
     } else {
-      opts.duration = 1000;
-      opts['complete'] = () => {
-        nav?.removeAttribute('data-shown');
-      }
+      nav?.removeAttribute('data-nav-visible');
+      nav?.setAttribute('data-nav-hidden', 'true');
     }
-    anime(opts);
   }
 }

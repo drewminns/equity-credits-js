@@ -11,7 +11,7 @@ import pause from '../assets/pause.svg';
 import play from '../assets/play.svg';
 
 export const nav = (() => `
-      <nav class="${clsx(s.nav)}" id="nav">
+      <nav class="${clsx(s.nav)}" id="nav" data-nav data-nav-hidden>
         <div class="${clsx(g.container_fluid, g.wrap)}">
           <div class="${clsx(g.row, s.nav_row)}">
             <div class="${clsx(g.col_sm_4, g.col_md_3, g.col_xs_6, s.logo)}">
