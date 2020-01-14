@@ -429,23 +429,12 @@ export class Animations extends Window {
 
     const nav = document.querySelector('#nav');
 
-    const opts: any = {
-      targets: '#nav',
-      opacity: show ? 1 : 0,
-      easing: 'easeOutBack',
-    };
-
     if (show) {
-      opts.duration = 500;
-      opts['complete'] = () => {
-        nav?.setAttribute('data-shown', 'true');
-      }
+      nav?.setAttribute('data-nav-visible', 'true');
+      nav?.removeAttribute('data-nav-hidden');
     } else {
-      opts.duration = 1000;
-      opts['complete'] = () => {
-        nav?.removeAttribute('data-shown');
-      }
+      nav?.removeAttribute('data-nav-visible');
+      nav?.setAttribute('data-nav-hidden', 'true');
     }
-    anime(opts);
   }
 }
