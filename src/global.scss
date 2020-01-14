@@ -30,12 +30,6 @@ h1 {
   }
 }
 
-[data-no-scroll] {
-  height: 100vh;
-  height: calc(var(--vh, 1vh) * 100);
-  overflow-y: hidden;
-}
-
 ul {
   list-style: none;
   margin: 0;
@@ -83,4 +77,45 @@ li[data-layout] ~ li[data-layout] {
 
 [data-section-main] {
   background-color: black;
+}
+
+[data-video-btn] {
+  -webkit-appearance: none;
+  background-color: white;
+  border: 0;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  top: calc(50% - 30px);
+  left: calc(50% - 30px);
+
+  &:after {
+    content: '';
+    width: 0;
+    height: 0;
+    display: block;
+    border: 10px solid transparent;
+    border-left: 16px solid $green--alt;
+    position: relative;
+    left: 18px;
+    top: 1px;
+  }
+
+  @include desktop {
+    width: 100px;
+    height: 100px;
+    top: calc(50% - 50px);
+    left: calc(50% - 50px);
+
+    &:after {
+      border-width: 16px;
+      border-left-width: 28px;
+      left: 34px;
+    }
+  }
+}
+
+nav[data-shown] {
+  pointer-events: auto;
 }

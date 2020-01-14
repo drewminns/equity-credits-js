@@ -71,7 +71,10 @@ module.exports = {
       }
     }),
     new HTMLWebpackPlugin({
-      template: "./config/index.html"
+      template: "./config/index.html",
+      wistiauri: '//fast.wistia.com/assets/external/E-v1.js',
+      wistiacharset: 'ISO-8859-1',
+      wistiajson: 'https://fast.wistia.com/embed/medias/b7g57f7mn4.jsonp',
     })
   ]
 };
