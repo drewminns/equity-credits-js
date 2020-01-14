@@ -16,6 +16,8 @@ const domBuilder = new DomBuilder();
 const scrollMagic = new MagicTime();
 const animations = new Animations(true);
 
+
+const buildEvent = new Event('domReallyReady');
 // console.log(FetchData);
 fetchData.fetch()
   .then((data) => {
@@ -27,4 +29,5 @@ fetchData.fetch()
   })
   .then(() => {
     animations.init();
-  })
+    window.dispatchEvent(buildEvent);
+  });
