@@ -56,6 +56,14 @@
 .section_minor {
   margin-top: 134px;
 
+  &.section_not_title {
+    margin-top: 0;
+
+    @include desktop {
+      margin-top: 134px;
+    }
+  }
+
   &:first-child {
     margin-top: 0;
   }

@@ -12,6 +12,7 @@ import arrow from './assets/arrow.svg';
 
 export class DomBuilder {
   sections!: GroupData[];
+
   MOUNT_POINT!: HTMLElement;
 
   constructor() {
@@ -40,10 +41,8 @@ export class DomBuilder {
 
 
   private buildSection(group: GroupData) {
-
     const { sections, title, groupname: name } = group;
-    return sections.map((sec: Section, idx: Number) => {
-
+    return sections.map((sec: Section, idx: number) => {
       let media = '';
       let sectionClass = 'section--no-media';
       const sectionHasMedia = sec.hasOwnProperty('media') && sec.media.hasOwnProperty('tablet_up') && sec.media.hasOwnProperty('mobile');
@@ -55,25 +54,20 @@ export class DomBuilder {
 
 
       return `
-        <div data-${sec.layout} class="${clsx(g.row, s.section_minor, g.section_)}">
+        <div data-${sec.layout} class="${clsx(g.row, s.section_minor, idx > 0 ? s.section_not_title : '')}">
           <section id="section-${sec.section_id}" class="${sectionClass}" data-layout="${sec.layout}">
-          ${ idx === 0 ? `<h2 class="${s.title}">${title}</h2>` : '' }
+          ${idx === 0 ? `<h2 class="${s.title}">${title}</h2>` : ''}
           <div class="${s.section_wrapper}" data-section-wrap>
-            ${ media }
+            ${media}
             <ul class="${s.section_list_group} ${
-              clsx(g.col_md_6,
-                s.section_list,
-                {
-                  [g.col_md_offset_3]: sec.layout === 'center',
-                  [g.col_md_offset_6]: sec.layout === 'right',
-                }
-              )
-            }">
-              ${sec.merchants.map((item: SectionData) => {
-
-                return this.buildListItem(item, sec.layout, sectionHasMedia);
-
-              }).join('')}
+  clsx(g.col_md_6,
+    s.section_list,
+    {
+      [g.col_md_offset_3]: sec.layout === 'center',
+      [g.col_md_offset_6]: sec.layout === 'right',
+    })
+}">
+              ${sec.merchants.map((item: SectionData) => this.buildListItem(item, sec.layout, sectionHasMedia)).join('')}
             </ul>
           </div>
         </section>
@@ -102,7 +96,6 @@ export class DomBuilder {
               <source srcset="${media.tablet_up.small.url}" media="(min-width: 768px)">
               <source srcset="${media.mobile.large.url}" media="(min-width: 544px)">
               <img
-                loading="lazy"
                 id="image-${id}"
                 class="${s.image}"
                 src="${media.mobile.small.url}"
@@ -115,9 +108,7 @@ export class DomBuilder {
   }
 
   private buildListItem(item: SectionData, layout: string, sectionHasMedia: boolean) {
-
     if (!sectionHasMedia && item.hasOwnProperty('media') && Object.entries(item.media).length !== 0) {
-
       const media = this.createMediaItem(item.media, layout, item.shop_id);
 
       return `
@@ -125,10 +116,8 @@ export class DomBuilder {
         <p class="${clsx(s.item_content, s.item_has_image)}">
           <span class="${s.merchant_products}">
             ${
-              item.products.map((listItem) => {
-                return `<span>${listItem}</span>`
-              }).join('')
-            }
+  item.products.map((listItem) => `<span>${listItem}</span>`).join('')
+}
 
           </span>
           <span class="${s.item_text}">
@@ -145,7 +134,7 @@ export class DomBuilder {
             </a>
           </span>
         </p>
-        ${ media }
+        ${media}
       </li>`;
     }
 
@@ -154,10 +143,8 @@ export class DomBuilder {
         <p class="${s.item_content}">
           <span class="${s.merchant_products}">
             ${
-              item.products.map((listItem) => {
-                return `<span>${listItem}</span>`
-              }).join('')
-            }
+  item.products.map((listItem) => `<span>${listItem}</span>`).join('')
+}
           </span>
           <span class="${s.item_text}">
             <a
@@ -177,11 +164,8 @@ export class DomBuilder {
     `;
   }
 
-  private buildGroup = () => {
-    return this.sections.map((group: GroupData) => {
-
-      const sections = this.buildSection(group);
-      return `<li data-section-main id="${group.groupname}" class="${clsx(s.top_section_item, group.groupname === 'social' && s.top_section_item_social)}">${sections}</li>`
-    }).join('');
-  }
+  private buildGroup = () => this.sections.map((group: GroupData) => {
+    const sections = this.buildSection(group);
+    return `<li data-section-main id="${group.groupname}" class="${clsx(s.top_section_item, group.groupname === 'social' && s.top_section_item_social)}">${sections}</li>`;
+  }).join('')
 }
