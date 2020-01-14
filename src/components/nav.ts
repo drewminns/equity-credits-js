@@ -30,7 +30,7 @@ export const nav = (() => `
                 <span class="${utils.hidden}">Back</span>
                 <span class="${s.icon}">${rewind}</span>
               </button>
-              <button aria-label="Play" type="button" id="play" class="${s.button}">
+              <button aria-label="Play" type="button" id="play" class="${clsx(s.button)}">
                 <span id="play--text" class="${utils.hidden}">Pause</span>
                 <span id="play--icon" class="${s.icon}">${pause}</span>
               </button>
