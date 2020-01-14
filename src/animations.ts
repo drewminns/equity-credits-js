@@ -25,7 +25,6 @@ export class Animations extends Window {
   LINKS: NodeListOf<Element> | null;
   DEBUG: boolean;
   NAV_SHOWN: boolean;
-  INITIAL_PLAY: boolean;
 
   constructor(debug = false) {
     super();
@@ -48,7 +47,6 @@ export class Animations extends Window {
     this.SCROLL_OFFSET = 100;
     this.IS_USER_SCROLLING = false;
     this.NAV_SHOWN = false;
-    this.INITIAL_PLAY = false;
   }
 
   init = () : void => {
