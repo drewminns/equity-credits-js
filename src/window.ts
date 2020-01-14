@@ -8,9 +8,11 @@ export abstract class Window {
   private _WINDOW_SIZE: WINDOW_SIZE;
   private _IS_PORTRAIT: boolean;
   private _IS_REDUCED_MOTION: boolean;
+  private _SCROLL_TOP: number;
 
   constructor() {
     this._VIEWPORT_SIZE = 'MD';
+    this._SCROLL_TOP = 0;
     this._IS_PORTRAIT = false;
     this._IS_REDUCED_MOTION = false;
     this._WINDOW_SIZE = {
@@ -18,6 +20,17 @@ export abstract class Window {
       width: window.innerWidth
     }
     this.trackWindowSize();
+    this.trackScroll();
+  }
+
+  private trackScroll() : void {
+    window.addEventListener('scroll', () => {
+      this._SCROLL_TOP = window.pageYOffset || (document.documentElement || document.body.parentNode || document.body).scrollTop;
+    });
+  }
+
+  get scrollTop() : number {
+    return this._SCROLL_TOP;
   }
 
   get windowSize(): WINDOW_SIZE {
