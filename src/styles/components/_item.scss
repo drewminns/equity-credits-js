@@ -5,18 +5,6 @@
 .main_content {
   opacity: 0;
   background: transparent; // Used to overwrite Shopify application styles
-
-  > ul {
-    padding-top: 200px;
-    background-image: linear-gradient(
-      to bottom,
-      transparent,
-      $black 450px,
-      $black
-    );
-    background-color: transparent;
-    margin-top: -10vh;
-  }
 }
 
 .logo_row {

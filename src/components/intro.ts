@@ -32,8 +32,7 @@ export const intro = (() =>
                       </button>
                     </div>
                   </div>
-                  <p id="intro-text1">Every product on our billboards, shout out on the radio, and set piece in our commercial is the result of someone pursuing independence.</p>
-                  <p id="intro-text2">Helping people turn their ideas into a business is what we do at Shopify. Our thanks to those who let us share their story.</p>
+                  <p id="intro-text">Every product on our billboards, shout out on the radio, and set piece in our videos is the result of someone pursuing independence. Our thanks to those who let us share their story.</p>
                 </div>
               </div>
             </div>

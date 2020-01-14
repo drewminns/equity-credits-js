@@ -324,11 +324,7 @@ export class Animations extends Window {
 
   private runScrolling() : void {
     const intro = document.getElementById('intro')!;
-    const introText1 = document.getElementById('intro-text1')!;
-    const introText2 = document.getElementById('intro-text2')!;
     intro.style.opacity = '1';
-    introText1.style.opacity = '1';
-    introText2.style.opacity = '1';
 
     const footer = document.getElementById('IndependentsFooter')!;
     if (footer) {
@@ -348,17 +344,6 @@ export class Animations extends Window {
         targets: '#intro',
         opacity: 1,
         duration: this.DEBUG ? 0 : 1200
-      })
-      .add({
-        targets: '#intro-text1',
-        opacity: 1,
-        duration: this.DEBUG ? 0 : 3500
-      })
-      .add({
-        targets: '#intro-text2',
-        opacity: 1,
-        duration: this.DEBUG ? 0 : 3500,
-        endDelay: this.DEBUG ? 0 : 2500
       });
 
     this.TIME_LINE.finished.then(() => {
