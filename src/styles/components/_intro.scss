@@ -31,7 +31,7 @@
   }
 
   h2 {
-    font-size: 3.4rem;
+    font-size: 3rem;
     line-height: 1.5;
     font-weight: 400;
     margin-bottom: 10rem;
@@ -103,13 +103,22 @@
     width: 0;
     height: 0;
     top: auto;
-    bottom: -24px;
-    left: -24px;
-    border: 24px solid transparent;
+    bottom: -12px;
+    left: -12px;
+    border: 12px solid transparent;
     transform: rotate(0.125turn);
     background-color: transparent;
     border-right-color: $white;
     border-radius: 0;
+  }
+
+  @include tablet() {
+    &:after {
+      bottom: -24px;
+      left: -24px;
+      border: 24px solid transparent;
+      border-right-color: $white;
+    }
   }
 }
 
