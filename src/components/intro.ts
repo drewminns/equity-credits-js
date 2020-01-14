@@ -22,7 +22,7 @@ export const intro = (() =>
               </div>
             </div>
             <div class="${clsx(g.row)}">
-              <div class="${clsx(g.col_xs_12, g.col_md_10, g.col_md_offset_1, g.col_lg_8, g.col_lg_offset_2)}">
+              <div class="${clsx(g.col_xs_12, g.col_md_12, g.col_lg_10, g.col_lg_offset_1)}">
                 <div class="${clsx(s.intro_content)}">
                   <h2>Supporting independent businesses is at the heart of <span class="${clsx(s.tag)}"><span>everything</span></span> we do.</h2>
                   <div class="${s.intro_video_container}">

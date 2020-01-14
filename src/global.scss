@@ -101,6 +101,19 @@ li[data-layout] ~ li[data-layout] {
     left: 18px;
     top: 1px;
   }
+
+  @include desktop {
+    width: 100px;
+    height: 100px;
+    top: calc(50% - 50px);
+    left: calc(50% - 50px);
+
+    &:after {
+      border-width: 16px;
+      border-left-width: 28px;
+      left: 34px;
+    }
+  }
 }
 
 nav[data-shown] {

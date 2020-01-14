@@ -27,9 +27,9 @@
   text-align: center;
 
   h2 {
-    font-size: 7.2rem;
+    font-size: 3.4rem;
+    line-height: 1.5;
     font-weight: 400;
-    line-height: 1.35;
     margin-bottom: 10rem;
   }
 
@@ -40,7 +40,33 @@
     &:first-of-type {
       margin-top: 8rem;
     }
+
+
   }
+
+  @include tablet {
+    h2 {
+      font-size: 4.8rem;
+    }
+
+    p {
+      padding: 0 12rem;
+    }
+  }
+
+  @include desktop {
+    h2 {
+      font-size: 5.4rem;
+    }
+  }
+
+  @include desktop--lg {
+    h2 {
+      font-size: 7.2rem;
+    }
+  }
+
+
 }
 
 .tag {
@@ -48,6 +74,7 @@
   font-weight: 400;
   padding: 0 1.5rem;
   position: relative;
+  display: inline-block;
 
   span {
     position: relative;
