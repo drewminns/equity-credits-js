@@ -59,7 +59,6 @@ export class Animations extends Window {
     this.PAGE_SECTIONS = [ intro, ...sections];
     this.DISTANCE_MAP = this.setDistanceMap();
 
-    window.document.body.setAttribute('data-no-scroll', 'true');
     this.introAnimation();
 
     this.setDeviceHeight();
@@ -332,8 +331,8 @@ export class Animations extends Window {
     }
 
     this.scrollFadeIn();
-    this.pageScroll();
-    this.navigationAnimation();
+    // this.pageScroll();
+    // this.navigationAnimation();
     this.listenUserScroll();
   }
 
@@ -348,7 +347,6 @@ export class Animations extends Window {
 
     this.TIME_LINE.finished.then(() => {
       this.runScrolling();
-      window.document.body.removeAttribute('data-no-scroll');
     });
   }
 
@@ -408,10 +406,10 @@ export class Animations extends Window {
     }
   }
 
-  private navigationAnimation() : void {
+  private navigationAnimation(show: boolean) : void {
     anime({
       targets: '#nav',
-      opacity: 1,
+      opacity: show ? 1 : 0,
       duration: 2000,
     })
   }
