@@ -135,9 +135,13 @@
   }
 
   .arrow svg {
-    height: 26px;
+    height: 22px;
     position: relative;
     bottom: 0;
+
+    @include desktop {
+      height: 26px;
+    }
   }
 }
 
