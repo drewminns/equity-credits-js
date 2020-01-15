@@ -31,6 +31,7 @@ export class DomBuilder {
     ${intro}
     <div class="${clsx(g.container_fluid, g.wrap, s.site_wrapper)}">
       <main id="main_content" class="${s.main_content}">
+        <h2 class="${clsx(s.title, s.credits_title)}">Credits</h2>
         <ul>
           ${this.buildGroup()}
         </ul>
