@@ -22,7 +22,7 @@ export const nav = (() => `
                 </a>
               </h1>
             </div>
-            <div class="${clsx(g.col_sm_4, g.col_xs_8, g.col_md_6, s.nav_headline)}">
+            <div class="${clsx(g.col_sm_8, g.col_xs_8, g.col_md_6, s.nav_headline)}">
               <p>Supporting Independents</p>
             </div>
             <div class="${clsx(g.col_sm_4, g.col_md_3, g.col_xs_6, s.nav_controls)}">
