@@ -33,10 +33,11 @@
   display: inline-block;
   width: 130px;
   margin-top: 10px;
-  margin-bottom: 9rem;
+  margin-bottom: 3rem;
 
   @include tablet {
     width: 145px;
+    margin-bottom: 9rem;
   }
 }
 
@@ -56,7 +57,7 @@
     margin-top: 2.5rem;
 
     @include tablet {
-      font-size: 4.8rem;
+      font-size: 4.2rem;
       margin-bottom: 10rem;
     }
 
@@ -70,8 +71,8 @@
   }
 
   p {
-    font-size: 1.4rem;
-    line-height: 1.5;
+    font-size: 1.8rem;
+    line-height: 1.7;
 
     &:first-of-type {
       margin-top: 4rem;
@@ -80,11 +81,14 @@
     @include tablet {
       font-size: 2.4rem;
       line-height: 1.66;
-      padding: 0 12rem;
 
       &:first-of-type {
         margin-top: 8rem;
       }
+    }
+
+    @include desktop {
+      padding: 0 12rem;
     }
   }
 }
