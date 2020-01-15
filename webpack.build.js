@@ -3,6 +3,8 @@ const webpack = require("webpack");
 
 const dist = path.join(__dirname, "dist");
 
+const IS_DEMO = process.env.DEMO;
+
 module.exports = {
   entry: ["./src/index.ts"],
   output: {
@@ -64,7 +66,7 @@ module.exports = {
       "process.env": {
         NODE_ENV: JSON.stringify("production"),
         ENDPOINT: JSON.stringify(
-          "https://upcoming9.shopify.com/independents.json"
+          IS_DEMO ? "https://upcoming9.shopify.com/independents.json" : 'https://shopify.com/independents.json'
         )
       }
     })
