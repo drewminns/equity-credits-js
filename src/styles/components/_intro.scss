@@ -30,6 +30,14 @@
 .intro_logo {
    margin-top: 10px;
    margin-bottom: 3.6rem;
+
+   @include tablet {
+     margin-bottom: 6rem;
+   }
+
+   @include desktop {
+     margin-bottom: 9rem;
+   }
 }
 
 .intro_content {
