@@ -74,20 +74,16 @@ export class Animations extends Window {
 
     this.pageScroll();
     this.SCROLL_ANIMATION?.pause();
-
   }
 
-  private attachEventListeners() : void {
-
+  private attachEventListeners(): void {
     this.listenUserScroll();
 
     if (this.PLAY_PAUSE_BUTTON) {
-
       this.PLAY_PAUSE_BUTTON.addEventListener('click', () => {
         if (this.PLAY_PAUSE_BUTTON.disabled) return;
-
-        this.scrollControls();
         this.USER_CLICKED_PLAY_PAUSE = !this.USER_CLICKED_PLAY_PAUSE;
+        this.scrollControls();
         this.USER_PAUSED = !this.USER_PAUSED;
       });
     }
@@ -135,7 +131,7 @@ export class Animations extends Window {
     }
   }
 
-  private offsetTop(el: any) : number {
+  private offsetTop(el: any): number {
     var location = 0;
     if (el.offsetParent) {
       do {
@@ -224,7 +220,7 @@ export class Animations extends Window {
     let resumeScroll = false;
     let isScrolling: any;
 
-    if (this.PAGE_SCROLLING_PAUSED) {
+    if (this.PAGE_SCROLLING_PAUSED || (this.breakpoint.name === 'xs' || this.breakpoint.name === 'sm')) {
       return;
     }
 

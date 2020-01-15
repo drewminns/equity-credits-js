@@ -1,8 +1,19 @@
 .intro {
   min-height: 100vh;
   background-color: $black;
-  background-image: linear-gradient(to bottom, $green, $green, mix($black, $green), $black);
+  background-image: linear-gradient(
+    to bottom,
+    $green,
+    $green,
+    mix($black, $green),
+    $black
+  );
+  padding-top: 1.6rem;
   // margin-bottom: 20vh;
+
+  h1 {
+    margin-top: 0;
+  }
 
   &_logo {
     text-align: center;
@@ -32,29 +43,35 @@
   }
 
   h2 {
-    font-size: 3rem;
+    font-size: 2.7rem;
     line-height: 1.5;
     font-weight: 400;
-    margin-bottom: 10rem;
+    margin-bottom: 5rem;
   }
 
   p {
-    font-size: 1.8rem;
-    line-height: 1.65;
+    font-size: 1.4rem;
+    line-height: 1.5;
 
     &:first-of-type {
-      margin-top: 8rem;
+      margin-top: 2.6rem;
     }
   }
 
   @include tablet {
     h2 {
       font-size: 4.8rem;
+      margin-bottom: 10rem;
     }
 
     p {
       font-size: 2.4rem;
+      line-height: 1.66;
       padding: 0 12rem;
+
+      &:first-of-type {
+        margin-top: 8rem;
+      }
     }
   }
 
@@ -69,8 +86,6 @@
       font-size: 7.2rem;
     }
   }
-
-
 }
 
 .tag {
@@ -87,7 +102,7 @@
 
   &:before,
   &:after {
-    content: '';
+    content: "";
     width: 100%;
     display: block;
     height: calc(100%);

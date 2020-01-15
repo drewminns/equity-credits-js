@@ -27,10 +27,11 @@
   }
 
   &_headline {
-    text-align: center;
-    display: none;
+    text-align: right;
+    // display: none;
 
     @include tablet {
+      text-align: center;
       display: block;
       font-size: 1.6rem;
     }
@@ -45,6 +46,11 @@
     text-align: right;
     display: flex;
     justify-content: flex-end;
+    display: none;
+
+    @include tablet {
+      display: block;
+    }
   }
 }
 
