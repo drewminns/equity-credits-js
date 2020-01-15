@@ -1,11 +1,13 @@
-import { Window } from './window';
-import debounce from 'lodash.throttle';
-
+import debounce from 'lodash.debounce';
 import ScrollMagic from 'scrollmagic';
+
+import { Window } from './window';
 
 export class MagicTime extends Window {
   CONTROLLER: any;
+
   SCENES: any[];
+
   SECTIONS: Element[];
 
   constructor() {
@@ -25,7 +27,7 @@ export class MagicTime extends Window {
 
   /**
   * Tracks width of columns and updates width attribute of image.
-  **/
+  * */
   private setImageWidths() : void {
     const images = document.querySelectorAll('.pin-me img');
     if ((this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm')) {
