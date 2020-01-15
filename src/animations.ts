@@ -158,13 +158,12 @@ export class Animations extends Window {
     this.managePlayBtnState('play');
   }
 
-  private offsetTop = (el: any): number => {
-    let location = 0;
-    let element = el;
+  private offsetTop(el: any) : number {
+    var location = 0;
     if (el.offsetParent) {
       do {
         location += el.offsetTop;
-        element = el.offsetParent;
+        el = el.offsetParent;
       } while (el);
     }
     return location >= 0 ? location : 0;
