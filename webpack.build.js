@@ -66,7 +66,7 @@ module.exports = {
       "process.env": {
         NODE_ENV: JSON.stringify("production"),
         ENDPOINT: JSON.stringify(
-          IS_DEMO ? "https://upcoming9.shopify.com/independents.json" : 'https://shopify.com/independents.json'
+          IS_DEMO ? "https://upcoming9.shopify.com/independents.json" : 'https://www.shopify.com/independents.json'
         )
       }
     })
