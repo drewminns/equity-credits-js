@@ -143,7 +143,6 @@ export class Animations extends Window {
     if (scrollTop >= threshold) {
       this.navigationAnimation(true);
     } else if (scrollTop < threshold) {
-      console.log('hello');
       this.navigationAnimation(false);
       if (!this.PAGE_SCROLLING_PAUSED) {
         this.manageScrollState('pause');

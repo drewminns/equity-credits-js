@@ -32,13 +32,23 @@
 .logo {
   display: inline-block;
   width: 130px;
-  margin-top: 10px;
-  margin-bottom: 3rem;
 
   @include tablet {
     width: 145px;
-    margin-bottom: 9rem;
   }
+}
+
+.intro_logo {
+   margin-top: 10px;
+   margin-bottom: 3.6rem;
+
+   @include tablet {
+     margin-bottom: 6rem;
+   }
+
+   @include desktop {
+     margin-bottom: 9rem;
+   }
 }
 
 .intro_content {
@@ -51,18 +61,19 @@
 
   h1 {
     font-size: 2.8rem;
-    line-height: 1.5;
+    line-height: 1.6;
     font-weight: 400;
     margin-bottom: 6rem;
     margin-top: 2.5rem;
 
     @include tablet {
-      font-size: 4.2rem;
-      margin-bottom: 10rem;
+      font-size: 4.8rem;
+      margin-bottom: 8rem;
     }
 
     @include desktop {
       font-size: 5.4rem;
+      margin-bottom: 10rem;
     }
 
     @include desktop--lg {
@@ -80,17 +91,21 @@
 
     @include tablet {
       font-size: 2.4rem;
-      line-height: 1.66;
 
       &:first-of-type {
-        margin-top: 8rem;
+        margin-top: 6rem;
       }
     }
 
     @include desktop {
       padding: 0 12rem;
+
+      &:first-of-type {
+        margin-top: 8rem;
+      }
     }
   }
+
 }
 
 .tag {
