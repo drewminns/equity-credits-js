@@ -33,7 +33,7 @@ export abstract class Window {
   }
 
   get scrollTop() : number {
-    return this._SCROLL_TOP;
+    return window.pageYOffset || (document.documentElement || document.body.parentNode || document.body).scrollTop;
   }
 
   get deviceIsTouch() : boolean {

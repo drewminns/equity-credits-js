@@ -40,7 +40,7 @@ export class Animations extends Window {
     this.SCROLL_ELEMENT = window.document.scrollingElement || window.document.body || window.document.documentElement;
     this.TIME_LINE = anime.timeline({
       easing: 'easeOutExpo',
-      endDelay: 500
+      endDelay: 500,
     });
     this.PAGE_SECTIONS = [];
     this.DISTANCE_MAP = [];
@@ -51,7 +51,7 @@ export class Animations extends Window {
     this.INITIAL_PLAY = false;
   }
 
-  init = () : void => {
+  init = (): void => {
     if (this.deviceIsTouch) {
       this.SCROLL_OFFSET = 100 - this.deviceHeight;
     }
@@ -72,6 +72,7 @@ export class Animations extends Window {
       footer.classList.remove('hidden');
     }
 
+    this.navVisibility();
     this.pageScroll();
     this.SCROLL_ANIMATION?.pause();
   }
@@ -95,7 +96,7 @@ export class Animations extends Window {
 
     backButton.addEventListener('click', (e) => {
       this.rewind(e, forwardButton, backButton);
-    })
+    });
 
     forwardButton.addEventListener('click', (e) => {
       this.fastForward(e, forwardButton, backButton);
@@ -111,24 +112,32 @@ export class Animations extends Window {
 
 
     window.addEventListener('resize', debounce(() => {
+      this.pauseScroll();
       const { innerHeight: height, innerWidth: width } = window;
       this.windowSize = { height, width };
       this.DISTANCE_MAP = this.setDistanceMap();
-      // this.preventScrollInPortrait(this.breakpoint.isPortrait);
     }, 400));
   }
 
   private navVisibility() {
+    const { scrollTop } = this;
     const threshold = this.windowSize.height * 0.5;
-    if (this.scrollTop >= threshold) {
+    if (scrollTop >= threshold) {
       this.navigationAnimation(true);
-    } else if (this.scrollTop < threshold) {
+    } else if (scrollTop < threshold) {
+      console.log('hello');
       this.navigationAnimation(false);
-
       if (!this.PAGE_SCROLLING_PAUSED) {
         this.manageScrollState('pause');
       }
     }
+  }
+
+  private pauseScroll(): void {
+    this.SCROLL_ANIMATION?.pause();
+    this.PAGE_SCROLLING_PAUSED = true;
+    this.USER_PAUSED = true;
+    this.managePlayBtnState('play');
   }
 
   private offsetTop(el: any): number {
@@ -166,8 +175,7 @@ export class Animations extends Window {
     });
   }
 
-  private handleLinkHover() : void {
-
+  private handleLinkHover(): void {
     let resumeScroll = false;
     let isScrolling: any;
 
@@ -213,14 +221,13 @@ export class Animations extends Window {
     }
 
     // If the page is not paused, pause it and let default scroll take over
-
   }
 
-  private handleUserScroll() : void {
+  private handleUserScroll(): void {
     let resumeScroll = false;
     let isScrolling: any;
 
-    if (this.PAGE_SCROLLING_PAUSED || (this.breakpoint.name === 'xs' || this.breakpoint.name === 'sm')) {
+    if (this.PAGE_SCROLLING_PAUSED) {
       return;
     }
 
@@ -234,17 +241,18 @@ export class Animations extends Window {
     }
 
     if (resumeScroll) {
+      if (this.breakpoint.name === 'xs' || this.breakpoint.name === 'sm') {
+        return;
+      }
 
       if (isScrolling) {
         window.clearTimeout(isScrolling);
       }
 
       isScrolling = setTimeout(() => {
-
         // We need to check if scrolling has resumed in the meantime
         // This could be via play/pause click
         if (this.PAGE_SCROLLING_PAUSED) {
-
           this.manageScrollState('play');
           this.USER_PAUSED = false;
         }
@@ -259,12 +267,11 @@ export class Animations extends Window {
       b.removeAttribute('disabled');
     }
 
-    if ( this.CURRENT_SECTION >= this.PAGE_SECTIONS.length - 1) {
+    if (this.CURRENT_SECTION >= this.PAGE_SECTIONS.length - 1) {
       f.setAttribute('disabled', 'true');
     } else {
       f.removeAttribute('disabled');
     }
-
   }
 
   private getCurrentSectionIndex() : number {
