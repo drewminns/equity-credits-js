@@ -4,8 +4,8 @@
   }
 }
 
-@mixin mobile {
-  @media (pointer: coarse) {
+@mixin mobile-only {
+  @media (min-width: $md) {
     @content;
   }
 }
