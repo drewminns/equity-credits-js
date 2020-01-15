@@ -1,8 +1,19 @@
 .intro {
   min-height: 100vh;
   background-color: $black;
-  background-image: linear-gradient(to bottom, $green, $green, mix($black, $green), $black);
+  background-image: linear-gradient(
+    to bottom,
+    $green,
+    $green,
+    mix($black, $green),
+    $black
+  );
+  padding-top: 1.6rem;
   // margin-bottom: 20vh;
+
+  h1 {
+    margin-top: 0;
+  }
 
   &_logo {
     text-align: center;
@@ -53,6 +64,7 @@
     line-height: 1.6;
     font-weight: 400;
     margin-bottom: 6rem;
+    margin-top: 2.5rem;
 
     @include tablet {
       font-size: 4.8rem;
@@ -71,7 +83,7 @@
 
   p {
     font-size: 1.8rem;
-    line-height: 1.65;
+    line-height: 1.7;
 
     &:first-of-type {
       margin-top: 4rem;
@@ -110,7 +122,7 @@
 
   &:before,
   &:after {
-    content: '';
+    content: "";
     width: 100%;
     display: block;
     height: calc(100%);

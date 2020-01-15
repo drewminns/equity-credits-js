@@ -4,6 +4,12 @@
   }
 }
 
+@mixin mobile {
+  @media (pointer: coarse) {
+    @content;
+  }
+}
+
 @mixin desktop {
   @media (min-width: $md) {
     @content;
