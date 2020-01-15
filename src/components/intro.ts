@@ -13,18 +13,18 @@ export const intro = (() =>
           <div class="${clsx(g.container_fluid, g.wrap)}">
             <div class="${clsx(g.row)}">
               <div class="${clsx(g.col_lg_12, g.col_xs_12)}">
-                <h1 class="${clsx(s.intro_logo)}">
+                <div class="${clsx(s.intro_logo)}">
                   <a href="https://shopify.com" data-ga-event='Independents' data-ga-action='Hero link' ga-value='1'>
                     <span class="${s.logo}">${shoppingBag}</span>
                     <span class="${utils.hidden}">Supporting Independents</span>
                   </a>
-                </h1>
+                </div>
               </div>
             </div>
             <div class="${clsx(g.row)}">
               <div class="${clsx(g.col_xs_12, g.col_md_12, g.col_lg_10, g.col_lg_offset_1)}">
                 <div class="${clsx(s.intro_content)}">
-                  <h2>Supporting independent businesses is at the heart of <span class="${clsx(s.tag)}"><span>everything</span></span> we do.</h2>
+                  <h1>Supporting independent businesses is at the heart of <span class="${clsx(s.tag)}"><span>everything</span></span> we do.</h1>
                   <div class="${s.intro_video_container}">
                     <div class="${s.intro_video_widget}">
                       <img src="https://cdn.shopify.com/static/images/brand-equity/hero-video-thumb@2x.jpg" alt="">

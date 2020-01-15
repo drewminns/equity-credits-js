@@ -5,7 +5,14 @@
 .main_content {
   // opacity: 0;
   background: transparent; // Used to overwrite Shopify application styles
-  margin-top: 20vh;
+  margin-top: 10rem;
+
+  @include tablet {
+    margin-top: 20rem;
+  }
+  @include desktop {
+    margin-top: 30rem;
+  }
 }
 
 .logo_row {
