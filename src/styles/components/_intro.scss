@@ -1,8 +1,19 @@
 .intro {
   min-height: 100vh;
   background-color: $black;
-  background-image: linear-gradient(to bottom, $green, $green, mix($black, $green), $black);
+  background-image: linear-gradient(
+    to bottom,
+    $green,
+    $green,
+    mix($black, $green),
+    $black
+  );
+  padding-top: 1.6rem;
   // margin-bottom: 20vh;
+
+  h1 {
+    margin-top: 0;
+  }
 
   &_logo {
     text-align: center;
@@ -20,7 +31,14 @@
 
 .logo {
   display: inline-block;
-  width: 145px;
+  width: 130px;
+  margin-top: 10px;
+  margin-bottom: 3rem;
+
+  @include tablet {
+    width: 145px;
+    margin-bottom: 9rem;
+  }
 }
 
 .intro_content {
@@ -31,46 +49,48 @@
     width: 424px;
   }
 
-  h2 {
-    font-size: 3rem;
+  h1 {
+    font-size: 2.8rem;
     line-height: 1.5;
     font-weight: 400;
-    margin-bottom: 10rem;
-  }
+    margin-bottom: 6rem;
+    margin-top: 2.5rem;
 
-  p {
-    font-size: 1.8rem;
-    line-height: 1.65;
-
-    &:first-of-type {
-      margin-top: 8rem;
-    }
-  }
-
-  @include tablet {
-    h2 {
-      font-size: 4.8rem;
+    @include tablet {
+      font-size: 4.2rem;
+      margin-bottom: 10rem;
     }
 
-    p {
-      font-size: 2.4rem;
-      padding: 0 12rem;
-    }
-  }
-
-  @include desktop {
-    h2 {
+    @include desktop {
       font-size: 5.4rem;
     }
-  }
 
-  @include desktop--lg {
-    h2 {
+    @include desktop--lg {
       font-size: 7.2rem;
     }
   }
 
+  p {
+    font-size: 1.8rem;
+    line-height: 1.7;
 
+    &:first-of-type {
+      margin-top: 4rem;
+    }
+
+    @include tablet {
+      font-size: 2.4rem;
+      line-height: 1.66;
+
+      &:first-of-type {
+        margin-top: 8rem;
+      }
+    }
+
+    @include desktop {
+      padding: 0 12rem;
+    }
+  }
 }
 
 .tag {
@@ -87,7 +107,7 @@
 
   &:before,
   &:after {
-    content: '';
+    content: "";
     width: 100%;
     display: block;
     height: calc(100%);
