@@ -53,26 +53,34 @@ figcaption {
   padding: 6px 0;
 }
 
-li[data-layout] ~ li[data-layout] {
-  text-transform: uppercase;
+// li[data-layout] ~ li[data-layout] {
+//   text-transform: uppercase;
 
-  p:before {
-    display: none !important;
-  }
+//   p:before {
+//     display: none !important;
+//   }
 
-  figure {
-    display: none;
-  }
+//   figure {
+//     display: none;
+//   }
 
-  a > span > svg > path {
-    fill: #42474c;
-  }
-}
+//   a > span > svg > path {
+//     fill: #42474c;
+//   }
+// }
 
 [data-center] + [data-center],
 [data-left] + [data-left],
 [data-right] + [data-right] {
   margin-top: 0;
+
+  @include tablet {
+    margin-top: 0;
+  }
+
+  @include desktop {
+    margin-top: 0;
+  }
 }
 
 [data-section-main] {
