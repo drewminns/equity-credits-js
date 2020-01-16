@@ -117,14 +117,16 @@ export class DomBuilder {
         <p class="${clsx(s.item_content, s.item_has_image)}">
           <span class="${s.merchant_products}">
             ${
-  item.products.map((listItem) => `<span>${listItem}</span>`).join('')
-}
+              item.products.map((listItem) => {
+                return `<span><span>${listItem}</span></span>`
+              }).join('')
+            }
 
           </span>
           <span class="${s.item_text}">
             <a
               target="_blank"
-              class="product_link"
+              class="product_link ${clsx(s.product_link_media_item)}"
               rel="noopener noreferrer"
               data-ga-event='Independents'
               data-ga-action="${item.shop_url}"
