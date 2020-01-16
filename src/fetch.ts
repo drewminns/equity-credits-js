@@ -1,16 +1,18 @@
-import axios, {AxiosPromise} from 'axios';
+import axios, { AxiosPromise } from 'axios';
 
 export class FetchData {
   endpoint: string;
+
   constructor(endpoint: string) {
     this.endpoint = endpoint;
   }
 
-  handleError(err: string) {
-    console.error('Fetch Error: ' + err);
+  handleError = (err: string) => {
+    console.error(`Fetch Error: ${err}`);
     throw new Error();
   }
 
+  // eslint-disable-next-line consistent-return
   fetch = async () => {
     try {
       const response = await axios.get(this.endpoint, {
