@@ -11,10 +11,10 @@ import pause from '../assets/pause.svg';
 import play from '../assets/play.svg';
 
 export const nav = (() => `
-      <nav class="${clsx(s.nav)}" id="nav">
+      <nav class="${clsx(s.nav)}" id="nav" data-nav data-nav-hidden>
         <div class="${clsx(g.container_fluid, g.wrap)}">
           <div class="${clsx(g.row, s.nav_row)}">
-            <div class="${clsx(g.col_sm_4, g.col_md_3, g.col_xs_6, s.logo)}">
+            <div class="${clsx(g.col_sm_4, g.col_md_3, g.col_xs_4, s.logo)}">
               <h1>
                 <a href="https://shopify.com" data-ga-event='Independents' data-ga-action='Hero link' ga-value='1'>
                 <span class="${s.logo}">${shoppingBag}</span>
@@ -22,7 +22,7 @@ export const nav = (() => `
                 </a>
               </h1>
             </div>
-            <div class="${clsx(g.col_sm_4, g.col_md_6, s.nav_headline)}">
+            <div class="${clsx(g.col_sm_8, g.col_xs_8, g.col_md_6, s.nav_headline)}">
               <p>Supporting Independents</p>
             </div>
             <div class="${clsx(g.col_sm_4, g.col_md_3, g.col_xs_6, s.nav_controls)}">
@@ -31,8 +31,8 @@ export const nav = (() => `
                 <span class="${s.icon}">${rewind}</span>
               </button>
               <button aria-label="Play" type="button" id="play" class="${clsx(s.button)}">
-                <span id="play--text" class="${utils.hidden}">Pause</span>
-                <span id="play--icon" class="${s.icon}">${pause}</span>
+                <span id="play--text" class="${utils.hidden}">Play</span>
+                <span id="play--icon" class="${s.icon}">${play}</span>
               </button>
               <button aria-label="Forward" type="button" id="forward" class="${s.button}">
                 <span class="${utils.hidden}">Forward</span>
@@ -43,4 +43,4 @@ export const nav = (() => `
         </div>
       </nav>
     `
-)()
+)();

@@ -5,10 +5,9 @@
   background: $black;
   width: 100%;
   z-index: 800;
-  padding: 10px;
+  padding: 10px 0;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.9), 0px 0px 30px rgba(0, 0, 0, 0.7),
     0px 0px 50px rgba(0, 0, 0, 0.5);
-  opacity: 0;
 
   @include tablet {
     height: 100px;
@@ -28,10 +27,16 @@
   }
 
   &_headline {
-    text-align: center;
-    display: none;
+    text-align: right;
+    font-size: 1.7rem;
 
-    @include tablet {
+    p {
+      margin-bottom: 1.4rem;
+      margin-top: 1em;
+    }
+
+    @include mobile-only {
+      text-align: center;
       display: block;
       font-size: 1.6rem;
     }
@@ -39,6 +44,10 @@
     @include desktop {
       display: block;
       font-size: 2.4rem;
+
+      p {
+        margin-bottom: 2.4rem;
+      }
     }
   }
 
@@ -46,6 +55,11 @@
     text-align: right;
     display: flex;
     justify-content: flex-end;
+    display: none;
+
+    @include mobile-only {
+      display: block;
+    }
   }
 }
 

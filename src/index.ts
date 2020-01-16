@@ -14,8 +14,10 @@ const MOUNT_POINT: HTMLElement = document.getElementById('App')!;
 const fetchData = new FetchData(endpoint);
 const domBuilder = new DomBuilder();
 const scrollMagic = new MagicTime();
-const animations = new Animations();
+const animations = new Animations(true);
 
+
+const buildEvent = new Event('domReallyReady');
 // console.log(FetchData);
 fetchData.fetch()
   .then((data) => {
@@ -26,5 +28,6 @@ fetchData.fetch()
     scrollMagic.init(sections);
   })
   .then(() => {
-    animations.init(document.documentElement.scrollTop);
-  })
+    animations.init();
+    window.dispatchEvent(buildEvent);
+  });

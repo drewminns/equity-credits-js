@@ -1,69 +1,230 @@
 .intro {
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  margin-bottom: 5vh;
-  margin-top: 5vh;
+  min-height: 100vh;
+  background-color: $black;
+  background-image: linear-gradient(
+    to bottom,
+    $green,
+    $green,
+    mix($black, $green),
+    $black
+  );
+  padding-top: 1.6rem;
+  // margin-bottom: 20vh;
 
-  p {
-    font-size: 1.3rem;
-    letter-spacing: -0.02em;
-    opacity: 0;
-    line-height: 1.55;
+  h1 {
+    margin-top: 0;
+  }
+
+  &_logo {
+    text-align: center;
+  }
+
+  &_video_container {
+    display: flex;
+    justify-content: center;
+  }
+
+  &_video_widget {
+    position: relative;
+  }
+}
+
+.logo {
+  display: inline-block;
+  width: 130px;
+
+  @include tablet {
+    width: 145px;
+  }
+}
+
+.intro_logo {
+  margin-top: 10px;
+  margin-bottom: 3.6rem;
+
+  @include tablet {
+    margin-bottom: 6rem;
+  }
+
+  @include desktop {
+    margin-bottom: 9rem;
+  }
+}
+
+.intro_content {
+  text-align: center;
+
+  img {
+    max-width: 100%;
+    width: 424px;
+  }
+
+  h1 {
+    font-size: 2.8rem;
+    line-height: 1.6;
+    font-weight: 400;
+    margin-bottom: 7.5rem;
+    margin-top: 2.5rem;
 
     @include tablet {
-      letter-spacing: 0;
-      font-size: 1.6rem;
-      line-height: 1.75;
+      font-size: 4.8rem;
+      margin-bottom: 8rem;
     }
 
     @include desktop {
-      margin-bottom: 50px;
-      line-height: 1.5;
-      font-size: 2.4rem;
+      font-size: 5.4rem;
+      margin-bottom: 10rem;
+    }
+
+    @include desktop--lg {
+      font-size: 7.2rem;
     }
   }
 
-  &_row {
-    height: calc(var(--vh, 1vh) * 90);
-    padding-top: 5vh;
-    max-height: 90vh;
-    align-items: center;
+  p {
+    font-size: 1.8rem;
+    line-height: 1.7;
+
+    &:first-of-type {
+      margin-top: 4rem;
+    }
+
+    @include tablet {
+      font-size: 2.4rem;
+
+      &:first-of-type {
+        margin-top: 6rem;
+      }
+    }
+
+    @include desktop {
+      padding: 0 12rem;
+
+      &:first-of-type {
+        margin-top: 8rem;
+      }
+    }
   }
 }
 
-.intro_bg_wrap {
-  background-color: $black;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: -1;
-}
+.tag {
+  color: $green--alt;
+  font-weight: 400;
+  padding: 0 0.8rem;
+  position: relative;
+  display: inline-block;
 
-.intro_bg {
-  width: 100%;
-  z-index: -1;
-  height: 90vh;
-  margin-top: 5vh;
-  background-color: $green;
-  padding: 0 3.5rem;
+  span {
+    position: relative;
+    z-index: 10;
+  }
 
-  background-size: cover;
-  background-image: url(#{$bg--sm});
+  &:before,
+  &:after {
+    content: "";
+    width: 100%;
+    display: block;
+    height: calc(100%);
+    position: absolute;
+    top: 0.25rem;
+    left: 0;
+    background-color: $white;
+    z-index: 1;
+    border-radius: 4px;
+    border-bottom-left-radius: 0;
+  }
 
-  @include tablet {
-    background-image: url(#{$bg--lg});
+  &:after {
+    width: 0;
+    height: 0;
+    top: auto;
+    bottom: -12px;
+    left: -12px;
+    border: 12px solid transparent;
+    transform: rotate(0.125turn);
+    background-color: transparent;
+    border-right-color: $white;
+    border-radius: 0;
+  }
+
+  @include tablet() {
+    padding: 0 1.5rem;
+
+    &:after {
+      bottom: -24px;
+      left: -24px;
+      border: 24px solid transparent;
+      border-right-color: $white;
+    }
   }
 }
 
-@keyframes fadein {
-  0% {
-    opacity: 0;
-  }
+// .intro {
+//   text-align: center;
+//   justify-content: center;
+//   align-items: center;
+//   opacity: 0;
+//   margin-bottom: 5vh;
+//   margin-top: 5vh;
 
-  100% {
-    opacity: 1;
-  }
-}
+//   p {
+//     font-size: 1.3rem;
+//     letter-spacing: -0.02em;
+//     opacity: 0;
+//     line-height: 1.55;
+
+//     @include tablet {
+//       letter-spacing: 0;
+//       font-size: 1.6rem;
+//       line-height: 1.75;
+//     }
+
+//     @include desktop {
+//       margin-bottom: 50px;
+//       line-height: 1.5;
+//       font-size: 2.4rem;
+//     }
+//   }
+
+//   &_row {
+//     height: calc(var(--vh, 1vh) * 90);
+//     padding-top: 5vh;
+//     max-height: 90vh;
+//     align-items: center;
+//   }
+// }
+
+// .intro_bg_wrap {
+//   background-color: $black;
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   z-index: -1;
+// }
+
+// .intro_bg {
+//   width: 100%;
+//   z-index: -1;
+//   height: 90vh;
+//   margin-top: 5vh;
+//   background-color: $green;
+//   padding: 0 3.5rem;
+
+//   background-size: cover;
+//   background-image: url(#{$bg--sm});
+
+//   @include tablet {
+//     background-image: url(#{$bg--lg});
+//   }
+// }
+
+// @keyframes fadein {
+//   0% {
+//     opacity: 0;
+//   }
+
+//   100% {
+//     opacity: 1;
+//   }
+// }

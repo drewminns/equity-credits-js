@@ -3,19 +3,15 @@
 // }
 
 .main_content {
-  opacity: 0;
+  // opacity: 0;
   background: transparent; // Used to overwrite Shopify application styles
+  margin-top: 10rem;
 
-  > ul {
-    padding-top: 200px;
-    background-image: linear-gradient(
-      to bottom,
-      transparent,
-      $black 450px,
-      $black
-    );
-    background-color: transparent;
-    margin-top: -10vh;
+  @include tablet {
+    margin-top: 20rem;
+  }
+  @include desktop {
+    margin-top: 30rem;
   }
 }
 
@@ -31,6 +27,13 @@
   letter-spacing: 2.5px;
   text-align: center;
   margin: 40px 0 60px;
+}
+
+.credits_title {
+  color: $white;
+  margin-bottom: 0;
+  position: relative;
+  top: 30px;
 }
 
 .section_list {
@@ -66,6 +69,14 @@
 
 .section_minor {
   margin-top: 134px;
+
+  &.section_not_title {
+    margin-top: 0;
+
+    @include desktop {
+      margin-top: 134px;
+    }
+  }
 
   &:first-child {
     margin-top: 0;
@@ -124,9 +135,13 @@
   }
 
   .arrow svg {
-    height: 26px;
+    height: 22px;
     position: relative;
     bottom: 0;
+
+    @include desktop {
+      height: 26px;
+    }
   }
 }
 
@@ -195,11 +210,19 @@
   padding-top: 40px;
 }
 
+
+
 .item_has_image {
   position: relative;
 
+  .product_link_media_item {
+    top: 1px;
+  }
+
   .merchant_products > span:first-child {
     position: relative;
+    padding: 1px 0 2px;
+    display: inline-block;
 
     span {
       position: relative;
@@ -225,8 +248,8 @@
         width: 200vw;
         left: -50%;
         right: 50%;
-        margin-left: -50vw;
-        margin-right: -50vw;
+        margin-left: -100vw;
+        margin-right: -100vw;
       }
     }
   }
@@ -263,7 +286,7 @@
 
   figure {
     width: 100vw;
-    margin-left: -3rem;
+    margin-left: -1.7rem;
     margin-bottom: 0;
 
     @include tablet {
