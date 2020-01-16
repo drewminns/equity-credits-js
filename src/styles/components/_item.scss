@@ -235,22 +235,10 @@
       display: block;
       position: absolute;
       height: 100%;
-      width: 100vw;
-      margin-left: -3rem;
+      width: 300vw;
+      left: -100vw;
       top: 0;
       z-index: 0;
-
-      @include tablet {
-        margin-left: -3.5rem;
-      }
-
-      @include desktop {
-        width: 200vw;
-        left: -50%;
-        right: 50%;
-        margin-left: -100vw;
-        margin-right: -100vw;
-      }
     }
   }
 }
