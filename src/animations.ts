@@ -290,11 +290,7 @@ export class Animations extends Window {
   }
 
   private getCurrentSectionIndex(): number {
-    this.SCROLL_POSITION = (
-      (window.pageYOffset || this.SCROLL_ELEMENT.scrollTop)
-      - (this.SCROLL_ELEMENT.clientTop || 0)
-      + this.SCROLL_OFFSET
-    );
+    this.setScrollPosition();
 
     const index = this.DISTANCE_MAP.findIndex((item) => this.SCROLL_POSITION < item);
 
@@ -320,6 +316,9 @@ export class Animations extends Window {
       - this.DISTANCE_MAP[this.CURRENT_SECTION]
       - this.SCROLL_OFFSET
     );
+    console.log(this.SCROLL_POSITION);
+    console.log(this.CURRENT_SECTION);
+    console.log(sectionScrolled);
 
     const newSectionIndex = sectionScrolled > 20 ? this.CURRENT_SECTION : this.CURRENT_SECTION - 1;
 
@@ -328,6 +327,7 @@ export class Animations extends Window {
     }
 
     this.scrollToSection(newSectionIndex, 'rewind');
+
   }
 
   private fastForward = (e: any, forward: Element, back: Element): void => {
@@ -384,10 +384,19 @@ export class Animations extends Window {
         }
 
         this.CURRENT_SECTION = newIndex;
+        this.setScrollPosition();
       }
 
     });
 
+  }
+
+  private setScrollPosition() {
+    this.SCROLL_POSITION = (
+      (window.pageYOffset || this.SCROLL_ELEMENT.scrollTop)
+      - (this.SCROLL_ELEMENT.clientTop || 0)
+      + this.SCROLL_OFFSET
+    );
   }
 
   private pageScroll() {
