@@ -53,28 +53,39 @@ figcaption {
   padding: 6px 0;
 }
 
-li[data-layout] ~ li[data-layout] {
-
-  ~ li[data-layout] {
-    img {
-      outline: 1px solid red;
-    }
-
-
-  }
-
-  figure {
-    background-color: orange;
-  }
-
-
-}
-
-
 @include tablet {
-  li[data-layout] {
+  li[data-layout="left"] {
 
     [data-media-container] {
+      right: 100px;
+      top: 100px;
+      z-index: 15;
+    }
+
+    ~ li[data-layout] {
+
+      [data-media-container] {
+        right: 50px;
+        top: 50px;
+        z-index: 10;
+      }
+
+      ~ li[data-layout] {
+
+        [data-media-container] {
+          right: 0;
+          left: 0;
+          z-index: 5;
+        }
+      }
+    }
+  }
+
+  li[data-layout="right"] {
+
+    [data-media-container] {
+      left: 100px;
+      top: 100px;
       z-index: 15;
     }
 
@@ -97,8 +108,8 @@ li[data-layout] ~ li[data-layout] {
       ~ li[data-layout] {
 
         [data-media-container] {
-          left: 100px;
-          top: 100px;
+          left: 0;
+          top: 0;
           z-index: 5;
         }
 

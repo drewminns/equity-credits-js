@@ -99,7 +99,11 @@ export class MagicTime extends Window {
                 }
 
                 const stopTop = stopper.getBoundingClientRect().top;
-                const distance = (stopTop - top - imageHeight) - (50 * index);
+                let distance = stopTop - top - imageHeight;
+
+                if (mediaItems.length > 1) {
+                  distance = distance - (50 * index);
+                }
 
                 if (distance > 0) {
                   const scene = new ScrollMagic.Scene({
