@@ -65,9 +65,7 @@ module.exports = {
     new webpack.DefinePlugin({
       "process.env": {
         NODE_ENV: JSON.stringify("production"),
-        ENDPOINT: JSON.stringify(
-          IS_DEMO ? "https://upcoming9.shopify.com/independents.json" : 'https://www.shopify.com/independents.json'
-        )
+        ENDPOINT: JSON.stringify('https://www.shopify.com/independents.json')
       }
     })
   ]
