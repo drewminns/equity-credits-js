@@ -140,58 +140,8 @@ export class MagicTime extends Window {
                   .addTo(this.CONTROLLER);
                 this.SCENES.push(scene);
               }
-
             }
           }
-          // Check if wrapper has images
-          // const pins = wrapper.querySelectorAll('.pin-me')!;
-
-
-          // const stopper = wrapper.querySelector('li[data-layout]')!;
-
-          // const aspect = this.getAspect(pin);
-          // const image = section.querySelector('img');
-          // let imageHeight = 0;
-
-          // if (image) {
-          //   imageHeight = Number(image.style.width.replace('px', '')) / aspect;
-          // }
-
-          // if (pin && stopper) {
-          //   const stopTop = stopper.getBoundingClientRect().top;
-
-          //   const distance = stopTop - top - imageHeight;
-
-
-          //   if (distance > 0) {
-          //     const scene = new ScrollMagic.Scene({
-          //       triggerElement: section,
-          //       duration: distance,
-          //       triggerHook: 0.3,
-          //       reverse: false,
-          //     })
-          //       .setPin(pin, { pushFollowers: false })
-          //       .addTo(this.CONTROLLER);
-          //     this.SCENES.push(scene);
-          //   }
-          // } else if (pin) {
-          //   const { height } = section.getBoundingClientRect();
-
-
-          //   const distance = height - imageHeight;
-
-          //   if (distance > 50) {
-          //     const scene = new ScrollMagic.Scene({
-          //       triggerElement: section,
-          //       duration: distance,
-          //       triggerHook: 0.2,
-          //       reverse: false,
-          //     })
-          //       .setPin(pin, { pushFollowers: false })
-          //       .addTo(this.CONTROLLER);
-          //     this.SCENES.push(scene);
-          //   }
-          // }
         }
       })
     }
