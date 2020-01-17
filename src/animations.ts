@@ -38,15 +38,12 @@ export class Animations extends Window {
 
   LINKS: NodeListOf<Element> | null;
 
-  DEBUG: boolean;
-
   NAV_SHOWN: boolean;
 
   USER_HAS_STARTED: boolean;
 
   constructor(debug = false) {
     super();
-    this.DEBUG = debug;
     this.SCROLL_ANIMATION = null;
     this.LINKS = null;
     this.SCROLL_POSITION = 0;

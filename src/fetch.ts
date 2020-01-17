@@ -1,21 +1,15 @@
 import axios, { AxiosPromise } from 'axios';
 
 export class FetchData {
-  endpoint: string;
-
-  constructor(endpoint: string) {
-    this.endpoint = endpoint;
-  }
-
   handleError = (err: string) => {
     console.error(`Fetch Error: ${err}`);
     throw new Error();
   }
 
   // eslint-disable-next-line consistent-return
-  fetch = async () => {
+  fetch = async (endpoint: string) => {
     try {
-      const response = await axios.get(this.endpoint, {
+      const response = await axios.get(endpoint, {
         auth: {
           username: 'Shopify',
           password: 'Independents',
