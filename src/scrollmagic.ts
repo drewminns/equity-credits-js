@@ -102,7 +102,7 @@ export class MagicTime extends Window {
                 let distance = stopTop - top - imageHeight;
 
                 if (mediaItems.length > 1) {
-                  distance = distance - (50 * index);
+                  distance = distance - (50 * ((mediaItems.length - 1) - index));
                 }
 
                 if (distance > 0) {

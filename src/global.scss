@@ -54,7 +54,7 @@ figcaption {
 }
 
 @include tablet {
-  li[data-layout="left"] {
+  li[data-layout="left"][data-cluster] {
 
     [data-media-container] {
       right: 100px;
@@ -74,14 +74,13 @@ figcaption {
 
         [data-media-container] {
           right: 0;
-          left: 0;
           z-index: 5;
         }
       }
     }
   }
 
-  li[data-layout="right"] {
+  li[data-layout="right"][data-cluster] {
 
     [data-media-container] {
       left: 100px;
