@@ -5,7 +5,14 @@
 .main_content {
   // opacity: 0;
   background: transparent; // Used to overwrite Shopify application styles
-  margin-top: 20vh;
+  margin-top: 10rem;
+
+  @include tablet {
+    margin-top: 20rem;
+  }
+  @include desktop {
+    margin-top: 30rem;
+  }
 }
 
 .logo_row {
@@ -20,6 +27,13 @@
   letter-spacing: 2.5px;
   text-align: center;
   margin: 40px 0 60px;
+}
+
+.credits_title {
+  color: $white;
+  margin-bottom: 0;
+  position: relative;
+  top: 30px;
 }
 
 .section_list {
@@ -41,7 +55,11 @@
 }
 
 .top_section_item:not(:last-child) {
-  margin-bottom: 200px;
+  margin-bottom: 100px;
+
+  @include desktop {
+    margin-bottom: 200px;
+  }
 }
 
 .top_section_item:last-child {
@@ -55,6 +73,14 @@
 
 .section_minor {
   margin-top: 134px;
+
+  &.section_not_title {
+    margin-top: 0;
+
+    @include desktop {
+      margin-top: 134px;
+    }
+  }
 
   &:first-child {
     margin-top: 0;
@@ -113,9 +139,13 @@
   }
 
   .arrow svg {
-    height: 26px;
+    height: 22px;
     position: relative;
     bottom: 0;
+
+    @include desktop {
+      height: 26px;
+    }
   }
 }
 
@@ -184,43 +214,35 @@
   padding-top: 40px;
 }
 
+
+
 .item_has_image {
   position: relative;
 
-  &:before {
-    background-color: $green;
-    content: "";
-    display: block;
-    position: absolute;
-    height: 115%;
-    width: 100vw;
-    margin-left: -1.7rem;
-    top: 0;
-
-    @include tablet {
-      margin-left: -3.5rem;
-    }
-
-    @include desktop {
-      width: 200vw;
-      left: -50%;
-      right: 50%;
-      margin-left: -50vw;
-      margin-right: -50vw;
-    }
+  .product_link_media_item {
+    top: 2px;
   }
 
-  @include desktop {
-    &[data-layout="center"]:before {
-      width: 100vw;
+  .merchant_products > span:first-child {
+    position: relative;
+    padding: 2px 0;
+    display: inline-block;
+
+    span {
+      position: relative;
+      z-index: 10;
     }
 
-    &[data-layout="left"]:before {
-      left: 150%;
-    }
-    &[data-layout="right"]:before {
-      left: -65%;
-      width: 110vw;
+    &:before {
+      background-color: $green;
+      content: "";
+      display: block;
+      position: absolute;
+      height: 100%;
+      width: 300vw;
+      left: -100vw;
+      top: 0;
+      z-index: 0;
     }
   }
 }

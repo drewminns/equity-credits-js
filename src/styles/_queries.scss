@@ -4,6 +4,12 @@
   }
 }
 
+@mixin mobile-only {
+  @media (min-width: $md) {
+    @content;
+  }
+}
+
 @mixin desktop {
   @media (min-width: $md) {
     @content;
