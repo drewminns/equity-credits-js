@@ -8,26 +8,41 @@ import { DomBuilder } from './dombuilder';
 import { MagicTime } from './scrollmagic';
 import { Animations } from './animations';
 
-const endpoint = process.env.ENDPOINT || 'https://upcoming9.shopify.com/independents.json';
-const MOUNT_POINT: HTMLElement = document.getElementById('App')!;
-
-const fetchData = new FetchData(endpoint);
+const fetchData = new FetchData();
 const domBuilder = new DomBuilder();
 const scrollMagic = new MagicTime();
-const animations = new Animations(true);
+const animations = new Animations();
 
+class Equity {
+  private ENDPOINT = '';
 
-const buildEvent = new Event('domReallyReady');
-// console.log(FetchData);
-fetchData.fetch()
-  .then((data) => {
-    domBuilder.init(data, MOUNT_POINT);
-  })
-  .then(() => {
-    const sections = Array.from(document.querySelectorAll('section[id^=section]'));
-    scrollMagic.init(sections);
-  })
-  .then(() => {
-    animations.init();
-    window.dispatchEvent(buildEvent);
-  });
+  private MOUNT_POINT: HTMLElement;
+
+  private BUILD_EVENT = new Event('domReallyReady');
+
+  constructor(endpoint: string, mountpoint: HTMLElement) {
+    this.ENDPOINT = endpoint;
+    this.MOUNT_POINT = mountpoint;
+  }
+
+  init() {
+    if (this.ENDPOINT === '') {
+      throw new Error('Please provide an endpoint');
+    }
+
+    fetchData.fetch(this.ENDPOINT)
+      .then((data) => {
+        domBuilder.init(data, this.MOUNT_POINT);
+      })
+      .then(() => {
+        const sections = Array.from(document.querySelectorAll('section[id^=section]'));
+        scrollMagic.init(sections);
+      })
+      .then(() => {
+        animations.init();
+        window.dispatchEvent(this.BUILD_EVENT);
+      });
+  }
+}
+
+export default Equity;
