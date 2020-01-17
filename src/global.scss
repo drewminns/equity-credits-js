@@ -53,6 +53,62 @@ figcaption {
   padding: 6px 0;
 }
 
+li[data-layout] ~ li[data-layout] {
+
+  ~ li[data-layout] {
+    img {
+      outline: 1px solid red;
+    }
+
+
+  }
+
+  figure {
+    background-color: orange;
+  }
+
+
+}
+
+li[data-layout] {
+
+  [data-media-container] {
+    z-index: 15;
+  }
+
+  img {
+    outline: 1px solid red;
+  }
+
+  ~ li[data-layout] {
+
+    [data-media-container] {
+      left: 50px;
+      top: 50px;
+      z-index: 10;
+    }
+
+    img {
+      outline: 1px solid blue;
+    }
+
+    ~ li[data-layout] {
+
+      [data-media-container] {
+        left: 100px;
+        top: 100px;
+        z-index: 5;
+      }
+
+      img {
+        outline: 1px solid green;
+      }
+    }
+  }
+}
+
+li[data-layout] ~ li[data-layout]
+
 // li[data-layout] ~ li[data-layout] {
 //   text-transform: uppercase;
 

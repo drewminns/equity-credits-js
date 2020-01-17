@@ -90,6 +90,7 @@ export class DomBuilder {
           data-sm-height="${media.mobile.large.dimensions.height}"
           data-xs-height="${media.mobile.small.dimensions.height}"
           data-xs-width="${media.mobile.small.dimensions.width}"
+          data-media-container
         >
           <figure>
             <picture>
@@ -117,9 +118,8 @@ export class DomBuilder {
         <p class="${clsx(s.item_content, s.item_has_image)}">
           <span class="${s.merchant_products}">
             ${
-  item.products.map((listItem) => `<span>${listItem}</span>`).join('')
-}
-
+              item.products.map((listItem) => `<span>${listItem}</span>`).join('')
+            }
           </span>
           <span class="${s.item_text}">
             <a
