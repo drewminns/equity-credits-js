@@ -37,9 +37,31 @@ export class DomBuilder {
   `);
   }
 
+  private buildAudioSection = (audioSections: any) => {
+      console.log(audioSections);
+    return audioSections.sections.map((sec: { layout: string, section_id: string }, idx: number) => {
+      return `
+        <div data-${sec.layout} class="${clsx(g.row, s.section_minor, idx > 0 ? s.section_not_title : '')}">
+          <section id="section-${sec.section_id}" data-layout="${sec.layout}">
+            ${idx === 0 ? `<h2 class="${s.title}">${audioSections.title}</h2>` : ''}
+            <ul class="${s.section_list_group} ${clsx(g.col_md_6, g.col_md_offset_3, s.section_list)}">
+
+            </ul>
+          </section>
+        </div>
+      `;
+    });
+  }
+
 
   private buildSection(group: GroupData) {
+    if (group.groupname === 'audio') {
+      return this.buildAudioSection(group);
+    }
+
     const { sections, title, groupname: name } = group;
+
+
     return sections.map((sec: Section, idx: number) => {
       let media = '';
       let sectionClass = 'section--no-media';
@@ -50,6 +72,7 @@ export class DomBuilder {
         media = this.createMediaItem(sec.media, sec.layout, sec.section_id);
         sectionClass = 'section--has-media';
       }
+
 
 
       return `
@@ -143,9 +166,7 @@ export class DomBuilder {
       <li class="${s.item}">
         <p class="${s.item_content}">
           <span class="${s.merchant_products}">
-            ${
-  item.products.map((listItem) => `<span>${listItem}</span>`).join('')
-}
+            ${item.products.map((listItem) => `<span>${listItem}</span>`).join('')}
           </span>
           <span class="${s.item_text}">
             <a
