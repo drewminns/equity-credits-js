@@ -32,7 +32,7 @@ export class MagicTime extends Window {
     const images = document.querySelectorAll('.pin-me img');
     let width = 0;
     if ((this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm')) {
-      width = (document.querySelector('li[data-media-section]')?.clientWidth || 0) - 60;
+      width = (document.querySelector('li[data-media-section]')?.clientWidth || 0) - 100;
     }
     images.forEach((elem) => {
       if (elem instanceof HTMLElement) {
