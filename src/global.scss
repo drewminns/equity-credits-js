@@ -53,26 +53,129 @@ figcaption {
   padding: 6px 0;
 }
 
-li[data-layout] ~ li[data-layout] {
-  text-transform: uppercase;
+@include desktop {
+  li[data-layout="left"][data-cluster] {
 
-  p:before {
-    display: none !important;
+    // top back
+    [data-media-container] {
+      left: 55%;
+      top: 0;
+      z-index: 5;
+
+      img {
+        margin-left: 0;
+      }
+    }
+
+    ~ li[data-layout] {
+
+      [data-media-container] {
+        left: auto;
+        right: 0;
+        top: 100px;
+        z-index: 10;
+      }
+
+      ~ li[data-layout] {
+
+        // bottom front
+        [data-media-container] {
+          left: calc(50% + 200px);
+          top: 400px;
+          z-index: 15;
+        }
+      }
+    }
   }
 
-  figure {
-    display: none;
+  li[data-layout="right"][data-cluster] {
+
+    // top back
+    [data-media-container] {
+      right: 55%;
+      left: auto;
+      top: 0;
+      z-index: 5;
+
+      img {
+        margin-right: 0;
+      }
+    }
+
+    ~ li[data-layout] {
+
+      [data-media-container] {
+        right: auto;
+        left: 0;
+        top: 100px;
+        z-index: 10;
+      }
+
+      ~ li[data-layout] {
+
+        // bottom front
+        [data-media-container] {
+          right: calc(50% + 200px);
+          left: auto;
+          top: 400px;
+          z-index: 15;
+        }
+      }
+    }
   }
 
-  a > span > svg > path {
-    fill: #42474c;
-  }
+  // li[data-layout="right"][data-cluster] {
+
+  //   [data-media-container] {
+  //     left: 0;
+  //     top: 0;
+  //     z-index: 5;
+  //   }
+
+  //   img {
+  //     outline: 1px solid red;
+  //   }
+
+  //   ~ li[data-layout] {
+
+  //     [data-media-container] {
+  //       left: 50px;
+  //       top: 50px;
+  //       z-index: 10;
+  //     }
+
+  //     img {
+  //       outline: 1px solid blue;
+  //     }
+
+  //     ~ li[data-layout] {
+
+  //       [data-media-container] {
+  //         left: 100px;
+  //         top: 100px;
+  //         z-index: 15;
+  //       }
+
+  //       img {
+  //         outline: 1px solid green;
+  //       }
+  //     }
+  //   }
+  // }
 }
 
 [data-center] + [data-center],
 [data-left] + [data-left],
 [data-right] + [data-right] {
   margin-top: 0;
+
+  @include tablet {
+    margin-top: 0;
+  }
+
+  @include desktop {
+    margin-top: 0;
+  }
 }
 
 [data-section-main] {
