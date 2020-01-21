@@ -28,26 +28,20 @@ export class MagicTime extends Window {
   /**
   * Tracks width of columns and updates width attribute of image.
   * */
-  private setImageWidths() : void {
+  private setImageWidths(): void {
     const images = document.querySelectorAll('.pin-me img');
+    let width = 0;
     if ((this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm')) {
-      const width = (document.querySelector('li[data-media-section]')?.clientWidth || 0) - 60;
-      images.forEach((elem) => {
-        if (elem instanceof HTMLElement) {
-          elem.style.width = `${width}px`;
-        } else {
-          throw new Error("element #test not in document")
-        }
-      });
-    } else {
-      images.forEach((elem) => {
-        if (elem instanceof HTMLElement) {
-          elem.style.width = '';
-        } else {
-          throw new Error("element #test not in document")
-        }
-      })
+      width = (document.querySelector('li[data-media-section]')?.clientWidth || 0) - 100;
     }
+    images.forEach((elem) => {
+      if (elem instanceof HTMLElement) {
+        const element = elem;
+        element.style.width = width > 0 ? `${width}px` : '';
+      } else {
+        throw new Error('element #test not in document');
+      }
+    });
   }
 
   /**
@@ -55,7 +49,7 @@ export class MagicTime extends Window {
   * @param pin    element to get dimensions of
   * @returns number
   * */
-  private getAspect(pin: Element) : number {
+  private getAspect(pin: Element): number {
     const breakpoint = this.breakpoint.name;
     const height = Number(pin?.getAttribute(`data-${breakpoint}-height`));
     const width = Number(pin?.getAttribute(`data-${breakpoint}-width`));
@@ -147,7 +141,7 @@ export class MagicTime extends Window {
             }
           }
         }
-      })
+      });
     }
   }
 

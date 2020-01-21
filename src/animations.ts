@@ -38,15 +38,12 @@ export class Animations extends Window {
 
   LINKS: NodeListOf<Element> | null;
 
-  DEBUG: boolean;
-
   NAV_SHOWN: boolean;
 
   USER_HAS_STARTED: boolean;
 
   constructor(debug = false) {
     super();
-    this.DEBUG = debug;
     this.SCROLL_ANIMATION = null;
     this.LINKS = null;
     this.SCROLL_POSITION = 0;
@@ -54,7 +51,11 @@ export class Animations extends Window {
     this.PAGE_SCROLLING_PAUSED = false;
     this.USER_PAUSED = false;
     this.USER_CLICKED_PLAY_PAUSE = false;
-    this.SCROLL_ELEMENT = window.document.scrollingElement || window.document.body || window.document.documentElement;
+    this.SCROLL_ELEMENT = (
+      window.document.scrollingElement
+      || window.document.body
+      || window.document.documentElement
+    );
     this.TIME_LINE = anime.timeline({
       easing: 'easeOutExpo',
       endDelay: 500,
@@ -79,7 +80,7 @@ export class Animations extends Window {
     const intro = document.getElementById('intro')!;
     const sections = Array.from(document.querySelectorAll('[data-section-main]'));
 
-    this.PAGE_SECTIONS = [ intro, ...sections];
+    this.PAGE_SECTIONS = [intro, ...sections];
     this.DISTANCE_MAP = this.setDistanceMap();
 
     this.attachEventListeners();
@@ -157,11 +158,12 @@ export class Animations extends Window {
     this.managePlayBtnState('play');
   }
 
-  private offsetTop(el: any) : number {
-    var location = 0;
+  private offsetTop = (el: any): number => {
+    let location = 0;
     if (el.offsetParent) {
       do {
         location += el.offsetTop;
+        // eslint-disable-next-line no-param-reassign
         el = el.offsetParent;
       } while (el);
     }
@@ -169,11 +171,7 @@ export class Animations extends Window {
   }
 
   private setDistanceMap(): number[] {
-    const distances = this.PAGE_SECTIONS.map((item) => {
-      return this.offsetTop(item);
-    });
-
-    return distances;
+    return this.PAGE_SECTIONS.map((item) => this.offsetTop(item));
   }
 
   private listenUserScroll(): void {
@@ -208,7 +206,6 @@ export class Animations extends Window {
         }
 
         isScrolling = setTimeout(() => {
-
           // We need to check if scrolling has resumed in the meantime
           // This could be via play/pause click
           if (this.PAGE_SCROLLING_PAUSED) {
@@ -219,7 +216,7 @@ export class Animations extends Window {
       }
     };
 
-    const pauseScroll = () : void => {
+    const pauseScroll = (): void => {
       if (!this.PAGE_SCROLLING_PAUSED) {
         this.SCROLL_ANIMATION?.pause();
         this.PAGE_SCROLLING_PAUSED = true;
@@ -227,13 +224,13 @@ export class Animations extends Window {
         this.managePlayBtnState('play');
         resumeScroll = true;
       }
-    }
+    };
 
     if (this.LINKS) {
       this.LINKS.forEach((el) => {
         el.addEventListener('focus', () => pauseScroll());
         el.addEventListener('mouseenter', () => pauseScroll());
-        el.addEventListener('mouseleave', () => startScroll())
+        el.addEventListener('mouseleave', () => startScroll());
       });
     }
 
@@ -278,38 +275,50 @@ export class Animations extends Window {
   }
 
   private manageActiveButtons(f: Element, b: Element) : void {
-    if (this.CURRENT_SECTION <= 0) {
+
+    if (this.scrollTop <= (this.SCROLL_OFFSET * 2)) {
       b.setAttribute('disabled', 'true');
     } else {
       b.removeAttribute('disabled');
     }
 
-    if (this.CURRENT_SECTION >= this.PAGE_SECTIONS.length - 1) {
+    if (this.scrollTop >= (this.PAGE_HEIGHT - this.SCROLL_OFFSET - this.windowSize.height)) {
       f.setAttribute('disabled', 'true');
     } else {
       f.removeAttribute('disabled');
     }
   }
 
-  private getCurrentSectionIndex() : number {
-    this.SCROLL_POSITION = (
-      (window.pageYOffset || this.SCROLL_ELEMENT.scrollTop)
-      - (this.SCROLL_ELEMENT.clientTop || 0)
-      + this.SCROLL_OFFSET
-    );
+  private getCurrentSectionIndex(): number {
+    this.setScrollPosition();
 
-    const index = this.DISTANCE_MAP.findIndex(item => {
-      return this.SCROLL_POSITION < item;
-    });
+    const index = this.DISTANCE_MAP.findIndex((item) => this.SCROLL_POSITION < item);
 
-    return index === -1 ? this.PAGE_SECTIONS.length - 1 : (index === 0 ? 0 : index - 1);
+    if (index === -1) {
+      return this.PAGE_SECTIONS.length - 1;
+    }
+
+    if (index === 0) {
+      return 0;
+    }
+
+    return index - 1;
+
+    // return index === -1 ? this.PAGE_SECTIONS.length - 1 : (index === 0 ? 0 : index - 1);
   }
 
-  private rewind = (e: any, forward: Element, back: Element) : void => {
+  private rewind = (e: any, forward: Element, back: Element): void => {
     // we need to calculate how far into the current section one is
     // If we are just starting in the section, go to the previous one
     // if we are far into the curent section, go to the top
-    const sectionScrolled = this.SCROLL_POSITION - this.DISTANCE_MAP[this.CURRENT_SECTION] - this.SCROLL_OFFSET;
+    const sectionScrolled = (
+      this.SCROLL_POSITION
+      - this.DISTANCE_MAP[this.CURRENT_SECTION]
+      - this.SCROLL_OFFSET
+    );
+    console.log(this.SCROLL_POSITION);
+    console.log(this.CURRENT_SECTION);
+    console.log(sectionScrolled);
 
     const newSectionIndex = sectionScrolled > 20 ? this.CURRENT_SECTION : this.CURRENT_SECTION - 1;
 
@@ -318,31 +327,38 @@ export class Animations extends Window {
     }
 
     this.scrollToSection(newSectionIndex, 'rewind');
+
   }
 
-  private fastForward = (e: any, forward: Element, back: Element) : void => {
+  private fastForward = (e: any, forward: Element, back: Element): void => {
     const newSectionIndex = this.CURRENT_SECTION + 1;
 
     if (newSectionIndex > this.PAGE_SECTIONS.length) {
       return;
+    } else if (newSectionIndex === this.PAGE_SECTIONS.length) {
+      this.scrollToSection(newSectionIndex - 1, 'forward', true);
+    } else {
+      this.scrollToSection(newSectionIndex, 'forward');
     }
 
-    this.scrollToSection(newSectionIndex, 'forward');
   }
 
-  private scrollToSection(newIndex: number, direction: string) : void {
+  private scrollToSection(newIndex: number, direction: string, end: boolean = false) : void {
+
     let index = newIndex;
     this.IS_USER_SCROLLING = true;
     if (direction === 'forward' && this.PAGE_SECTIONS[index].getBoundingClientRect().top < this.SCROLL_OFFSET) {
       index += 1;
     }
 
+    let scrollTop;
 
-    const nextSection = this.PAGE_SECTIONS[index];
-    const scrollTop = (
-      newIndex === 0
-        ? 0
-        : window.pageYOffset + nextSection.getBoundingClientRect().top - this.SCROLL_OFFSET);
+    if (end) {
+      scrollTop = this.PAGE_HEIGHT;
+    } else {
+      scrollTop = newIndex === 0 ? 0 : this.DISTANCE_MAP[newIndex] - this.SCROLL_OFFSET;
+    }
+
     let resumeScroll = false;
 
     this.PLAY_PAUSE_BUTTON.setAttribute('disabled', true);
@@ -366,10 +382,21 @@ export class Animations extends Window {
           this.pageScroll();
           this.PAGE_SCROLLING_PAUSED = false;
         }
-      },
+
+        this.CURRENT_SECTION = newIndex;
+        this.setScrollPosition();
+      }
+
     });
 
-    this.CURRENT_SECTION = newIndex;
+  }
+
+  private setScrollPosition() {
+    this.SCROLL_POSITION = (
+      (window.pageYOffset || this.SCROLL_ELEMENT.scrollTop)
+      - (this.SCROLL_ELEMENT.clientTop || 0)
+      + this.SCROLL_OFFSET
+    );
   }
 
   private pageScroll() {

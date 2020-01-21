@@ -6,8 +6,7 @@ import s from '../styles/components/_intro.scss';
 
 import shoppingBag from '../assets/shopping-bag.svg';
 
-export const intro = (() =>
-  `
+export const intro = (() => `
       <section class="${s.intro}" id="intro">
         <div class="${clsx(s.intro_bg)}">
           <div class="${clsx(g.container_fluid, g.wrap)}">

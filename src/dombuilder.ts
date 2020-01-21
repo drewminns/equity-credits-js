@@ -15,16 +15,13 @@ export class DomBuilder {
 
   MOUNT_POINT!: HTMLElement;
 
-  constructor() {
-  }
-
   init(sections: GroupData[], MOUNT_POINT: HTMLElement) {
     this.sections = sections;
     this.MOUNT_POINT = MOUNT_POINT;
-    this._createMarkup();
+    this.createMarkup();
   }
 
-  private _createMarkup = () => {
+  private createMarkup = () => {
     this.MOUNT_POINT.insertAdjacentHTML('afterbegin', `
     ${overlay}
     ${nav}
@@ -46,6 +43,7 @@ export class DomBuilder {
     return sections.map((sec: Section, idx: number) => {
       let media = '';
       let sectionClass = 'section--no-media';
+      // eslint-disable-next-line no-prototype-builtins
       const sectionHasMedia = sec.hasOwnProperty('media') && sec.media.hasOwnProperty('tablet_up') && sec.media.hasOwnProperty('mobile');
       let cluster = false;
 
@@ -120,7 +118,8 @@ export class DomBuilder {
   }
 
   private buildListItem(item: SectionData, layout: string, sectionHasMedia: boolean, sectionHasCluster: boolean = false) {
-    if (!sectionHasMedia && item.hasOwnProperty('media') && Object.entries(item.media).length !== 0) {
+
+    if (!sectionHasMedia && Object.prototype.hasOwnProperty.call(item, 'media') && Object.entries(item.media).length !== 0) {
       const media = this.createMediaItem(item.media, layout, item.shop_id);
 
       return `
@@ -128,13 +127,16 @@ export class DomBuilder {
         <p class="${clsx(s.item_content, s.item_has_image)}">
           <span class="${s.merchant_products}">
             ${
-              item.products.map((listItem) => `<span>${listItem}</span>`).join('')
+              item.products.map((listItem) => {
+                return `<span><span>${listItem}</span></span>`
+              }).join('')
             }
+
           </span>
           <span class="${s.item_text}">
             <a
               target="_blank"
-              class="product_link"
+              class="product_link ${clsx(s.product_link_media_item)}"
               rel="noopener noreferrer"
               data-ga-event='Independents'
               data-ga-action="${item.shop_url}"
