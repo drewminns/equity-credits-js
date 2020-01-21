@@ -49,7 +49,7 @@ export class MagicTime extends Window {
             if (this.breakpoint.name === 'md') {
               element.style.width = count > 1 ? '200px' : '300px';
             } else if ((this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm')) {
-              element.style.width = count > 1 ? '300px' : '400px';
+              element.style.width = count > 1 ? '300px' : '350px';
             } else {
               element.style.width = width > 0 ? `${width}px` : '';
             }

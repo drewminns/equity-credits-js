@@ -58,7 +58,7 @@ figcaption {
 
     // top back
     [data-media-container] {
-      left: 50%;
+      left: 55%;
       top: 0;
       z-index: 5;
 
@@ -80,7 +80,43 @@ figcaption {
 
         // bottom front
         [data-media-container] {
-          left: calc(50% + 100px);
+          left: calc(50% + 200px);
+          top: 400px;
+          z-index: 15;
+        }
+      }
+    }
+  }
+
+  li[data-layout="right"][data-cluster] {
+
+    // top back
+    [data-media-container] {
+      right: 55%;
+      left: auto;
+      top: 0;
+      z-index: 5;
+
+      img {
+        margin-right: 0;
+      }
+    }
+
+    ~ li[data-layout] {
+
+      [data-media-container] {
+        right: auto;
+        left: 0;
+        top: 100px;
+        z-index: 10;
+      }
+
+      ~ li[data-layout] {
+
+        // bottom front
+        [data-media-container] {
+          right: calc(50% + 200px);
+          left: auto;
           top: 400px;
           z-index: 15;
         }
