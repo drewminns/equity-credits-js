@@ -6,7 +6,7 @@ const dist = path.join(__dirname, "demo");
 const isProd = process.env.NODE_ENV === "production";
 
 module.exports = {
-  entry: ["./src/dev.ts"],
+  entry: ["./src/index.ts"],
   output: {
     filename: "[name].[hash].js",
     path: dist

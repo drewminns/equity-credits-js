@@ -9,7 +9,6 @@ module.exports = {
   entry: ["./src/index.ts"],
   output: {
     filename: "index.js",
-    library: 'independents',
     path: dist
   },
   devtool: "none",
@@ -62,18 +61,13 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".js", "scss"]
   },
-  externals: {
-    axios: 'axios',
-    animejs: 'animejs',
-    debounce: 'lodash.debounce',
-    throttle: 'lodash.throttle',
-    scrollmagic: 'scrollmagic',
-  },
   plugins: [
     new webpack.DefinePlugin({
       "process.env": {
         NODE_ENV: JSON.stringify("production"),
-        ENDPOINT: JSON.stringify('https://www.shopify.com/independents.json')
+        ENDPOINT: JSON.stringify(
+          IS_DEMO ? "https://upcoming9.shopify.com/independents.json" : 'https://www.shopify.com/independents.json'
+        )
       }
     })
   ]

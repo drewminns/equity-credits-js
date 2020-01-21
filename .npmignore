@@ -10,3 +10,4 @@ typings.d.ts
 .eslintrc.js
 .eslintignore
 .editorconfig
+.gitignore
