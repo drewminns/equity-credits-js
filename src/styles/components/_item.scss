@@ -210,8 +210,6 @@
   padding-top: 40px;
 }
 
-
-
 .item_has_image {
   position: relative;
 
@@ -334,4 +332,30 @@
 
 .caption--center {
   text-align: center;
+}
+
+.section_audio {
+  position: relative;
+
+  &.section_not_title {
+    @include desktop {
+      padding-top: 0 !important;
+      margin-top: 0 !important;
+    }
+  }
+
+  .title {
+    @include tablet {
+      transform: rotate(90deg);
+      position: absolute;
+      transform-origin: top left;
+      margin: 0;
+      top: 0;
+      left: 100%;
+    }
+
+    @include desktop {
+      left: calc(100% - 200px);
+    }
+  }
 }

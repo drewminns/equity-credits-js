@@ -38,7 +38,7 @@ export class DomBuilder {
   }
 
   private buildAudioSection = (audioSections: any) => {
-      console.log(audioSections);
+    console.log(audioSections);
     return audioSections.sections.map((sec: { layout: string, section_id: string }, idx: number) => {
       return `
         <div data-${sec.layout} class="${clsx(g.row, s.section_minor, idx > 0 ? s.section_not_title : '')}">
@@ -55,12 +55,7 @@ export class DomBuilder {
 
 
   private buildSection(group: GroupData) {
-    if (group.groupname === 'audio') {
-      return this.buildAudioSection(group);
-    }
-
-    const { sections, title, groupname: name } = group;
-
+    const { sections, title, groupname } = group;
 
     return sections.map((sec: Section, idx: number) => {
       let media = '';
@@ -73,10 +68,8 @@ export class DomBuilder {
         sectionClass = 'section--has-media';
       }
 
-
-
       return `
-        <div data-${sec.layout} class="${clsx(g.row, s.section_minor, idx > 0 ? s.section_not_title : '')}">
+        <div data-${sec.layout} class="${clsx(g.row, s.section_minor, idx > 0 ? s.section_not_title : '', groupname === 'audio' ? s.section_audio : '')}">
           <section id="section-${sec.section_id}" class="${sectionClass}" data-layout="${sec.layout}">
           ${idx === 0 ? `<h2 class="${s.title}">${title}</h2>` : ''}
           <div class="${s.section_wrapper}" data-section-wrap>
