@@ -349,16 +349,17 @@
   }
 
   .title {
-    @include tablet {
+    @include desktop {
       transform: rotate(90deg);
       position: absolute;
       transform-origin: top left;
       margin: 0;
       top: 0;
-      left: 100%;
+      left: calc(50% + 35vw);
+      white-space: nowrap;
     }
 
-    @include desktop {
+    @include desktop--lg {
       left: calc(100% - 200px);
     }
   }

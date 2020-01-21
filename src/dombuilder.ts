@@ -39,18 +39,18 @@ export class DomBuilder {
 
   private buildAudioSection = (audioSections: any) => {
     console.log(audioSections);
-    return audioSections.sections.map((sec: { layout: string, section_id: string }, idx: number) => {
+    return audioSections.sections.map((sec: { layout: string, section_id: string, label: string, merchants: any }, idx: number) => {
       return `
-        <div data-${sec.layout} class="${clsx(g.row, s.section_minor, idx > 0 ? s.section_not_title : '')}">
+        <div data-${sec.layout} class="${clsx(g.row, s.section_minor, s.section_audio, idx > 0 ? s.section_not_title : '')}">
           <section id="section-${sec.section_id}" data-layout="${sec.layout}">
             ${idx === 0 ? `<h2 class="${s.title}">${audioSections.title}</h2>` : ''}
             <ul class="${s.section_list_group} ${clsx(g.col_md_6, g.col_md_offset_3, s.section_list)}">
-
+              ${sec.merchants.map((item: SectionData, index: number) => this.buildAudioListItem(item, sec.layout, index, sec.label)).join('')}
             </ul>
           </section>
         </div>
       `;
-    });
+    }).join('');
   }
 
 
@@ -134,6 +134,39 @@ export class DomBuilder {
         </div>`;
   }
 
+  private buildAudioListItem(item: SectionData, layout: string, index: number, label: string) {
+    return `
+      <li class="${s.item}">
+        <p class="${s.item_content}">
+          ${
+            index === 0 && label ? `
+              <span class="${s.merchant_products}">
+                ${label}
+              </span>
+            ` : `
+              <span class="${s.merchant_products}"></span>
+            `
+          }
+
+          <span class="${s.item_text}">
+            <a
+              target="_blank"
+              class="product_link"
+              rel="noopener noreferrer"
+              data-ga-event='Independents'
+              data-ga-action="${item.shop_url}"
+              href="${item.shop_url}"
+            >
+              ${item.shop_name}
+              <span class="${s.arrow}">${arrow}</span>
+            </a>
+          </span>
+        </p>
+      </li>
+    `;
+  }
+
+
   private buildListItem(item: SectionData, layout: string, sectionHasMedia: boolean, sectionHasCluster: boolean = false) {
 
     if (!sectionHasMedia && Object.prototype.hasOwnProperty.call(item, 'media') && Object.entries(item.media).length !== 0) {
@@ -142,6 +175,9 @@ export class DomBuilder {
       return `
       <li class="${clsx(s.item)}" data-layout="${layout}" data-media-section ${sectionHasCluster ? 'data-cluster' : ''}>
         <p class="${clsx(s.item_content, s.item_has_image)}">
+        ${
+          item.products.length > 0 ?
+          `
           <span class="${s.merchant_products}">
             ${
               item.products.map((listItem) => {
@@ -149,6 +185,8 @@ export class DomBuilder {
               }).join('')
             }
           </span>
+          ` : ``
+        }
           <span class="${s.item_text}">
             <a
               target="_blank"
@@ -192,7 +230,15 @@ export class DomBuilder {
   }
 
   private buildGroup = () => this.sections.map((group: GroupData) => {
-    const sections = this.buildSection(group);
+
+    let sections;
+
+    if (group.groupname === 'audio') {
+      sections = this.buildAudioSection(group);
+    } else {
+      sections = this.buildSection(group);
+    }
+
     return `<li data-section-main id="${group.groupname}" class="${clsx(s.top_section_item, group.groupname === 'social' && s.top_section_item_social)}">${sections}</li>`;
   }).join('')
 }
