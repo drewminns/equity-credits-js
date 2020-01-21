@@ -9,6 +9,7 @@ module.exports = {
   entry: ["./src/index.ts"],
   output: {
     filename: "index.js",
+    library: 'independents',
     path: dist
   },
   devtool: "none",
@@ -60,6 +61,13 @@ module.exports = {
   },
   resolve: {
     extensions: [".ts", ".js", "scss"]
+  },
+  externals: {
+    axios: 'axios',
+    animejs: 'animejs',
+    debounce: 'lodash.debounce',
+    throttle: 'lodash.throttle',
+    scrollmagic: 'scrollmagic',
   },
   plugins: [
     new webpack.DefinePlugin({
