@@ -29,18 +29,40 @@ export class MagicTime extends Window {
   * Tracks width of columns and updates width attribute of image.
   * */
   private setImageWidths(): void {
-    const images = document.querySelectorAll('.pin-me img');
-    let width = 0;
-    if ((this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm')) {
-      width = (document.querySelector('li[data-media-section]')?.clientWidth || 0) - 60;
-    }
-    images.forEach((elem) => {
-      if (elem instanceof HTMLElement) {
-        const element = elem;
-        element.style.width = width > 0 ? `${width}px` : '';
-      } else {
-        throw new Error('element #test not in document');
+
+    const sections = document.querySelectorAll('[data-section-wrap]');
+
+    sections.forEach((section) => {
+      const images = section.querySelectorAll('.pin-me img');
+      let width = 0;
+      let count = 0;
+
+      if ((this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm')) {
+        width = (document.querySelector('li[data-media-section]')?.clientWidth || 0) - 100;
       }
+
+      images.forEach((elem) => {
+        if (elem instanceof HTMLElement) {
+          const element = elem;
+
+          if (element.dataset.cluster !== undefined) {
+            if (this.breakpoint.name === 'md') {
+              element.style.width = count > 1 ? '150px' : '300px';
+            } else if ((this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm')) {
+              element.style.width = count > 1 ? '200px' : '350px';
+            } else {
+              element.style.width = width > 0 ? `${width}px` : '';
+            }
+          } else {
+            element.style.width = width > 0 ? `${width}px` : '';
+          }
+
+          count++;
+        } else {
+          throw new Error('element #test not in document');
+        }
+
+      });
     });
   }
 
@@ -70,53 +92,77 @@ export class MagicTime extends Window {
         // this.SECTION.forEach((section, index) => {
         const wrapper = section.querySelector('[data-section-wrap]')!;
 
+
         if (wrapper) {
           const { top } = wrapper.getBoundingClientRect();
-          // Check if wrapper has images
-          const pin = wrapper.querySelector('.pin-me')!;
-          const stopper = wrapper.querySelector('li[data-layout]')!;
 
-          const aspect = this.getAspect(pin);
-          const image = section.querySelector('img');
-          let imageHeight = 0;
+          const mediaItems = wrapper.querySelectorAll('[data-media-section]');
 
-          if (image) {
-            imageHeight = Number(image.style.width.replace('px', '')) / aspect;
-          }
+          // These are images that get dragged away by green bars
+          if (mediaItems && mediaItems.length > 0) {
+            mediaItems.forEach((item, index) => {
 
-          if (pin && stopper) {
-            const stopTop = stopper.getBoundingClientRect().top;
+              const stopper = item;
+              const pin = item.querySelector('.pin-me');
 
-            const distance = stopTop - top - imageHeight;
+              if (stopper && pin) {
+                let aspect = this.getAspect(pin);
 
+                const image = item.querySelector('img');
+                let imageHeight = 0;
+                let triggerHook = 0.3;
 
-            if (distance > 0) {
-              const scene = new ScrollMagic.Scene({
-                triggerElement: section,
-                duration: distance,
-                triggerHook: 0.3,
-                reverse: false,
-              })
-                .setPin(pin, { pushFollowers: false })
-                .addTo(this.CONTROLLER);
-              this.SCENES.push(scene);
-            }
-          } else if (pin) {
-            const { height } = section.getBoundingClientRect();
+                if (image) {
+                  imageHeight = Number(image.style.width.replace('px', '')) / aspect;
+                }
 
+                const stopTop = stopper.getBoundingClientRect().top;
+                let distance = stopTop - top - imageHeight;
 
-            const distance = height - imageHeight;
+                if (mediaItems.length > 1) {
+                  distance = distance - (100 * index * index);
+                  triggerHook = 0.2;
+                }
 
-            if (distance > 50) {
-              const scene = new ScrollMagic.Scene({
-                triggerElement: section,
-                duration: distance,
-                triggerHook: 0.2,
-                reverse: false,
-              })
-                .setPin(pin, { pushFollowers: false })
-                .addTo(this.CONTROLLER);
-              this.SCENES.push(scene);
+                if (distance > 0) {
+                  const scene = new ScrollMagic.Scene({
+                    triggerElement: section,
+                    duration: distance,
+                    triggerHook: triggerHook,
+                    reverse: false,
+                  })
+                    .setPin(pin, { pushFollowers: false })
+                    .addTo(this.CONTROLLER);
+                  this.SCENES.push(scene);
+                }
+              }
+            });
+          } else {
+            const mediaItem = section.querySelector('.pin-me');
+
+            if (mediaItem) {
+              const aspect = this.getAspect(mediaItem);
+              const image = mediaItem.querySelector('img');
+              const { height } = section.getBoundingClientRect();
+              let imageHeight = 0;
+
+              if (image) {
+                imageHeight = Number(image.style.width.replace('px', '')) / aspect;
+              }
+
+              const distance = height - imageHeight;
+
+              if (distance > 50) {
+                const scene = new ScrollMagic.Scene({
+                  triggerElement: section,
+                  duration: distance,
+                  triggerHook: 0.2,
+                  reverse: false,
+                })
+                  .setPin(mediaItem, { pushFollowers: false })
+                  .addTo(this.CONTROLLER);
+                this.SCENES.push(scene);
+              }
             }
           }
         }

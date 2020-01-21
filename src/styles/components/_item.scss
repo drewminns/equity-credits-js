@@ -55,7 +55,11 @@
 }
 
 .top_section_item:not(:last-child) {
-  margin-bottom: 200px;
+  margin-bottom: 100px;
+
+  @include desktop {
+    margin-bottom: 200px;
+  }
 }
 
 .top_section_item:last-child {

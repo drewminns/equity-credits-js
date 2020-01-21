@@ -62,10 +62,20 @@ export class DomBuilder {
       let sectionClass = 'section--no-media';
       // eslint-disable-next-line no-prototype-builtins
       const sectionHasMedia = sec.hasOwnProperty('media') && sec.media.hasOwnProperty('tablet_up') && sec.media.hasOwnProperty('mobile');
+      let cluster = false;
 
       if (sectionHasMedia) {
         media = this.createMediaItem(sec.media, sec.layout, sec.section_id);
         sectionClass = 'section--has-media';
+      } else {
+        // check if section has a cluster
+        const numMedia = sec.merchants.reduce((total, merchant) => {
+          return merchant.media && Object.keys(merchant.media).length ? total + 1 : total;
+        }, 0);
+
+        if (numMedia > 1) {
+          cluster = true;
+        }
       }
 
       return `
@@ -75,14 +85,14 @@ export class DomBuilder {
           <div class="${s.section_wrapper}" data-section-wrap>
             ${media}
             <ul class="${s.section_list_group} ${
-  clsx(g.col_md_6,
-    s.section_list,
-    {
-      [g.col_md_offset_3]: sec.layout === 'center',
-      [g.col_md_offset_6]: sec.layout === 'right',
-    })
-}">
-              ${sec.merchants.map((item: SectionData) => this.buildListItem(item, sec.layout, sectionHasMedia)).join('')}
+              clsx(g.col_md_6,
+                s.section_list,
+                {
+                  [g.col_md_offset_3]: sec.layout === 'center',
+                  [g.col_md_offset_6]: sec.layout === 'right',
+                })
+            }">
+              ${sec.merchants.map((item: SectionData) => this.buildListItem(item, sec.layout, sectionHasMedia, cluster)).join('')}
             </ul>
           </div>
         </section>
@@ -91,7 +101,7 @@ export class DomBuilder {
     }).join('');
   }
 
-  private createMediaItem = (media: any, layout: string, id: number | string) => {
+  private createMediaItem = (media: any, layout: string, id: number | string, cluster: boolean = false) => {
     const alignClass = `pinned_container--${layout}`;
     return `
         <div
@@ -104,6 +114,7 @@ export class DomBuilder {
           data-sm-height="${media.mobile.large.dimensions.height}"
           data-xs-height="${media.mobile.small.dimensions.height}"
           data-xs-width="${media.mobile.small.dimensions.width}"
+          data-media-container
         >
           <figure>
             <picture>
@@ -115,6 +126,7 @@ export class DomBuilder {
                 class="${s.image}"
                 src="${media.mobile.small.url}"
                 alt="${media.alt_text}"
+                ${cluster ? 'data-cluster': 'data-single'}
               >
             </picture>
 
@@ -122,12 +134,13 @@ export class DomBuilder {
         </div>`;
   }
 
-  private buildListItem(item: SectionData, layout: string, sectionHasMedia: boolean) {
+  private buildListItem(item: SectionData, layout: string, sectionHasMedia: boolean, sectionHasCluster: boolean = false) {
+
     if (!sectionHasMedia && Object.prototype.hasOwnProperty.call(item, 'media') && Object.entries(item.media).length !== 0) {
-      const media = this.createMediaItem(item.media, layout, item.shop_id);
+      const media = this.createMediaItem(item.media, layout, item.shop_id, sectionHasCluster);
 
       return `
-      <li class="${clsx(s.item)}" data-layout="${layout}" data-media-section>
+      <li class="${clsx(s.item)}" data-layout="${layout}" data-media-section ${sectionHasCluster ? 'data-cluster' : ''}>
         <p class="${clsx(s.item_content, s.item_has_image)}">
           <span class="${s.merchant_products}">
             ${
@@ -135,7 +148,6 @@ export class DomBuilder {
                 return `<span><span>${listItem}</span></span>`
               }).join('')
             }
-
           </span>
           <span class="${s.item_text}">
             <a
