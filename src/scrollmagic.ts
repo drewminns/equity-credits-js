@@ -29,18 +29,40 @@ export class MagicTime extends Window {
   * Tracks width of columns and updates width attribute of image.
   * */
   private setImageWidths(): void {
-    const images = document.querySelectorAll('.pin-me img');
-    let width = 0;
-    if ((this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm')) {
-      width = (document.querySelector('li[data-media-section]')?.clientWidth || 0) - 100;
-    }
-    images.forEach((elem) => {
-      if (elem instanceof HTMLElement) {
-        const element = elem;
-        element.style.width = width > 0 ? `${width}px` : '';
-      } else {
-        throw new Error('element #test not in document');
+
+    const sections = document.querySelectorAll('[data-section-wrap]');
+
+    sections.forEach((section) => {
+      const images = section.querySelectorAll('.pin-me img');
+      let width = 0;
+      let count = 0;
+
+      if ((this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm')) {
+        width = (document.querySelector('li[data-media-section]')?.clientWidth || 0) - 100;
       }
+
+      images.forEach((elem) => {
+        if (elem instanceof HTMLElement) {
+          const element = elem;
+
+          if (element.dataset.cluster !== undefined) {
+            if (this.breakpoint.name === 'md') {
+              element.style.width = count > 1 ? '200px' : '300px';
+            } else if ((this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm')) {
+              element.style.width = count > 1 ? '300px' : '400px';
+            } else {
+              element.style.width = width > 0 ? `${width}px` : '';
+            }
+          } else {
+            element.style.width = width > 0 ? `${width}px` : '';
+          }
+
+          count++;
+        } else {
+          throw new Error('element #test not in document');
+        }
+
+      });
     });
   }
 
@@ -84,9 +106,11 @@ export class MagicTime extends Window {
               const pin = item.querySelector('.pin-me');
 
               if (stopper && pin) {
-                const aspect = this.getAspect(pin);
+                let aspect = this.getAspect(pin);
+
                 const image = item.querySelector('img');
                 let imageHeight = 0;
+                let triggerHook = 0.3;
 
                 if (image) {
                   imageHeight = Number(image.style.width.replace('px', '')) / aspect;
@@ -96,14 +120,15 @@ export class MagicTime extends Window {
                 let distance = stopTop - top - imageHeight;
 
                 if (mediaItems.length > 1) {
-                  distance = distance - (50 * ((mediaItems.length - 1) - index));
+                  distance = distance - (100 * index * index);
+                  triggerHook = 0.2;
                 }
 
                 if (distance > 0) {
                   const scene = new ScrollMagic.Scene({
                     triggerElement: section,
                     duration: distance,
-                    triggerHook: 0.3,
+                    triggerHook: triggerHook,
                     reverse: false,
                   })
                     .setPin(pin, { pushFollowers: false })

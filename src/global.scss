@@ -53,71 +53,79 @@ figcaption {
   padding: 6px 0;
 }
 
-@include tablet {
+@include desktop {
   li[data-layout="left"][data-cluster] {
 
+    // top back
     [data-media-container] {
-      right: 100px;
-      top: 100px;
-      z-index: 15;
-    }
-
-    ~ li[data-layout] {
-
-      [data-media-container] {
-        right: 50px;
-        top: 50px;
-        z-index: 10;
-      }
-
-      ~ li[data-layout] {
-
-        [data-media-container] {
-          right: 0;
-          z-index: 5;
-        }
-      }
-    }
-  }
-
-  li[data-layout="right"][data-cluster] {
-
-    [data-media-container] {
-      left: 100px;
-      top: 100px;
-      z-index: 15;
-    }
-
-    img {
-      outline: 1px solid red;
-    }
-
-    ~ li[data-layout] {
-
-      [data-media-container] {
-        left: 50px;
-        top: 50px;
-        z-index: 10;
-      }
+      left: 50%;
+      top: 0;
+      z-index: 5;
 
       img {
-        outline: 1px solid blue;
+        margin-left: 0;
+      }
+    }
+
+    ~ li[data-layout] {
+
+      [data-media-container] {
+        left: auto;
+        right: 0;
+        top: 100px;
+        z-index: 10;
       }
 
       ~ li[data-layout] {
 
+        // bottom front
         [data-media-container] {
-          left: 0;
-          top: 0;
-          z-index: 5;
-        }
-
-        img {
-          outline: 1px solid green;
+          left: calc(50% + 100px);
+          top: 400px;
+          z-index: 15;
         }
       }
     }
   }
+
+  // li[data-layout="right"][data-cluster] {
+
+  //   [data-media-container] {
+  //     left: 0;
+  //     top: 0;
+  //     z-index: 5;
+  //   }
+
+  //   img {
+  //     outline: 1px solid red;
+  //   }
+
+  //   ~ li[data-layout] {
+
+  //     [data-media-container] {
+  //       left: 50px;
+  //       top: 50px;
+  //       z-index: 10;
+  //     }
+
+  //     img {
+  //       outline: 1px solid blue;
+  //     }
+
+  //     ~ li[data-layout] {
+
+  //       [data-media-container] {
+  //         left: 100px;
+  //         top: 100px;
+  //         z-index: 15;
+  //       }
+
+  //       img {
+  //         outline: 1px solid green;
+  //       }
+  //     }
+  //   }
+  // }
 }
 
 [data-center] + [data-center],

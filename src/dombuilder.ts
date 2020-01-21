@@ -85,7 +85,7 @@ export class DomBuilder {
     }).join('');
   }
 
-  private createMediaItem = (media: any, layout: string, id: number | string) => {
+  private createMediaItem = (media: any, layout: string, id: number | string, cluster: boolean = false) => {
     const alignClass = `pinned_container--${layout}`;
     return `
         <div
@@ -110,6 +110,7 @@ export class DomBuilder {
                 class="${s.image}"
                 src="${media.mobile.small.url}"
                 alt="${media.alt_text}"
+                ${cluster ? 'data-cluster': 'data-single'}
               >
             </picture>
 
@@ -120,7 +121,7 @@ export class DomBuilder {
   private buildListItem(item: SectionData, layout: string, sectionHasMedia: boolean, sectionHasCluster: boolean = false) {
 
     if (!sectionHasMedia && Object.prototype.hasOwnProperty.call(item, 'media') && Object.entries(item.media).length !== 0) {
-      const media = this.createMediaItem(item.media, layout, item.shop_id);
+      const media = this.createMediaItem(item.media, layout, item.shop_id, sectionHasCluster);
 
       return `
       <li class="${clsx(s.item)}" data-layout="${layout}" data-media-section ${sectionHasCluster ? 'data-cluster' : ''}>
@@ -131,7 +132,6 @@ export class DomBuilder {
                 return `<span><span>${listItem}</span></span>`
               }).join('')
             }
-
           </span>
           <span class="${s.item_text}">
             <a
