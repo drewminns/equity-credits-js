@@ -47,9 +47,9 @@ export class MagicTime extends Window {
 
           if (element.dataset.cluster !== undefined) {
             if (this.breakpoint.name === 'md') {
-              element.style.width = count > 1 ? '200px' : '300px';
+              element.style.width = count > 1 ? '150px' : '300px';
             } else if ((this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm')) {
-              element.style.width = count > 1 ? '300px' : '350px';
+              element.style.width = count > 1 ? '200px' : '350px';
             } else {
               element.style.width = width > 0 ? `${width}px` : '';
             }
