@@ -199,7 +199,7 @@ export class MagicTime extends Window {
         const createScene = new ScrollMagic.Scene({
           triggerElement: item,
           duration: 0,
-          triggerHook: 0.455,
+          triggerHook: 0.47,
           reverse: false,
         })
           .setClassToggle(item, s.audio_scrolled)
