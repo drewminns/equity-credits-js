@@ -1,10 +1,7 @@
 import axios, { AxiosPromise } from 'axios';
+import { GroupData } from './shared/interface';
 
 export class FetchData {
-  handleError = (err: string) => {
-    console.error(`Fetch Error: ${err}`);
-    throw new Error();
-  }
 
   /**
    * Fetches data from endpoint param provided
@@ -12,7 +9,7 @@ export class FetchData {
    * @param  {string} endpoint
    * @returns Promise
    */
-  async fetch(endpoint: string): Promise<AxiosPromise | null> {
+  fetch = async (endpoint: string): Promise<GroupData[]> => {
     try {
       const response = await axios.get(endpoint, {
         auth: {
@@ -22,13 +19,14 @@ export class FetchData {
       });
 
       if (response.status !== 200) {
-        this.handleError('Non 200 status returned');
+        console.error('Non 200 status returned');
+        throw new Error();
       }
 
       return response.data;
     } catch (err) {
-      this.handleError(err);
-      return null;
+      console.error(`Fetch Error: ${err}`);
+      throw new Error();
     }
   }
 }
