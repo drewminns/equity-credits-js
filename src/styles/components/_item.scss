@@ -63,7 +63,7 @@
 }
 
 .top_section_item:last-child {
-  padding-bottom: 40vh;
+  padding-bottom: 55vh;
   background-color: black;
 }
 
@@ -186,6 +186,10 @@
   display: flex;
   flex-direction: column-reverse;
   margin-bottom: 20px;
+
+  .audio_section & {
+    margin-bottom: 4px;
+  }
 
   &[data-layout] {
     margin-top: 40px;
@@ -362,5 +366,49 @@
     @include desktop--lg {
       left: calc(100% - 200px);
     }
+  }
+}
+
+.audio_section {
+  position: relative;
+
+  > :last-child {
+    padding-bottom: 40px;
+  }
+}
+
+.section_audio_highlight {
+  position: absolute;
+  height: 30px;
+  top: -30px;
+  left: -25vw;
+  width: 150vw;
+  background-color: $green;
+  display: block;
+}
+
+.audio_link {
+  padding: 4px 8px;
+  display: inline-block;
+  top: -4px;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.audio_scrolled {
+  background-color: $green;
+  animation: scrolled 0.2s ease 1;
+}
+
+@keyframes scrolled {
+  0% {
+    transform: scale(1);
+  }
+
+  10% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
   }
 }

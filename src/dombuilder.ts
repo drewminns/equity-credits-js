@@ -38,19 +38,25 @@ export class DomBuilder {
   }
 
   private buildAudioSection = (audioSections: any) => {
-    console.log(audioSections);
-    return audioSections.sections.map((sec: { layout: string, section_id: string, label: string, merchants: any }, idx: number) => {
+
+    const audio = audioSections.sections.map((sec: { layout: string, section_id: string, label: string, merchants: any }, idx: number) => {
       return `
         <div data-${sec.layout} class="${clsx(g.row, s.section_minor, s.section_audio, idx > 0 ? s.section_not_title : '')}">
-          <section id="section-${sec.section_id}" data-layout="${sec.layout}">
+          <article id="article-${sec.section_id}" data-layout="${sec.layout}">
             ${idx === 0 ? `<h2 class="${s.title}">${audioSections.title}</h2>` : ''}
             <ul class="${s.section_list_group} ${clsx(g.col_md_6, g.col_md_offset_3, s.section_list)}">
               ${sec.merchants.map((item: SectionData, index: number) => this.buildAudioListItem(item, sec.layout, index, sec.label)).join('')}
             </ul>
-          </section>
+          </article>
         </div>
       `;
     }).join('');
+    return `
+      <section id="section--audio" class="${s.audio_section}">
+        <div data-section-highlight class="${s.section_audio_highlight}"></div>
+        ${audio}
+      </div>
+    `;
   }
 
 
@@ -150,8 +156,9 @@ export class DomBuilder {
 
           <span class="${s.item_text}">
             <a
+              data-audio-link
               target="_blank"
-              class="product_link"
+              class="${s.audio_link}"
               rel="noopener noreferrer"
               data-ga-event='Independents'
               data-ga-action="${item.shop_url}"

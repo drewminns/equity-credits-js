@@ -3,6 +3,8 @@ import ScrollMagic from 'scrollmagic';
 
 import { Window } from './window';
 
+import s from './styles/components/_item.scss';
+
 export class MagicTime extends Window {
   CONTROLLER: any;
 
@@ -19,6 +21,8 @@ export class MagicTime extends Window {
   init = (sections: Element[]) => {
     this.CONTROLLER = new ScrollMagic.Controller();
     this.SECTIONS = sections;
+
+    console.log(this.SECTIONS);
 
     this.setImageWidths();
     this.scrollSections();
@@ -90,82 +94,120 @@ export class MagicTime extends Window {
     if (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm') {
       this.SECTIONS.forEach((section) => {
         // this.SECTION.forEach((section, index) => {
-        const wrapper = section.querySelector('[data-section-wrap]')!;
 
+        if (section.id === 'section--audio') {
+          this.scrollAudioSection(section);
+        } else {
+          const wrapper = section.querySelector('[data-section-wrap]')!;
 
-        if (wrapper) {
-          const { top } = wrapper.getBoundingClientRect();
+          if (wrapper) {
+            const { top } = wrapper.getBoundingClientRect();
 
-          const mediaItems = wrapper.querySelectorAll('[data-media-section]');
+            const mediaItems = wrapper.querySelectorAll('[data-media-section]');
 
-          // These are images that get dragged away by green bars
-          if (mediaItems && mediaItems.length > 0) {
-            mediaItems.forEach((item, index) => {
+            // These are images that get dragged away by green bars
+            if (mediaItems && mediaItems.length > 0) {
+              mediaItems.forEach((item, index) => {
 
-              const stopper = item;
-              const pin = item.querySelector('.pin-me');
+                const stopper = item;
+                const pin = item.querySelector('.pin-me');
 
-              if (stopper && pin) {
-                let aspect = this.getAspect(pin);
+                if (stopper && pin) {
+                  let aspect = this.getAspect(pin);
 
-                const image = item.querySelector('img');
+                  const image = item.querySelector('img');
+                  let imageHeight = 0;
+                  let triggerHook = 0.3;
+
+                  if (image) {
+                    imageHeight = Number(image.style.width.replace('px', '')) / aspect;
+                  }
+
+                  const stopTop = stopper.getBoundingClientRect().top;
+                  let distance = stopTop - top - imageHeight;
+
+                  if (mediaItems.length > 1) {
+                    distance = distance - (100 * index * index);
+                    triggerHook = 0.2;
+                  }
+
+                  if (distance > 0) {
+                    const scene = new ScrollMagic.Scene({
+                      triggerElement: section,
+                      duration: distance,
+                      triggerHook: triggerHook,
+                      reverse: false,
+                    })
+                      .setPin(pin, { pushFollowers: false })
+                      .addTo(this.CONTROLLER);
+                    this.SCENES.push(scene);
+                  }
+                }
+              });
+            } else {
+              const mediaItem = section.querySelector('.pin-me');
+
+              if (mediaItem) {
+                const aspect = this.getAspect(mediaItem);
+                const image = mediaItem.querySelector('img');
+                const { height } = section.getBoundingClientRect();
                 let imageHeight = 0;
-                let triggerHook = 0.3;
 
                 if (image) {
                   imageHeight = Number(image.style.width.replace('px', '')) / aspect;
                 }
 
-                const stopTop = stopper.getBoundingClientRect().top;
-                let distance = stopTop - top - imageHeight;
+                const distance = height - imageHeight;
 
-                if (mediaItems.length > 1) {
-                  distance = distance - (100 * index * index);
-                  triggerHook = 0.2;
-                }
-
-                if (distance > 0) {
+                if (distance > 50) {
                   const scene = new ScrollMagic.Scene({
                     triggerElement: section,
                     duration: distance,
-                    triggerHook: triggerHook,
+                    triggerHook: 0.2,
                     reverse: false,
                   })
-                    .setPin(pin, { pushFollowers: false })
+                    .setPin(mediaItem, { pushFollowers: false })
                     .addTo(this.CONTROLLER);
                   this.SCENES.push(scene);
                 }
               }
-            });
-          } else {
-            const mediaItem = section.querySelector('.pin-me');
-
-            if (mediaItem) {
-              const aspect = this.getAspect(mediaItem);
-              const image = mediaItem.querySelector('img');
-              const { height } = section.getBoundingClientRect();
-              let imageHeight = 0;
-
-              if (image) {
-                imageHeight = Number(image.style.width.replace('px', '')) / aspect;
-              }
-
-              const distance = height - imageHeight;
-
-              if (distance > 50) {
-                const scene = new ScrollMagic.Scene({
-                  triggerElement: section,
-                  duration: distance,
-                  triggerHook: 0.2,
-                  reverse: false,
-                })
-                  .setPin(mediaItem, { pushFollowers: false })
-                  .addTo(this.CONTROLLER);
-                this.SCENES.push(scene);
-              }
             }
           }
         }
+
+      });
+    }
+  }
+
+  private scrollAudioSection(section: Element) {
+    const items = section.querySelectorAll('[data-audio-link]');
+
+    if (items && items.length > 0) {
+      const highlight = section.querySelectorAll('[data-section-highlight]');
+      const { height } = section.getBoundingClientRect();
+
+      const scene = new ScrollMagic.Scene({
+        triggerElement: section,
+        duration: height,
+        triggerHook: 0.5,
+        reverse: false,
+      })
+        .setPin(highlight, { pushFollowers: false })
+        .addTo(this.CONTROLLER);
+
+      this.SCENES.push(scene);
+
+      items.forEach((item) => {
+        const scene = new ScrollMagic.Scene({
+          triggerElement: item,
+          duration: 0,
+          triggerHook: 0.455,
+          reverse: false,
+        })
+          .setClassToggle(item, s.audio_scrolled)
+          .addTo(this.CONTROLLER);
+
+        this.SCENES.push(scene);
       });
     }
   }
