@@ -6,7 +6,6 @@ import s from './styles/components/_item.scss';
 
 import { nav } from './components/nav';
 import { intro } from './components/intro';
-import { overlay } from './components/overlay';
 
 import arrow from './assets/arrow.svg';
 
@@ -23,7 +22,6 @@ export class DomBuilder {
 
   private createMarkup = () => {
     this.MOUNT_POINT.insertAdjacentHTML('afterbegin', `
-    ${overlay}
     ${nav}
     ${intro}
     <div class="${clsx(g.container_fluid, g.wrap, s.site_wrapper)}">

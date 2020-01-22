@@ -6,7 +6,7 @@ const dist = path.join(__dirname, "demo");
 const isProd = process.env.NODE_ENV === "production";
 
 module.exports = {
-  entry: ["./src/index.ts"],
+  entry: ["./src/dev.ts"],
   output: {
     filename: "[name].[hash].js",
     path: dist
@@ -21,7 +21,17 @@ module.exports = {
       {
         test: /\.css$/i,
         include: /node_modules/,
-        use: [{ loader: "style-loader" }, { loader: "css-loader" }]
+        use: [
+          { loader: "style-loader" },
+          {
+            loader: "css-loader",
+            options: {
+              modules: {
+                localIdentName: '[name]__[local]'
+              }
+            }
+          }
+        ]
       },
       {
         test: /\.scss$/i,
@@ -32,7 +42,9 @@ module.exports = {
             loader: "css-loader",
             options: {
               importLoaders: 1,
-              modules: true
+              modules: {
+                localIdentName: '[name]__[local]'
+              }
             }
           },
           "postcss-loader",

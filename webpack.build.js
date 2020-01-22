@@ -1,5 +1,9 @@
 const path = require("path");
 const webpack = require("webpack");
+const TerserPlugin = require("terser-webpack-plugin");
+
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const dist = path.join(__dirname, "dist");
 
@@ -9,9 +13,12 @@ module.exports = {
   entry: ["./src/index.ts"],
   output: {
     filename: "index.js",
-    path: dist
+    path: dist,
+    library: 'Independents',
+    libraryTarget: "commonjs2",
+    libraryExport: "default"
   },
-  devtool: "none",
+  devtool: "source-map",
   module: {
     rules: [
       {
@@ -21,21 +28,27 @@ module.exports = {
       {
         test: /\.css$/i,
         include: /node_modules/,
-        use: [{ loader: "style-loader" }, { loader: "css-loader" }]
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+              modules: true
+            }
+          },
+        ]
       },
       {
         test: /\.scss$/i,
         exclude: /node_modules/,
         loader: [
-          "style-loader",
+          MiniCssExtractPlugin.loader,
           {
             loader: "css-loader",
             options: {
-              importLoaders: 1,
               modules: true
             }
           },
-          "postcss-loader",
           "sass-loader",
           {
             loader: "sass-resources-loader",
@@ -55,20 +68,31 @@ module.exports = {
       }
     ]
   },
-  devServer: {
-    port: 3000
-  },
   resolve: {
     extensions: [".ts", ".js", "scss"]
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [ new TerserPlugin({
+      cache: true,
+      parallel: true,
+      terserOptions: {
+        output: {
+          comments: false
+        }
+      }
+    }),
+    new OptimizeCSSAssetsPlugin({})]
   },
   plugins: [
     new webpack.DefinePlugin({
       "process.env": {
         NODE_ENV: JSON.stringify("production"),
-        ENDPOINT: JSON.stringify(
-          IS_DEMO ? "https://upcoming9.shopify.com/independents.json" : 'https://www.shopify.com/independents.json'
-        )
+        ENDPOINT: JSON.stringify('https://www.shopify.com/independents.json')
       }
-    })
+    }),
+    new MiniCssExtractPlugin({
+      filename: `main.css`
+    }),
   ]
 };
