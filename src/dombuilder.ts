@@ -77,7 +77,7 @@ export class DomBuilder {
       <section id="section--audio" class="${s.audio_section}">
         <div data-section-highlight class="${s.section_audio_highlight}"></div>
         ${audio}
-      </div>
+      </section>
     `;
   }
 
