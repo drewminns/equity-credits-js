@@ -1,13 +1,7 @@
 const path = require("path");
-const webpack = require("webpack");
 const TerserPlugin = require("terser-webpack-plugin");
 
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-
 const dist = path.join(__dirname, "dist");
-
-const IS_DEMO = process.env.DEMO;
 
 module.exports = {
   entry: ["./src/index.ts"],
@@ -29,7 +23,7 @@ module.exports = {
         test: /\.css$/i,
         include: /node_modules/,
         use: [
-          MiniCssExtractPlugin.loader,
+          { loader: 'style-loader', options: { injectType: 'singletonStyleTag' } },
           {
             loader: "css-loader",
             options: {
@@ -42,7 +36,7 @@ module.exports = {
         test: /\.scss$/i,
         exclude: /node_modules/,
         loader: [
-          MiniCssExtractPlugin.loader,
+          { loader: 'style-loader', options: { injectType: 'singletonStyleTag' } },
           {
             loader: "css-loader",
             options: {
@@ -81,18 +75,6 @@ module.exports = {
           comments: false
         }
       }
-    }),
-    new OptimizeCSSAssetsPlugin({})]
-  },
-  plugins: [
-    new webpack.DefinePlugin({
-      "process.env": {
-        NODE_ENV: JSON.stringify("production"),
-        ENDPOINT: JSON.stringify('https://www.shopify.com/independents.json')
-      }
-    }),
-    new MiniCssExtractPlugin({
-      filename: `main.css`
-    }),
-  ]
+    })]
+  }
 };

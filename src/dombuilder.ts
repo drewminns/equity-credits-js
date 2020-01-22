@@ -14,13 +14,25 @@ export class DomBuilder {
 
   MOUNT_POINT!: HTMLElement;
 
-  init(sections: GroupData[], MOUNT_POINT: HTMLElement) {
+  /**
+   * Initializes the DomBuilder class
+   *
+   * @param sections - The data which to build the DOM.
+   * @param MOUNT_POINT - The element to render the HTML to
+   * @returns void
+   */
+  init(sections: GroupData[], MOUNT_POINT: HTMLElement): void {
     this.sections = sections;
     this.MOUNT_POINT = MOUNT_POINT;
     this.createMarkup();
   }
 
-  private createMarkup = () => {
+  /**
+   * Creates the base markup and inserts in the DOM at the MOUNT_POINT
+   *
+   * @returns void
+   */
+  private createMarkup = (): void => {
     this.MOUNT_POINT.insertAdjacentHTML('afterbegin', `
     ${nav}
     ${intro}
@@ -36,7 +48,13 @@ export class DomBuilder {
   }
 
 
-  private buildSection(group: GroupData) {
+  /**
+   * Constructs an individual section
+   *
+   * @param group - A root data object in the JSON response
+   * @returns string
+   */
+  private buildSection(group: GroupData): string {
     const { sections, title, groupname: name } = group;
     return sections.map((sec: Section, idx: number) => {
       let media = '';
@@ -83,7 +101,16 @@ export class DomBuilder {
     }).join('');
   }
 
-  private createMediaItem = (media: any, layout: string, id: number | string, cluster: boolean = false) => {
+  /**
+   * Constructs an image
+   *
+   * @param media - The media object to display
+   * @param layout - The layout positioning defined in the JSON
+   * @param id - The media ID
+   * @param cluster - Should image act within a cluster in a section
+   * @returns string
+   */
+  private createMediaItem = (media: any, layout: string, id: number | string, cluster = false): string => {
     const alignClass = `pinned_container--${layout}`;
     return `
         <div
@@ -108,7 +135,7 @@ export class DomBuilder {
                 class="${s.image}"
                 src="${media.mobile.small.url}"
                 alt="${media.alt_text}"
-                ${cluster ? 'data-cluster': 'data-single'}
+                ${cluster ? 'data-cluster' : 'data-single'}
               >
             </picture>
 
@@ -116,7 +143,7 @@ export class DomBuilder {
         </div>`;
   }
 
-  private buildListItem(item: SectionData, layout: string, sectionHasMedia: boolean, sectionHasCluster: boolean = false) {
+  private buildListItem(item: SectionData, layout: string, sectionHasMedia: boolean, sectionHasCluster = false): string {
 
     if (!sectionHasMedia && Object.prototype.hasOwnProperty.call(item, 'media') && Object.entries(item.media).length !== 0) {
       const media = this.createMediaItem(item.media, layout, item.shop_id, sectionHasCluster);

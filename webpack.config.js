@@ -1,5 +1,4 @@
 const path = require("path");
-const webpack = require("webpack");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
 
 const dist = path.join(__dirname, "demo");
@@ -75,13 +74,6 @@ module.exports = {
     extensions: [".ts", ".js", ".scss"]
   },
   plugins: [
-    // new BundleAnalyzerPlugin(),
-    new webpack.DefinePlugin({
-      "process.env": {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        ENDPOINT: JSON.stringify(process.env.ENDPOINT)
-      }
-    }),
     new HTMLWebpackPlugin({
       template: "./config/index.html",
       wistiauri: '//fast.wistia.com/assets/external/E-v1.js',
