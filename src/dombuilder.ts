@@ -92,6 +92,7 @@ export class DomBuilder {
 
     return sections.map((sec: Section, idx: number) => {
       let media = '';
+      // eslint-disable-next-line no-prototype-builtins
       let sectionClass = 'section--no-media';
       // eslint-disable-next-line no-prototype-builtins
       const sectionHasMedia = sec.hasOwnProperty('media') && sec.media.hasOwnProperty('tablet_up') && sec.media.hasOwnProperty('mobile');
@@ -125,7 +126,7 @@ export class DomBuilder {
       [g.col_md_offset_6]: sec.layout === 'right',
     })
 }">
-              ${sec.merchants.map((item: SectionData) => this.buildListItem(item, sec.layout, sectionHasMedia, cluster)).join('')}
+              ${sec.merchants.map((item: SectionData, i: number) => this.buildListItem(item, i, sec.layout, sectionHasMedia, cluster, sec.label)).join('')}
             </ul>
           </div>
         </section>
@@ -235,10 +236,24 @@ export class DomBuilder {
 
   private buildListItem(
     item: SectionData,
+    index: number,
     layout: string,
     sectionHasMedia: boolean,
     sectionHasCluster = false,
+    label: string | null | undefined,
   ): string {
+    if (label) {
+      console.log(index);
+      console.log(label);
+    }
+
+    let labelText = '';
+    if (label && index === 0) {
+      console.log('TRUE');
+      labelText = label;
+    } else if (!label && item.products.length > 0) {
+      labelText = item.products.map((listItem) => `<span><span>${listItem}</span></span>`).join('');
+    }
 
     if (!sectionHasMedia && Object.prototype.hasOwnProperty.call(item, 'media') && Object.entries(item.media).length !== 0) {
       const media = this.createMediaItem(item.media, layout, item.shop_id, sectionHasCluster);
@@ -246,18 +261,9 @@ export class DomBuilder {
       return `
       <li class="${clsx(s.item)}" data-layout="${layout}" data-media-section ${sectionHasCluster ? 'data-cluster' : ''}>
         <p class="${clsx(s.item_content, s.item_has_image)}">
-        ${
-  item.products.length > 0
-    ? `
-  <span class="${s.merchant_products}">
-    ${
-  item.products.map((listItem) => {
-    return `<span><span>${listItem}</span></span>`;
-  }).join('')
-}
-  </span>
-  ` : ''
-}
+          <span class="${s.merchant_products}">
+            ${labelText}
+          </span>
           <span class="${s.item_text}">
             <a
               target="_blank"
@@ -280,7 +286,7 @@ export class DomBuilder {
       <li class="${s.item}">
         <p class="${s.item_content}">
           <span class="${s.merchant_products}">
-            ${item.products.map((listItem) => `<span>${listItem}</span>`).join('')}
+            ${labelText}
           </span>
           <span class="${s.item_text}">
             <a

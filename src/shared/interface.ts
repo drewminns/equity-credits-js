@@ -10,22 +10,22 @@ export interface Media {
     small: {
       url: string;
       dimensions: Dimensions;
-    }
+    };
     large: {
       url: string;
       dimensions: Dimensions;
-    }
-  }
+    };
+  };
   mobile: {
     small: {
       url: string;
       dimensions: Dimensions;
-    }
+    };
     large: {
       url: string;
       dimensions: Dimensions;
-    }
-  }
+    };
+  };
 }
 
 export interface SectionData {
@@ -40,6 +40,7 @@ export interface Section {
   section_id: number;
   layout: string;
   merchants: SectionData[];
+  label: string;
   media: {
     alt_text: string;
     caption_text: string;

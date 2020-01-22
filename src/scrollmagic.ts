@@ -186,7 +186,7 @@ export class MagicTime extends Window {
 
       const scene = new ScrollMagic.Scene({
         triggerElement: section,
-        duration: height,
+        duration: height - 8,
         triggerHook: 0.5,
         reverse: false,
       })
