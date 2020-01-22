@@ -6,24 +6,39 @@ import s from './styles/components/_item.scss';
 
 import { nav } from './components/nav';
 import { intro } from './components/intro';
-import { overlay } from './components/overlay';
 
 import arrow from './assets/arrow.svg';
 
+/**
+ *
+ * Constructs the DOM based on data returned from the endpoint
+ *
+ */
 export class DomBuilder {
   sections!: GroupData[];
 
   MOUNT_POINT!: HTMLElement;
 
-  init(sections: GroupData[], MOUNT_POINT: HTMLElement) {
+  /**
+   * Initializes the DomBuilder class
+   *
+   * @param sections - The data which to build the DOM.
+   * @param MOUNT_POINT - The element to render the HTML to
+   * @returns void
+   */
+  init(sections: GroupData[], MOUNT_POINT: HTMLElement): void {
     this.sections = sections;
     this.MOUNT_POINT = MOUNT_POINT;
     this.createMarkup();
   }
 
-  private createMarkup = () => {
+  /**
+   * Creates the base markup and inserts in the DOM at the MOUNT_POINT
+   *
+   * @returns void
+   */
+  private createMarkup = (): void => {
     this.MOUNT_POINT.insertAdjacentHTML('afterbegin', `
-    ${overlay}
     ${nav}
     ${intro}
     <div class="${clsx(g.container_fluid, g.wrap, s.site_wrapper)}">
@@ -37,8 +52,13 @@ export class DomBuilder {
   `);
   }
 
-
-  private buildSection(group: GroupData) {
+  /**
+   * Builds an individual section
+   *
+   * @param  {GroupData} group
+   * @returns string
+   */
+  private buildSection(group: GroupData): string {
     const { sections, title, groupname: name } = group;
     return sections.map((sec: Section, idx: number) => {
       let media = '';
@@ -60,7 +80,6 @@ export class DomBuilder {
           cluster = true;
         }
       }
-
 
       return `
         <div data-${sec.layout} class="${clsx(g.row, s.section_minor, idx > 0 ? s.section_not_title : '')}">
@@ -85,7 +104,21 @@ export class DomBuilder {
     }).join('');
   }
 
-  private createMediaItem = (media: any, layout: string, id: number | string, cluster: boolean = false) => {
+  /**
+   * Generates an image item
+   *
+   * @param  {any} media
+   * @param  {string} layout
+   * @param  {number|string} id
+   * @param  {boolean} cluster=false
+   * @returns string
+   */
+  private createMediaItem = (
+    media: any,
+    layout: string,
+    id: number | string,
+    cluster = false,
+  ): string => {
     const alignClass = `pinned_container--${layout}`;
     return `
         <div
@@ -110,7 +143,7 @@ export class DomBuilder {
                 class="${s.image}"
                 src="${media.mobile.small.url}"
                 alt="${media.alt_text}"
-                ${cluster ? 'data-cluster': 'data-single'}
+                ${cluster ? 'data-cluster' : 'data-single'}
               >
             </picture>
 
@@ -118,8 +151,21 @@ export class DomBuilder {
         </div>`;
   }
 
-  private buildListItem(item: SectionData, layout: string, sectionHasMedia: boolean, sectionHasCluster: boolean = false) {
-
+  /**
+   * Builds an individual list image
+   *
+   * @param  {SectionData} item
+   * @param  {string} layout
+   * @param  {boolean} sectionHasMedia
+   * @param  {} sectionHasCluster=false
+   * @returns string
+   */
+  private buildListItem(
+    item: SectionData,
+    layout: string,
+    sectionHasMedia: boolean,
+    sectionHasCluster = false,
+  ): string {
     if (!sectionHasMedia && Object.prototype.hasOwnProperty.call(item, 'media') && Object.entries(item.media).length !== 0) {
       const media = this.createMediaItem(item.media, layout, item.shop_id, sectionHasCluster);
 
@@ -177,7 +223,13 @@ export class DomBuilder {
     `;
   }
 
-  private buildGroup = () => this.sections.map((group: GroupData) => {
+  /**
+   * Constructs a top level list item
+   *
+   * @param  {GroupData} =>this.sections.map((group
+   * @returns string
+   */
+  private buildGroup = () => this.sections.map((group: GroupData): string => {
     const sections = this.buildSection(group);
     return `<li data-section-main id="${group.groupname}" class="${clsx(s.top_section_item, group.groupname === 'social' && s.top_section_item_social)}">${sections}</li>`;
   }).join('')

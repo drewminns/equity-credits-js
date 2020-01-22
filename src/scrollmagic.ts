@@ -26,10 +26,11 @@ export class MagicTime extends Window {
   }
 
   /**
-  * Tracks width of columns and updates width attribute of image.
-  * */
+   * Tracks width of columns and updates width attribute of image.
+   *
+   * @returns void
+   */
   private setImageWidths(): void {
-
     const sections = document.querySelectorAll('[data-section-wrap]');
 
     sections.forEach((section) => {
@@ -57,11 +58,11 @@ export class MagicTime extends Window {
             element.style.width = width > 0 ? `${width}px` : '';
           }
 
+          // eslint-disable-next-line no-plusplus
           count++;
         } else {
           throw new Error('element #test not in document');
         }
-
       });
     });
   }
@@ -84,8 +85,10 @@ export class MagicTime extends Window {
   }
 
   /**
-  * Initializes ScrollMagic for all sections provided to the class
-  * */
+   * Initializes ScrollMagic for all sections provided to the class
+   *
+   * @returns void
+   */
   private scrollSections = (): void => {
     if (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm') {
       this.SECTIONS.forEach((section) => {
@@ -106,7 +109,7 @@ export class MagicTime extends Window {
               const pin = item.querySelector('.pin-me');
 
               if (stopper && pin) {
-                let aspect = this.getAspect(pin);
+                const aspect = this.getAspect(pin);
 
                 const image = item.querySelector('img');
                 let imageHeight = 0;
@@ -120,7 +123,7 @@ export class MagicTime extends Window {
                 let distance = stopTop - top - imageHeight;
 
                 if (mediaItems.length > 1) {
-                  distance = distance - (100 * index * index);
+                  distance -= (100 * index * index);
                   triggerHook = 0.2;
                 }
 
@@ -128,7 +131,7 @@ export class MagicTime extends Window {
                   const scene = new ScrollMagic.Scene({
                     triggerElement: section,
                     duration: distance,
-                    triggerHook: triggerHook,
+                    triggerHook,
                     reverse: false,
                   })
                     .setPin(pin, { pushFollowers: false })
@@ -172,6 +175,8 @@ export class MagicTime extends Window {
 
   /**
   * Iterates through this.SCENES and resets scrollMagic scenes for each.
+  *
+  * @returns void
   * */
   private resetScenes = (shouldRefreshPositioning = false): void => {
     this.SCENES.forEach((scene) => {
@@ -185,6 +190,8 @@ export class MagicTime extends Window {
   /**
   * Adds a window resize listener to the window to update image sizes
   * and reset scrollmagic settings
+  *
+  * @returns void
   * */
   private windowResizeListener = (): void => {
     window.addEventListener('resize', debounce(() => {

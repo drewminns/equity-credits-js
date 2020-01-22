@@ -95,6 +95,11 @@ export class Animations extends Window {
     this.SCROLL_ANIMATION?.pause();
   }
 
+  /**
+   * Attaches event listeners to DOM elements
+   *
+   * @returns void
+   */
   private attachEventListeners(): void {
     this.listenUserScroll();
 
@@ -138,7 +143,13 @@ export class Animations extends Window {
     }, 400));
   }
 
-  private navVisibility() {
+
+  /**
+   * Toggles Navigation Visibility based on scrolltop
+   *
+   * @returns void
+   */
+  private navVisibility(): void {
     const { scrollTop } = this;
     const threshold = this.windowSize.height * 0.5;
     if (scrollTop >= threshold) {
