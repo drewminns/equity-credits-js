@@ -91,13 +91,13 @@ export class MagicTime extends Window {
   * Initializes ScrollMagic for all sections provided to the class
   * */
   private scrollSections = (): void => {
-    if (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm') {
-      this.SECTIONS.forEach((section) => {
-        // this.SECTION.forEach((section, index) => {
+    this.SECTIONS.forEach((section) => {
+      // this.SECTION.forEach((section, index) => {
 
-        if (section.id === 'section--audio') {
-          this.scrollAudioSection(section);
-        } else {
+      if (section.id === 'section--audio') {
+        this.scrollAudioSection(section);
+      } else {
+        if (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm') {
           const wrapper = section.querySelector('[data-section-wrap]')!;
 
           if (wrapper) {
@@ -174,9 +174,9 @@ export class MagicTime extends Window {
             }
           }
         }
+      }
 
-      });
-    }
+    });
   }
 
   private scrollAudioSection(section: Element) {
