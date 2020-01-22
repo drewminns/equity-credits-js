@@ -74,14 +74,6 @@
 .section_minor {
   margin-top: 134px;
 
-  &.section_not_title {
-    margin-top: 0;
-
-    @include desktop {
-      margin-top: 134px;
-    }
-  }
-
   &:first-child {
     margin-top: 0;
   }
@@ -388,7 +380,7 @@
 }
 
 .audio_link {
-  padding: 4px 8px;
+  padding: 2px 8px;
   display: inline-block;
   top: -4px;
   // transition: background-color 0.35s ease;
