@@ -36,7 +36,7 @@ export class MagicTime extends Window {
     const sections = document.querySelectorAll('[data-section-wrap]');
 
     sections.forEach((section) => {
-      const images = section.querySelectorAll('.pin-me img');
+      const images = section.querySelectorAll('.media__item img');
       let width = 0;
       let count = 0;
 

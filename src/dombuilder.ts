@@ -98,7 +98,7 @@ export class DomBuilder {
       let cluster = false;
 
       if (sectionHasMedia) {
-        media = this.createMediaItem(sec.media, sec.layout, sec.section_id);
+        media = this.createMediaItem(sec.media, sec.layout, sec.section_id, false, group.groupname === 'social');
         sectionClass = 'section--has-media';
       } else {
         // check if section has a cluster
@@ -148,11 +148,12 @@ export class DomBuilder {
     layout: string,
     id: number | string,
     cluster = false,
+    doNotPin = false,
   ): string => {
     const alignClass = `pinned_container--${layout}`;
     return `
         <div
-          class="${clsx(s.pinned_container, s[alignClass])}${layout !== 'center' ? ' pin-me' : ''}"
+          class="${clsx(s.pinned_container, s[alignClass], 'media__item')}${layout !== 'center' && !doNotPin ? ' pin-me' : ''}"
           data-lg-width="${media.tablet_up.large.dimensions.width}"
           data-lg-height="${media.tablet_up.large.dimensions.height}"
           data-md-height="${media.tablet_up.small.dimensions.height}"
