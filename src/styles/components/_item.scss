@@ -63,7 +63,7 @@
 }
 
 .top_section_item:last-child {
-  padding-bottom: 40vh;
+  padding-bottom: 55vh;
   background-color: black;
 }
 
@@ -187,6 +187,10 @@
   flex-direction: column-reverse;
   margin-bottom: 20px;
 
+  .audio_section & {
+    margin-bottom: 4px;
+  }
+
   &[data-layout] {
     margin-top: 40px;
 
@@ -213,8 +217,6 @@
 [data-center] {
   padding-top: 40px;
 }
-
-
 
 .item_has_image {
   position: relative;
@@ -339,3 +341,74 @@
 .caption--center {
   text-align: center;
 }
+
+.section_audio {
+  position: relative;
+
+  &.section_not_title {
+    @include desktop {
+      padding-top: 0 !important;
+      margin-top: 0 !important;
+    }
+  }
+
+  .title {
+    @include desktop {
+      transform: rotate(90deg);
+      position: absolute;
+      transform-origin: top left;
+      margin: 0;
+      top: 0;
+      left: calc(50% + 35vw);
+      white-space: nowrap;
+    }
+
+    @include desktop--lg {
+      left: calc(100% - 200px);
+    }
+  }
+}
+
+.audio_section {
+  position: relative;
+
+  > :last-child {
+    padding-bottom: 40px;
+  }
+}
+
+.section_audio_highlight {
+  position: absolute;
+  height: 30px;
+  top: -30px;
+  left: -25vw;
+  width: 150vw;
+  background-color: $green;
+  display: block;
+}
+
+.audio_link {
+  padding: 4px 8px;
+  display: inline-block;
+  top: -4px;
+  // transition: background-color 0.35s ease;
+}
+
+.audio_scrolled {
+  background-color: $green;
+  // animation: scrolled 0.2s ease 1;
+}
+
+// @keyframes scrolled {
+//   0% {
+//     transform: scale(1);
+//   }
+
+//   10% {
+//     transform: scale(1.1);
+//   }
+
+//   100% {
+//     transform: scale(1);
+//   }
+// }

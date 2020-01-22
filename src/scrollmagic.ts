@@ -3,6 +3,8 @@ import ScrollMagic from 'scrollmagic';
 
 import { Window } from './window';
 
+import s from './styles/components/_item.scss';
+
 export class MagicTime extends Window {
   CONTROLLER: any;
 
@@ -16,7 +18,7 @@ export class MagicTime extends Window {
     this.SCENES = [];
   }
 
-  init = (sections: Element[]) => {
+  init = (sections: Element[]): void => {
     this.CONTROLLER = new ScrollMagic.Controller();
     this.SECTIONS = sections;
 
@@ -90,11 +92,13 @@ export class MagicTime extends Window {
    * @returns void
    */
   private scrollSections = (): void => {
-    if (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm') {
-      this.SECTIONS.forEach((section) => {
-        // this.SECTION.forEach((section, index) => {
-        const wrapper = section.querySelector('[data-section-wrap]')!;
+    this.SECTIONS.forEach((section) => {
+      // this.SECTION.forEach((section, index) => {
 
+      if (section.id === 'section--audio') {
+        this.scrollAudioSection(section);
+      } else if (this.breakpoint.name !== 'xs' && this.breakpoint.name !== 'sm') {
+        const wrapper = section.querySelector('[data-section-wrap]')!;
 
         if (wrapper) {
           const { top } = wrapper.getBoundingClientRect();
@@ -104,16 +108,15 @@ export class MagicTime extends Window {
           // These are images that get dragged away by green bars
           if (mediaItems && mediaItems.length > 0) {
             mediaItems.forEach((item, index) => {
-
               const stopper = item;
               const pin = item.querySelector('.pin-me');
+              let triggerHook = 0.3;
 
               if (stopper && pin) {
                 const aspect = this.getAspect(pin);
 
                 const image = item.querySelector('img');
                 let imageHeight = 0;
-                let triggerHook = 0.3;
 
                 if (image) {
                   imageHeight = Number(image.style.width.replace('px', '')) / aspect;
@@ -146,20 +149,20 @@ export class MagicTime extends Window {
             if (mediaItem) {
               const aspect = this.getAspect(mediaItem);
               const image = mediaItem.querySelector('img');
-              const { height } = section.getBoundingClientRect();
               let imageHeight = 0;
+              const triggerHook = 0.3;
 
               if (image) {
                 imageHeight = Number(image.style.width.replace('px', '')) / aspect;
               }
 
-              const distance = height - imageHeight;
+              const distance = top - imageHeight;
 
               if (distance > 50) {
                 const scene = new ScrollMagic.Scene({
                   triggerElement: section,
                   duration: distance,
-                  triggerHook: 0.2,
+                  triggerHook,
                   reverse: false,
                 })
                   .setPin(mediaItem, { pushFollowers: false })
@@ -169,6 +172,40 @@ export class MagicTime extends Window {
             }
           }
         }
+      }
+
+    });
+  }
+
+  private scrollAudioSection(section: Element): void {
+    const items = section.querySelectorAll('[data-audio-link]');
+
+    if (items && items.length > 0) {
+      const highlight = section.querySelectorAll('[data-section-highlight]');
+      const { height } = section.getBoundingClientRect();
+
+      const scene = new ScrollMagic.Scene({
+        triggerElement: section,
+        duration: height,
+        triggerHook: 0.5,
+        reverse: false,
+      })
+        .setPin(highlight, { pushFollowers: false })
+        .addTo(this.CONTROLLER);
+
+      this.SCENES.push(scene);
+
+      items.forEach((item) => {
+        const createScene = new ScrollMagic.Scene({
+          triggerElement: item,
+          duration: 0,
+          triggerHook: 0.47,
+          reverse: false,
+        })
+          .setClassToggle(item, s.audio_scrolled)
+          .addTo(this.CONTROLLER);
+
+        this.SCENES.push(createScene);
       });
     }
   }
