@@ -9,6 +9,11 @@ import { intro } from './components/intro';
 
 import arrow from './assets/arrow.svg';
 
+/**
+ *
+ * Constructs the DOM based on data returned from the endpoint
+ *
+ */
 export class DomBuilder {
   sections!: GroupData[];
 
@@ -47,11 +52,10 @@ export class DomBuilder {
   `);
   }
 
-
   /**
-   * Constructs an individual section
+   * Builds an individual section
    *
-   * @param group - A root data object in the JSON response
+   * @param  {GroupData} group
    * @returns string
    */
   private buildSection(group: GroupData): string {
@@ -77,7 +81,6 @@ export class DomBuilder {
         }
       }
 
-
       return `
         <div data-${sec.layout} class="${clsx(g.row, s.section_minor, idx > 0 ? s.section_not_title : '')}">
           <section id="section-${sec.section_id}" class="${sectionClass}" data-layout="${sec.layout}">
@@ -102,15 +105,20 @@ export class DomBuilder {
   }
 
   /**
-   * Constructs an image
+   * Generates an image item
    *
-   * @param media - The media object to display
-   * @param layout - The layout positioning defined in the JSON
-   * @param id - The media ID
-   * @param cluster - Should image act within a cluster in a section
+   * @param  {any} media
+   * @param  {string} layout
+   * @param  {number|string} id
+   * @param  {boolean} cluster=false
    * @returns string
    */
-  private createMediaItem = (media: any, layout: string, id: number | string, cluster = false): string => {
+  private createMediaItem = (
+    media: any,
+    layout: string,
+    id: number | string,
+    cluster = false,
+  ): string => {
     const alignClass = `pinned_container--${layout}`;
     return `
         <div
@@ -143,8 +151,21 @@ export class DomBuilder {
         </div>`;
   }
 
-  private buildListItem(item: SectionData, layout: string, sectionHasMedia: boolean, sectionHasCluster = false): string {
-
+  /**
+   * Builds an individual list image
+   *
+   * @param  {SectionData} item
+   * @param  {string} layout
+   * @param  {boolean} sectionHasMedia
+   * @param  {} sectionHasCluster=false
+   * @returns string
+   */
+  private buildListItem(
+    item: SectionData,
+    layout: string,
+    sectionHasMedia: boolean,
+    sectionHasCluster = false,
+  ): string {
     if (!sectionHasMedia && Object.prototype.hasOwnProperty.call(item, 'media') && Object.entries(item.media).length !== 0) {
       const media = this.createMediaItem(item.media, layout, item.shop_id, sectionHasCluster);
 
@@ -202,7 +223,13 @@ export class DomBuilder {
     `;
   }
 
-  private buildGroup = () => this.sections.map((group: GroupData) => {
+  /**
+   * Constructs a top level list item
+   *
+   * @param  {GroupData} =>this.sections.map((group
+   * @returns string
+   */
+  private buildGroup = () => this.sections.map((group: GroupData): string => {
     const sections = this.buildSection(group);
     return `<li data-section-main id="${group.groupname}" class="${clsx(s.top_section_item, group.groupname === 'social' && s.top_section_item_social)}">${sections}</li>`;
   }).join('')

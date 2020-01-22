@@ -6,8 +6,13 @@ export class FetchData {
     throw new Error();
   }
 
-  // eslint-disable-next-line consistent-return
-  fetch = async (endpoint: string) => {
+  /**
+   * Fetches data from endpoint param provided
+   *
+   * @param  {string} endpoint
+   * @returns Promise
+   */
+  async fetch(endpoint: string): Promise<AxiosPromise | null> {
     try {
       const response = await axios.get(endpoint, {
         auth: {
@@ -23,6 +28,7 @@ export class FetchData {
       return response.data;
     } catch (err) {
       this.handleError(err);
+      return null;
     }
   }
 }
