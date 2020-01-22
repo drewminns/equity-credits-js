@@ -391,24 +391,24 @@
   padding: 4px 8px;
   display: inline-block;
   top: -4px;
-  transition: background-color 0.15s ease-in-out;
+  transition: background-color 0.35s ease;
 }
 
 .audio_scrolled {
   background-color: $green;
-  animation: scrolled 0.2s ease 1;
+  // animation: scrolled 0.2s ease 1;
 }
 
-@keyframes scrolled {
-  0% {
-    transform: scale(1);
-  }
+// @keyframes scrolled {
+//   0% {
+//     transform: scale(1);
+//   }
 
-  10% {
-    transform: scale(1.1);
-  }
+//   10% {
+//     transform: scale(1.1);
+//   }
 
-  100% {
-    transform: scale(1);
-  }
-}
+//   100% {
+//     transform: scale(1);
+//   }
+// }
