@@ -4,6 +4,12 @@ export type WINDOW_SIZE = {
   width: number;
 }
 
+/**
+ * Window methods to handle media queries in JS
+ * Not to be used directly, but extended.
+ * class NewClass extends Window {}
+ *
+ */
 export abstract class Window {
   private VIEWPORT_SIZE: string;
 
@@ -32,6 +38,11 @@ export abstract class Window {
     this.setDeviceHeight();
   }
 
+  /**
+   * Listens for scroll on window and updates SCROLL_TOP property
+   *
+   * @returns void
+   */
   private trackScroll(): void {
     window.addEventListener('scroll', () => {
       this.SCROLL_TOP = (
@@ -43,6 +54,14 @@ export abstract class Window {
     });
   }
 
+  /**
+   * Getter for document.scrollTop value
+   * https://www.typescriptlang.org/docs/handbook/classes.html#accessors
+   *
+   * Property is available on child class as `this.scrollTop`
+   *
+   * @returns number
+   */
   get scrollTop(): number {
     return (
       window.pageYOffset
@@ -52,14 +71,35 @@ export abstract class Window {
     );
   }
 
+  /**
+   * Getter for deviceIsTouch
+   * https://www.typescriptlang.org/docs/handbook/classes.html#accessors
+   *
+   * Property is available on child class as `this.deviceIsTouch`
+   *
+   * @returns boolean
+   */
   get deviceIsTouch(): boolean {
     return window.matchMedia('(pointer: coarse)').matches;
   }
 
+  /**
+   * Getter for windowSize
+   * https://www.typescriptlang.org/docs/handbook/classes.html#accessors
+   *
+   * Property is available on child class as `this.windowSize`
+   * @returns WINDOW_SIZE = { width: number; height: number; }
+   */
   get windowSize(): WINDOW_SIZE {
     return this.WINDOW_SIZE;
   }
 
+  /**
+   * Setter for windowSize
+   * https://www.typescriptlang.org/docs/handbook/classes.html#accessors
+   *
+   * @param  {WINDOW_SIZE} size = { height: number; width: number; }
+   */
   set windowSize(size: WINDOW_SIZE) {
     this.WINDOW_SIZE = {
       height: size.height,
@@ -67,6 +107,12 @@ export abstract class Window {
     };
   }
 
+  /**
+   * sets deviceHeight on initial load and window resize.
+   * Useful for tracking browser chrome on iOS and Android
+   *
+   * @returns void
+   */
   private setDeviceHeight(): void {
     this.DEVICE_HEIGHT = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
@@ -77,10 +123,26 @@ export abstract class Window {
     });
   }
 
+  /**
+   * Getter for deviceHeight
+   * https://www.typescriptlang.org/docs/handbook/classes.html#accessors
+   *
+   * Property is available on child class as `this.deviceHeight`
+   *
+   * @returns number
+   */
   get deviceHeight(): number {
     return this.DEVICE_HEIGHT;
   }
 
+  /**
+   * Getter for breakpoint value
+   * https://www.typescriptlang.org/docs/handbook/classes.html#accessors
+   *
+   * Property is available on child class as `this.breakpoint`
+   *
+   * @returns {Object} { name: string; isPortrait: boolean; reducedMotion: boolean }
+   */
   get breakpoint(): { name: string; isPortrait: boolean; reducedMotion: boolean } {
     this.trackWindowSize();
     return {
@@ -90,6 +152,11 @@ export abstract class Window {
     };
   }
 
+  /**
+   * Tracks the window size on initial Load
+   *
+   * @returns void
+   */
   private trackWindowSize(): void {
     this.IS_PORTRAIT = window.matchMedia('(orientation: portrait) and (max-width: 544px) and (-webkit-min-device-pixel-ratio: 2) and (hover: none)').matches;
     this.IS_REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

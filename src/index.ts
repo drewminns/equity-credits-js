@@ -13,54 +13,36 @@ const domBuilder = new DomBuilder();
 const scrollMagic = new MagicTime();
 const animations = new Animations();
 
-const endpoint = process.env.ENDPOINT || 'https://upcoming9.shopify.com/independents.json';
-const MOUNT_POINT: HTMLElement = document.getElementById('App')!;
+class Equity {
+  private ENDPOINT = '';
 
-const buildEvent = new Event('domReallyReady');
-// console.log(FetchData);
-fetchData.fetch(endpoint)
-  .then((data) => {
-    domBuilder.init(data, MOUNT_POINT);
-  })
-  .then(() => {
-    const sections = Array.from(document.querySelectorAll('section[id^=section]'));
-    scrollMagic.init(sections);
-  })
-  .then(() => {
-    animations.init();
-    window.dispatchEvent(buildEvent);
-  });
+  private MOUNT_POINT: HTMLElement;
 
-// class Equity {
-//   private ENDPOINT = '';
+  private BUILD_EVENT = new Event('domReallyReady');
 
-//   private MOUNT_POINT: HTMLElement;
+  constructor(endpoint: string, mountpoint: HTMLElement) {
+    this.ENDPOINT = endpoint;
+    this.MOUNT_POINT = mountpoint;
+  }
 
-//   private BUILD_EVENT = new Event('domReallyReady');
+  init() {
+    if (this.ENDPOINT === '') {
+      throw new Error('Please provide an endpoint');
+    }
 
-//   constructor(endpoint: string, mountpoint: HTMLElement) {
-//     this.ENDPOINT = endpoint;
-//     this.MOUNT_POINT = mountpoint;
-//   }
+    fetchData.fetch(this.ENDPOINT)
+      .then((data) => {
+        domBuilder.init(data, this.MOUNT_POINT);
+      })
+      .then(() => {
+        const sections = Array.from(document.querySelectorAll('section[id^=section]'));
+        scrollMagic.init(sections);
+      })
+      .then(() => {
+        animations.init();
+        window.dispatchEvent(this.BUILD_EVENT);
+      });
+  }
+}
 
-//   init() {
-//     if (this.ENDPOINT === '') {
-//       throw new Error('Please provide an endpoint');
-//     }
-
-//     fetchData.fetch(this.ENDPOINT)
-//       .then((data) => {
-//         domBuilder.init(data, this.MOUNT_POINT);
-//       })
-//       .then(() => {
-//         const sections = Array.from(document.querySelectorAll('section[id^=section]'));
-//         scrollMagic.init(sections);
-//       })
-//       .then(() => {
-//         animations.init();
-//         window.dispatchEvent(this.BUILD_EVENT);
-//       });
-//   }
-// }
-
-// export default Equity;
+export default Equity;

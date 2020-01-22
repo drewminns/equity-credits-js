@@ -6,24 +6,39 @@ import s from './styles/components/_item.scss';
 
 import { nav } from './components/nav';
 import { intro } from './components/intro';
-import { overlay } from './components/overlay';
 
 import arrow from './assets/arrow.svg';
 
+/**
+ *
+ * Constructs the DOM based on data returned from the endpoint
+ *
+ */
 export class DomBuilder {
   sections!: GroupData[];
 
   MOUNT_POINT!: HTMLElement;
 
-  init(sections: GroupData[], MOUNT_POINT: HTMLElement) {
+  /**
+   * Initializes the DomBuilder class
+   *
+   * @param sections - The data which to build the DOM.
+   * @param MOUNT_POINT - The element to render the HTML to
+   * @returns void
+   */
+  init(sections: GroupData[], MOUNT_POINT: HTMLElement): void {
     this.sections = sections;
     this.MOUNT_POINT = MOUNT_POINT;
     this.createMarkup();
   }
 
-  private createMarkup = () => {
+  /**
+   * Creates the base markup and inserts in the DOM at the MOUNT_POINT
+   *
+   * @returns void
+   */
+  private createMarkup = (): void => {
     this.MOUNT_POINT.insertAdjacentHTML('afterbegin', `
-    ${overlay}
     ${nav}
     ${intro}
     <div class="${clsx(g.container_fluid, g.wrap, s.site_wrapper)}">
@@ -37,10 +52,16 @@ export class DomBuilder {
   `);
   }
 
-  private buildAudioSection = (audioSections: any) => {
-
-    const audio = audioSections.sections.map((sec: { layout: string, section_id: string, label: string, merchants: any }, idx: number) => {
-      return `
+  private buildAudioSection(audioSections: any): string {
+    const audio = audioSections.sections.map((
+      sec: {
+        layout: string;
+        section_id: string;
+        label: string;
+        merchants: any;
+      }, idx: number,
+    ) => {
+      const html = `
         <div data-${sec.layout} class="${clsx(g.row, s.section_minor, s.section_audio, idx > 0 ? s.section_not_title : '')}">
           <article id="article-${sec.section_id}" data-layout="${sec.layout}">
             ${idx === 0 ? `<h2 class="${s.title}">${audioSections.title}</h2>` : ''}
@@ -50,6 +71,7 @@ export class DomBuilder {
           </article>
         </div>
       `;
+      return html;
     }).join('');
     return `
       <section id="section--audio" class="${s.audio_section}">
@@ -59,8 +81,13 @@ export class DomBuilder {
     `;
   }
 
-
-  private buildSection(group: GroupData) {
+  /**
+  * Builds an individual section
+  *
+  * @param  {GroupData} group
+  * @returns string
+  */
+  private buildSection(group: GroupData): string {
     const { sections, title, groupname } = group;
 
     return sections.map((sec: Section, idx: number) => {
@@ -91,13 +118,13 @@ export class DomBuilder {
           <div class="${s.section_wrapper}" data-section-wrap>
             ${media}
             <ul class="${s.section_list_group} ${
-              clsx(g.col_md_6,
-                s.section_list,
-                {
-                  [g.col_md_offset_3]: sec.layout === 'center',
-                  [g.col_md_offset_6]: sec.layout === 'right',
-                })
-            }">
+  clsx(g.col_md_6,
+    s.section_list,
+    {
+      [g.col_md_offset_3]: sec.layout === 'center',
+      [g.col_md_offset_6]: sec.layout === 'right',
+    })
+}">
               ${sec.merchants.map((item: SectionData) => this.buildListItem(item, sec.layout, sectionHasMedia, cluster)).join('')}
             </ul>
           </div>
@@ -107,7 +134,21 @@ export class DomBuilder {
     }).join('');
   }
 
-  private createMediaItem = (media: any, layout: string, id: number | string, cluster: boolean = false) => {
+  /**
+   * Generates an image item
+   *
+   * @param  {any} media
+   * @param  {string} layout
+   * @param  {number|string} id
+   * @param  {boolean} cluster=false
+   * @returns string
+   */
+  private createMediaItem = (
+    media: any,
+    layout: string,
+    id: number | string,
+    cluster = false,
+  ): string => {
     const alignClass = `pinned_container--${layout}`;
     return `
         <div
@@ -132,7 +173,7 @@ export class DomBuilder {
                 class="${s.image}"
                 src="${media.mobile.small.url}"
                 alt="${media.alt_text}"
-                ${cluster ? 'data-cluster': 'data-single'}
+                ${cluster ? 'data-cluster' : 'data-single'}
               >
             </picture>
 
@@ -140,19 +181,25 @@ export class DomBuilder {
         </div>`;
   }
 
-  private buildAudioListItem(item: SectionData, layout: string, index: number, label: string) {
+/* eslint-disable */
+  private buildAudioListItem(
+    item: SectionData,
+    layout: string,
+    index: number,
+    label: string,
+  ): string {
     return `
       <li class="${s.item}">
         <p class="${s.item_content}">
           ${
-            index === 0 && label ? `
+  index === 0 && label ? `
               <span class="${s.merchant_products}">
                 ${label}
               </span>
             ` : `
               <span class="${s.merchant_products}"></span>
             `
-          }
+}
 
           <span class="${s.item_text}">
             <a
@@ -172,9 +219,25 @@ export class DomBuilder {
       </li>
     `;
   }
+  /* eslint-enable */
 
 
-  private buildListItem(item: SectionData, layout: string, sectionHasMedia: boolean, sectionHasCluster: boolean = false) {
+  /**
+   * Builds an individual list image
+   *
+   * @param  {SectionData} item
+   * @param  {string} layout
+   * @param  {boolean} sectionHasMedia
+   * @param  {} sectionHasCluster=false
+   * @returns string
+   */
+
+  private buildListItem(
+    item: SectionData,
+    layout: string,
+    sectionHasMedia: boolean,
+    sectionHasCluster = false,
+  ): string {
 
     if (!sectionHasMedia && Object.prototype.hasOwnProperty.call(item, 'media') && Object.entries(item.media).length !== 0) {
       const media = this.createMediaItem(item.media, layout, item.shop_id, sectionHasCluster);
@@ -183,17 +246,17 @@ export class DomBuilder {
       <li class="${clsx(s.item)}" data-layout="${layout}" data-media-section ${sectionHasCluster ? 'data-cluster' : ''}>
         <p class="${clsx(s.item_content, s.item_has_image)}">
         ${
-          item.products.length > 0 ?
-          `
-          <span class="${s.merchant_products}">
-            ${
-              item.products.map((listItem) => {
-                return `<span><span>${listItem}</span></span>`
-              }).join('')
-            }
-          </span>
-          ` : ``
-        }
+  item.products.length > 0
+    ? `
+  <span class="${s.merchant_products}">
+    ${
+  item.products.map((listItem) => {
+    return `<span><span>${listItem}</span></span>`;
+  }).join('')
+}
+  </span>
+  ` : ''
+}
           <span class="${s.item_text}">
             <a
               target="_blank"
@@ -236,6 +299,12 @@ export class DomBuilder {
     `;
   }
 
+  /**
+   * Constructs a top level list item
+   *
+   * @param  {GroupData} =>this.sections.map((group
+   * @returns string
+   */
   private buildGroup = () => this.sections.map((group: GroupData) => {
 
     let sections;
